@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/20 16:36:46 by smodesto          #+#    #+#              #
-#    Updated: 2023/07/20 20:29:59 by smodesto         ###   ########.fr        #
+#    Updated: 2023/07/20 20:45:39 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ def test(test_name, infile, expected_error):
 
 	print(test_name, end="")
 	try:
-		assert expected_error in stdout, f"❌{stdout}"
+		assert expected_error in stdout, f" -> ❌ {stdout}"
 	except AssertionError as e:
 		print(e)
 		wrong = True
@@ -47,6 +47,25 @@ def test_server_blocks():
 			"./tests/conf_file/bad_server_block4.conf",
 			"Error: Failed setting server block\n")
 
+def test_empty_blocks():
+	print ("=" * 80)
+	test(	"empty0",
+			"./tests/conf_file/empty0.conf",
+			"Error: No \"events\" section in configuration\n")
+	test(	"empty1",
+			"./tests/conf_file/empty1.conf",
+			"Error: No \"events\" section in configuration\n")
+	test(	"empty2",
+			"./tests/conf_file/empty2.conf",
+			"Error: No \"events\" section in configuration\n")
+	test(	"empty3",
+			"./tests/conf_file/empty3.conf",
+			"Error: No \"events\" section in configuration\n")
+	test(	"empty4",
+			"./tests/conf_file/empty4.conf",
+			"Error: Failed setting server block\n")
+
 if __name__ == "__main__":
 	test_server_blocks()
+	test_empty_blocks()
 

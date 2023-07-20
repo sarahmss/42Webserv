@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:29:38 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 17:10:19 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/20 20:44:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	FT::Parser::exec(std::string filename)
 
 void	FT::Parser::_parseFile(void)
 {
+	bool	empty = true;
+
 	while (_fileStream.good())
 	{
 		std::getline(_fileStream, _line);
@@ -79,9 +81,12 @@ void	FT::Parser::_parseFile(void)
 			if (_line == "server {")
 				_parseServerBlock();
 			else
-				throw (std::logic_error("Failed setting server block"));
+				throw (std::invalid_argument("Failed setting server block"));
+			empty = false;
 		}
 	}
+	if (empty == true)
+		throw (std::logic_error("No \"events\" section in configuration"));
 }
 
 void	FT::Parser::_parseServerBlock(void)
