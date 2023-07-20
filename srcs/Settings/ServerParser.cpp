@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 17:10:26 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:33:35 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	FT::ServerParser::exec(std::ifstream &ifstream, std::string line )
 				_setServer();
 		}
 	}
+	if (_line != SERVER_END)
+		throw (std::invalid_argument("Failed setting server block [missing bracket]"));
 }
 
 void	FT::ServerParser::_parseLocationBlock(std::ifstream &ifstream)
