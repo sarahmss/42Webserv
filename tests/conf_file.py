@@ -6,11 +6,10 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/20 16:36:46 by smodesto          #+#    #+#              #
-#    Updated: 2023/07/20 19:36:33 by smodesto         ###   ########.fr        #
+#    Updated: 2023/07/20 20:29:59 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# test_server.py
 import subprocess
 
 def test(test_name, infile, expected_error):
@@ -28,12 +27,26 @@ def test(test_name, infile, expected_error):
 		print(e)
 		wrong = True
 	if (wrong == False):
-		print ("✔️")
+		print(f" -> ✔️  {stdout}", end="")
 
-if __name__ == "__main__":
+def test_server_blocks():
+	print ("=" * 80)
 	test(	"void_server_block",
 			"./tests/conf_file/void_server_block.conf",
 			"Error: Failed setting server [directives]\n")
-	test(	"misconfigured1.conf",
-			"./tests/conf_file/misconfigured1.conf",
+	test(	"bad_server_block1",
+			"./tests/conf_file/bad_server_block1.conf",
 			"Error: Failed setting server block [missing bracket]\n")
+	test(	"bad_server_block2",
+			"./tests/conf_file/bad_server_block2.conf",
+			"Error: Failed setting server block\n")
+	test(	"bad_server_block3",
+			"./tests/conf_file/bad_server_block3.conf",
+			"Error: Failed setting server block\n")
+	test(	"bad_server_block4",
+			"./tests/conf_file/bad_server_block4.conf",
+			"Error: Failed setting server block\n")
+
+if __name__ == "__main__":
+	test_server_blocks()
+
