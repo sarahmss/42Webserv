@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:54:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 14:06:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:06:10 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	FT::IsComment(std::string &line)
 	FT::trim(line, " \t");
 	FT::trim(line, " ");
 
-	if (line[0] == '#')
+	if (line.find(';') == 0 || line.find('#') == 0)
 		return true;
 	return false;
 }
