@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:19:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:46:40 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	FT::ServerParser::_setServer(void)
 		_setCgi();
 	else if (!_line.find(BODY_SIZE, 0))
 		_setBodySize();
-	else
+	else if (_line != SERVER_END)
 		throw (std::invalid_argument("Failed setting server [directives]"));
 }
 
@@ -119,7 +119,7 @@ void	FT::ServerParser::_setListen(Listen &listen)
 
 void	FT::ServerParser::_setPort(Listen &listen, std::string port)
 {
-	if (FT::IsNumber(port))
+	if (FT::IsValidBodySize(port))
 		listen.SetPort(atoi(port.c_str()));
 	else
 		throw (std::invalid_argument("Failed setting server [listen:port]"));
@@ -145,7 +145,7 @@ void	FT::ServerParser::_setBodySize(void)
 {
 	FT::ClearDirective(_line, BODY_SIZE);
 
-	if ((!FT::IsNumber(_line)) || (!OnlyOneArg(_line)) || _line.empty())
+	if ((!FT::IsValidBodySize(_line)) || (!OnlyOneArg(_line)) || _line.empty())
 		throw (std::invalid_argument("Failed setting server [body_size] "));
 	else
 		_server.SetBodySize(atoi(_line.c_str()));
@@ -165,7 +165,7 @@ void	FT::ServerParser::_setErrorPage(void)
 {
 	FT::ClearDirective(_line, ERROR_PAGE);
 
-	if (OnlyOneArg(_line))
+	if (OnlyOneArg(_line) || _line.empty())
 		throw(std::invalid_argument("Failed setting server [error_page]"));
 
 	size_t		pos = _line.find_last_of(' ');
@@ -186,7 +186,7 @@ void	FT::ServerParser::_setCgi(void)
 {
 	FT::ClearDirective(_line, CGI);
 
-	if (OnlyOneArg(_line))
+	if (_line.empty() || _line.find(":") == std::string::npos)
 		throw(std::invalid_argument("Failed setting server [cgi]"));
 	std::stringstream	lineStream(_line);
 	std::string			extension;
@@ -206,7 +206,7 @@ void	FT::ServerParser::_setCgi(void)
 				break;
 			}
 			case (3):
-				throw(std::invalid_argument("Failed setting location [cgi]"));
+				throw(std::invalid_argument("Failed setting server [cgi]"));
 		}
 		lineNumber += 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:54:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:32:04 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:45:20 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ bool	FT::OnlyOneArg(std::string &line)
 	return (false);
 }
 
-bool	FT::IsNumber(std::string &line)
+bool	FT::IsValidBodySize(std::string &line)
 {
-	return (line.find_first_not_of("0123456789") == std::string::npos);
+	return (line.find_first_not_of("0123456789mM") == std::string::npos);
 }
 
 /* ************************************************************************** */

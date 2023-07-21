@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:01 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:17:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:45:20 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	FT::LocationParser::_setBodySize(void)
 {
 	FT::ClearDirective(_line, BODY_SIZE);
 
-	if ((!FT::IsNumber(_line)) || (!OnlyOneArg(_line)))
+	if ((!FT::IsValidBodySize(_line)) || (!OnlyOneArg(_line)))
 		throw (std::invalid_argument("Failed setting location [body_size] "));
 	else
 		_location.SetBodySize(atoi(_line.c_str()));

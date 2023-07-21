@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:27:22 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 16:58:34 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:48:01 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ int main(int argc, char **argv)
 
 	filename = SetConfigurationFile(argc, argv);
 	ParseConfigurationFile(parser, filename);
+	std::cout << parser;
 }
