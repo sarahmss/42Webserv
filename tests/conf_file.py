@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/20 16:36:46 by smodesto          #+#    #+#              #
-#    Updated: 2023/07/20 21:12:07 by smodesto         ###   ########.fr        #
+#    Updated: 2023/07/20 21:34:33 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,16 +70,16 @@ def test_bad_directives():
 	print ("=" * 80)
 	test(	"bad_directive0",
 			"./tests/misconfig/bad_directive0.conf",
-			"Failed setting server block\n")
+			"Error: Failed setting server [directives]\n")
 	test(	"bad_directive1",
 			"./tests/misconfig/bad_directive1.conf",
-			"Failed setting server block\n")
+			"Error: Failed setting server block\n")
 	test(	"bad_directive2",
 			"./tests/misconfig/bad_directive2.conf",
-			"Error: No \"events\" section in configuration\n")
+			"Error: Failed setting server [directives]\n")
 	test(	"bad_directive3",
 			"./tests/misconfig/bad_directive3.conf",
-			"Error: No \"events\" section in configuration\n")
+			"Error: Failed setting server [directives]\n")
 
 if __name__ == "__main__":
 	test_server_blocks()

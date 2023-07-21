@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:08:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 00:11:13 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:29:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include "Directives/LocationParser.hpp"
 # include "Directives/Listen.hpp"
 
-#define SERVER_BEGIN "server {"
 #define SERVER_END "};"
 #define LISTEN "listen"
 #define SERVER_NAME "server_name"
