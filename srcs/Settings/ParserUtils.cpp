@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:54:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:07:29 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:15:51 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ void	FT::ClearDirective(std::string &line, std::string directive)
 	trim(line, " \t");
 }
 
+/*
+	@brief: returns true if line contains only one argument
+*/
 bool	FT::OnlyOneArg(std::string &line)
 {
-	if (line.find(' ') != std::string::npos)
-		return (true);
-	if (line.find('\t') != std::string::npos)
+	if ((line.find(' ') == std::string::npos)
+		|| (line.find('\t') == std::string::npos))
 		return (true);
 	return (false);
 }

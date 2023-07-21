@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 21:49:22 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:19:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	FT::ServerParser::_checkListen(void)
 	FT::Listen	listen;
 
 	FT::ClearDirective(_line, LISTEN);
-	if (_server.IsListenSet() || _line.empty() || OnlyOneArg(_line))
+	if (_server.IsListenSet() || _line.empty() || !OnlyOneArg(_line))
 		throw (std::invalid_argument("Failed setting server [listen]"));
 	if (_line.find(":") == std::string::npos)
 		_setPort(listen, _line);
@@ -145,7 +145,7 @@ void	FT::ServerParser::_setBodySize(void)
 {
 	FT::ClearDirective(_line, BODY_SIZE);
 
-	if ((!FT::IsNumber(_line)) || (!FT::OnlyOneArg(_line)) || _line.empty())
+	if ((!FT::IsNumber(_line)) || (!OnlyOneArg(_line)) || _line.empty())
 		throw (std::invalid_argument("Failed setting server [body_size] "));
 	else
 		_server.SetBodySize(atoi(_line.c_str()));
@@ -155,7 +155,7 @@ void	FT::ServerParser::_setRoot(void)
 {
 	FT::ClearDirective(_line, ROOT);
 
-	if ((_server.IsRootSet()) || (!FT::OnlyOneArg(_line)) || _line.empty())
+	if ((_server.IsRootSet()) || (!OnlyOneArg(_line)) || _line.empty())
 		throw (std::invalid_argument("Failed setting server [redirection]"));
 	_server.SetRoot(_line);
 }
@@ -165,7 +165,7 @@ void	FT::ServerParser::_setErrorPage(void)
 {
 	FT::ClearDirective(_line, ERROR_PAGE);
 
-	if (FT::OnlyOneArg(_line))
+	if (OnlyOneArg(_line))
 		throw(std::invalid_argument("Failed setting server [error_page]"));
 
 	size_t		pos = _line.find_last_of(' ');

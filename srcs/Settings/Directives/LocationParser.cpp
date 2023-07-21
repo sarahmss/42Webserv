@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:01 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:10:56 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:17:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	FT::LocationParser::_setBodySize(void)
 {
 	FT::ClearDirective(_line, BODY_SIZE);
 
-	if ((!FT::IsNumber(_line)) || (FT::OnlyOneArg(_line)))
+	if ((!FT::IsNumber(_line)) || (!OnlyOneArg(_line)))
 		throw (std::invalid_argument("Failed setting location [body_size] "));
 	else
 		_location.SetBodySize(atoi(_line.c_str()));
@@ -153,8 +153,8 @@ void	FT::LocationParser::_setRoot(void)
 {
 	FT::ClearDirective(_line, ROOT);
 
-	if ((_location.hasRootSet()) || (!FT::OnlyOneArg(_line)) || _line.empty())
-		throw (std::invalid_argument("Failed setting location [redirection]"));
+	if ((_location.hasRootSet()) || (!OnlyOneArg(_line)) || _line.empty())
+		throw (std::invalid_argument("Failed setting location [root]"));
 	_location.SetRoot(_line);
 }
 
@@ -162,8 +162,8 @@ void	FT::LocationParser::_setRedirection(void)
 {
 	FT::ClearDirective(_line, ROOT);
 
-	if ((_location.hasRedirectionSet()) || (!FT::OnlyOneArg(_line)) || _line.empty())
-		throw (std::invalid_argument("Failed setting location [root]"));
+	if ((_location.hasRedirectionSet()) || !OnlyOneArg(_line) || _line.empty())
+		throw (std::invalid_argument("Failed setting location [redirection]"));
 	_location.SetRedirection(_line);
 }
 
@@ -171,7 +171,7 @@ void	FT::LocationParser::_setErrorPage(void)
 {
 	FT::ClearDirective(_line, ERROR_PAGE);
 
-	if (FT::OnlyOneArg(_line))
+	if (OnlyOneArg(_line))
 		throw(std::invalid_argument("Failed setting location [error_page]"));
 
 	size_t		pos = _line.find_last_of(' ');
