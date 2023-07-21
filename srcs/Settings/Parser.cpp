@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:29:38 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 21:33:48 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:02:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	FT::Parser::_parseFile(void)
 		}
 	}
 	if (empty == true)
-		throw (std::logic_error("No \"events\" section in configuration"));
+		throw (std::logic_error("Empty file"));
 }
 
 void	FT::Parser::_parseServerBlock(void)

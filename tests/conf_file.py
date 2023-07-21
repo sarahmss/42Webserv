@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/20 16:36:46 by smodesto          #+#    #+#              #
-#    Updated: 2023/07/20 21:34:33 by smodesto         ###   ########.fr        #
+#    Updated: 2023/07/21 15:03:26 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,16 +52,16 @@ def test_empty_blocks():
 	print ("=" * 80)
 	test(	"empty0",
 			"./tests/misconfig/empty0.conf",
-			"Error: No \"events\" section in configuration\n")
+			"Error: Empty file\n")
 	test(	"empty1",
 			"./tests/misconfig/empty1.conf",
-			"Error: No \"events\" section in configuration\n")
+			"Error: Empty file\n")
 	test(	"empty2",
 			"./tests/misconfig/empty2.conf",
-			"Error: No \"events\" section in configuration\n")
+			"Error: Empty file\n")
 	test(	"empty3",
 			"./tests/misconfig/empty3.conf",
-			"Error: No \"events\" section in configuration\n")
+			"Error: Empty file\n")
 	test(	"empty4",
 			"./tests/misconfig/empty4.conf",
 			"Error: Failed setting server block\n")

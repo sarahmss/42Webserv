@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:01 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 21:50:17 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:10:56 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ void	FT::LocationParser::_setPrefix(void)
 	std::getline(lineStream, prefix, ' ');
 	_location.SetPrefix(prefix);
 	std::getline(lineStream, prefix, ' ');
-	prefix.erase(prefix.find_last_of(" \t") + 1);
-	if (prefix != "}")
+	FT::trim(prefix, " \t");
+	if (prefix != "{")
 		throw (std::invalid_argument("Failed setting location [prefix]"));
 }
 
