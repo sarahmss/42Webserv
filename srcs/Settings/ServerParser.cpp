@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 19:33:35 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/20 21:49:22 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	FT::ServerParser::_checkListen(void)
 	FT::Listen	listen;
 
 	FT::ClearDirective(_line, LISTEN);
-	if (_server.IsListenSet() || _line.empty() || !OnlyOneArg(_line))
+	if (_server.IsListenSet() || _line.empty() || OnlyOneArg(_line))
 		throw (std::invalid_argument("Failed setting server [listen]"));
 	if (_line.find(":") == std::string::npos)
 		_setPort(listen, _line);
