@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:37:23 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 14:35:51 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace	FT
 
 			Parser	&operator=(Parser const& rhs);
 
-			void			exec(std::string filename);
+			void			launch(std::string filename);
 			const			ServerVecType	&getServers(void) const;
 
 		private:

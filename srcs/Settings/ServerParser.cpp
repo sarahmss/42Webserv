@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:46:40 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ FT::ServerParser	&FT::ServerParser::operator=( ServerParser const & rhs )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	FT::ServerParser::exec(std::ifstream &ifstream, std::string line )
+void	FT::ServerParser::launch(std::ifstream &ifstream, std::string line )
 {
 	_line = line;
 	while(ifstream.good())
@@ -70,7 +70,7 @@ void	FT::ServerParser::_parseLocationBlock(std::ifstream &ifstream)
 {
 	FT::LocationParser	location;
 
-	location.exec(ifstream, _line);
+	location.launch(ifstream, _line);
 	_server.AddLocation(location.getLocation());
 }
 

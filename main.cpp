@@ -6,11 +6,12 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:27:22 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:48:01 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:45:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "./srcs/Settings/Parser.hpp"
+# include "./srcs/Networking/WebServ.hpp"
 
 std::string	SetConfigurationFile(int argc, char *argv[])
 {
@@ -20,14 +21,17 @@ std::string	SetConfigurationFile(int argc, char *argv[])
 		exit(EINVAL);
 	}
 	if (argc == 1)
+	{
+		std::cout << "Not given conf file, launching default..." << std::endl;
 		return ("./conf/webserv.conf");
+	}
 	return(argv[1]);
 }
 
 void	ParseConfigurationFile(FT::Parser &parser, std::string filename)
 {
 	try {
-		parser.exec(filename);
+		parser.launch(filename);
 	}
 	catch (const std::exception &e)
 	{
@@ -40,8 +44,10 @@ int main(int argc, char **argv)
 {
 	std::string	filename;
 	FT::Parser	parser;
+	FT::WebServ	WebServ;
 
 	filename = SetConfigurationFile(argc, argv);
 	ParseConfigurationFile(parser, filename);
 	std::cout << parser;
+	WebServ.launch();
 }

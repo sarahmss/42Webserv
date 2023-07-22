@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:08:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 21:29:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace FT
 
 			ServerParser	&operator=( ServerParser const & rhs );
 
-			void			exec(std::ifstream &ifstream, std::string line );
+			void			launch(std::ifstream &ifstream, std::string line );
 			FT::Server		getServer(void) const;
 			std::string		getLine(void) const;
 

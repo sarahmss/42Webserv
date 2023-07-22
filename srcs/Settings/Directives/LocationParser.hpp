@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:06 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/19 23:06:30 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ namespace FT
 
 			LocationParser &	operator=( LocationParser const & rhs );
 
-			void				exec(std::ifstream &fs, std::string line);
+			void				launch(std::ifstream &fs, std::string line);
 			FT::Location		getLocation(void) const;
 			std::string			getLine(void) const;
 
