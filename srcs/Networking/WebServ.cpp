@@ -11,6 +11,25 @@
 /* ************************************************************************** */
 
 #include "WebServ.hpp"
+#include <fstream>
+#include <sstream>
+#include <streambuf>
+#include <string>
+#include <cerrno>
+
+std::string get_file_contents(const char *filename)
+{
+  std::ifstream in(filename, std::ios::in | std::ios::binary);
+  if (in)
+    return(std::string((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>()));
+  throw(errno);
+}
+
+std::string cast_to_string(int num) {
+    std::ostringstream out_stream;
+    out_stream << num;
+    return (out_stream.str());
+}
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
@@ -66,7 +85,11 @@ void	FT::WebServ::handler(void)
 
 void	FT::WebServ::responder(void)
 {
-	std::string response = "FT/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
+	std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: ";
+    std::string buff_response = get_file_contents("pages/std.html");
+    response += cast_to_string(buff_response.size()) + "\n\n";
+    response += buff_response;
+
 	write(new_socket, response.c_str(), response.size());
 	close(new_socket);
 }
