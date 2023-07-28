@@ -17,6 +17,7 @@
 # include <string.h>
 # include <unistd.h>
 #include "./SimpleServer.hpp"
+#include "../Response/ResponseBuilder.hpp"
 
 namespace FT
 {
@@ -32,12 +33,12 @@ namespace FT
 		private:
 			char	buffer[30000];
 			int		new_socket;
+            ResponseBuilder resp_build;
 
 
 			void accepter();
 			void handler();
 			void responder();
-
 	};
 }
 

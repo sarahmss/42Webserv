@@ -11,25 +11,6 @@
 /* ************************************************************************** */
 
 #include "WebServ.hpp"
-#include <fstream>
-#include <sstream>
-#include <streambuf>
-#include <string>
-#include <cerrno>
-
-std::string get_file_contents(const char *filename)
-{
-  std::ifstream in(filename, std::ios::in | std::ios::binary);
-  if (in)
-    return(std::string((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>()));
-  throw(errno);
-}
-
-std::string cast_to_string(int num) {
-    std::ostringstream out_stream;
-    out_stream << num;
-    return (out_stream.str());
-}
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
@@ -85,13 +66,16 @@ void	FT::WebServ::handler(void)
 
 void	FT::WebServ::responder(void)
 {
-	std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: ";
-    std::string buff_response = get_file_contents("pages/std.html");
-    response += cast_to_string(buff_response.size()) + "\n\n";
-    response += buff_response;
-
-	write(new_socket, response.c_str(), response.size());
+	// std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 12\n\nHello World";
+    //std::string response = resp_build.add_protocol_status("HTTP/1.1", "200");
+    //response += resp_build.add_value_pair("Content_Type", "text/html");
+    //response += resp_build.add_body_with_file("pages/index.html");
+    resp_build.add_protocol_status("HTTP/1.1", "200");
+    resp_build.add_value_pair("Content_Type", "text/html");
+    resp_build.add_body_with_file("pages/index.html");
+	write(new_socket, resp_build.get_cresponse(), resp_build.get_response_size());
 	close(new_socket);
+    resp_build.reset();
 }
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
