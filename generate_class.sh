@@ -6,7 +6,8 @@ nspace="$3"
 
 [ -z $space ] && nspace="FT"
 
-[ ! -z $1 ] && [ ! -z $2 ] \
+(
+    [ ! -z $1 ] && [ ! -z $2 ] \
     && header="\n\nnamespace $nspace {\n"\
     && header=$header"\tclass $2 {\n"\
     && header=$header"\t\tpublic:\n" \
@@ -27,3 +28,4 @@ nspace="$3"
             echo "implementation generated";
             echo -e $impl > $1/$2.cpp;
         }
+) || echo "Usage ./generate_class.sh directory class_name namespace_name(optional)"
