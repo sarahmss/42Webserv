@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:42:27 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/07/31 22:57:23 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	FT::WebServ::accepter(void)
 
 void	FT::WebServ::handler(void)
 {
-	std::cout << buffer << std::endl;
+	RequestParser	Request(buffer);
+	std::cout << Request;
 }
 
 void	FT::WebServ::responder(void)

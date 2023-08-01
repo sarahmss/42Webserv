@@ -16,8 +16,8 @@
 
 # include <string.h>
 # include <unistd.h>
-#include "./SimpleServer.hpp"
-
+# include "./SimpleServer.hpp"
+# include "../httpMessages/Request/RequestParser.hpp"
 namespace FT
 {
 	class WebServ: public SimpleServer

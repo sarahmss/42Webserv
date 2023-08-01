@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/07/22 19:46:33 by smodesto         ###   ########.fr        #
+#    Updated: 2023/07/31 23:09:57 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRCS_FILES =	./main.cpp										\
 				./srcs/Networking/Sockets/ListeningSocket.cpp	\
 				./srcs/Networking/Sockets/SimpleSocket.cpp		\
 				./srcs/Networking/SimpleServer.cpp				\
+				./srcs/httpMessages/Request/RequestParser.cpp	\
+				./srcs/httpMessages/Utils.cpp					\
 				./srcs/Networking/WebServ.cpp
 
 
@@ -54,6 +56,8 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp						\
 					./srcs/Networking/Sockets/ListeningSocket.hpp	\
 					./srcs/Networking/Sockets/SimpleSocket.hpp		\
 					./srcs/Networking/SimpleServer.hpp				\
+					./srcs/httpMessages/Utils.hpp					\
+					./srcs/httpMessages/Request/RequestParser.hpp	\
 					./srcs/Networking/WebServ.hpp
 
 
@@ -72,6 +76,7 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects
 			@mkdir -p objects/srcs/Settings/Directives
 			@mkdir -p objects/srcs/Networking/Sockets
+			@mkdir -p objects/srcs/httpMessages/Request/
 
 
 			$(CC) $(FLAGS) -c  $< -o $@

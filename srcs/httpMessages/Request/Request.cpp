@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   RequestParser.cpp                                  :+:      :+:    :+:   */
+/*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 21:44:26 by smodesto         ###   ########.fr       */
+/*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
+/*   Updated: 2023/07/25 23:09:26 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RequestParser.hpp"
+#include "Request.hpp"
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-RequestParser::RequestParser()
+Request::Request()
 {
 }
 
-RequestParser::RequestParser( const RequestParser & src )
+Request::Request( const Request & src )
 {
 }
 
@@ -29,7 +29,7 @@ RequestParser::RequestParser( const RequestParser & src )
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-RequestParser::~RequestParser()
+Request::~Request()
 {
 }
 
@@ -38,7 +38,7 @@ RequestParser::~RequestParser()
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-RequestParser &				RequestParser::operator=( RequestParser const & rhs )
+Request &				Request::operator=( Request const & rhs )
 {
 	//if ( this != &rhs )
 	//{
@@ -47,7 +47,7 @@ RequestParser &				RequestParser::operator=( RequestParser const & rhs )
 	return *this;
 }
 
-std::ostream &			operator<<( std::ostream & o, RequestParser const & i )
+std::ostream &			operator<<( std::ostream & o, Request const & i )
 {
 	//o << "Value = " << i.getValue();
 	return o;
@@ -58,40 +58,10 @@ std::ostream &			operator<<( std::ostream & o, RequestParser const & i )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	parseRequest(void)
-{
-
-}
-
-void	parseHeader(const std::string& headersPart)
-{
-
-}
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-
-std::string	GetMethod() const
-{
-	return (_method);
-}
-std::string	GetUri() const
-{
-	return (_uri);
-}
-HeadersType	GetHeaders() const
-{
-	return (_headers);
-}
-std::string	GetHeader(const std::string & HeaderName) const
-{
-	return (_headers[HeaderName]);
-}
-std::string	GetBody() const
-{
-	return (_body);
-}
 
 /* ************************************************************************** */
