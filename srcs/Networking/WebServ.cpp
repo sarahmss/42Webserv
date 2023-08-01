@@ -66,7 +66,7 @@ void	FT::WebServ::handler(void)
 
 void	FT::WebServ::responder(void)
 {
-	// std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 12\n\nHello World";
+	//std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 12\n\nHello World";
     //std::string response = resp_build.add_protocol_status("HTTP/1.1", "200");
     //response += resp_build.add_value_pair("Content_Type", "text/html");
     //response += resp_build.add_body_with_file("pages/index.html");
