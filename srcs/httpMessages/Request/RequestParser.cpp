@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:28:27 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:31:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ FT::RequestParser &	FT::RequestParser::operator=( RequestParser const & rhs )
 {
 	if ( this != &rhs )
 	{
-		this->_request = rhs.GetRequest();
 		this->_body = rhs.GetBody();
 		this->_headers = rhs.GetHeaders();
 		this->_method = rhs.GetMethod();
@@ -151,11 +150,6 @@ void	FT::RequestParser::_parseBody()
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-
-std::string	FT::RequestParser::GetRequest() const
-{
-	return (_request);
-}
 std::string	FT::RequestParser::GetMethod() const
 {
 	return (_method);

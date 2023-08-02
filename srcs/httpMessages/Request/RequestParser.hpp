@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:19:08 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:31:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ namespace FT
 
 		private:
 			int			_socketFd;
-			std::string	_request;
 			std::string	_body;
 			HeadersType	_headers;
 			std::string	_method;
