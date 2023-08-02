@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 23:12:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/01 23:46:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <sstream>
 # include <fstream>
 # include <stdlib.h>
-
+#include <string.h>
 # include "../Utils.hpp"
+#include <sys/socket.h>
+
 
 namespace FT
 {
@@ -27,7 +29,7 @@ namespace FT
 	{
 		public:
 			RequestParser();
-			RequestParser( const std::string &request );
+			RequestParser(int socketFd);
 			RequestParser( const RequestParser & src );
 			~RequestParser();
 
@@ -42,6 +44,7 @@ namespace FT
 			std::string	GetProtocolVersion() const;
 
 		private:
+			int			_socketFd;
 			std::string	_request;
 			std::string	_body;
 			HeadersType	_headers;
@@ -50,13 +53,18 @@ namespace FT
 			std::string	_protocolVersion;
 
 			void		parseRequest(void);
-			void		parseRequestLine(const std::string RequestLine);
+			std::string	_GetRequestLine(void);
+			void		parseRequestLine(std::string RequestLine);
 			void		parseHeader(const std::string Headers);
-			void		parseBody(const std::string Body);
-			std::string	_HandleChunckedBody(const std::string Body);
-			std::string	_ReadMessageBody(const std::string Body);
+			void		parseBody();
+			void		_HandleChunckedBody();
+			void		_ReadMessageBody();
+			void		_GetBodyMessage(std::string &Body);
+			bool		_IsMultipartFormData();
+			void		_ClearFooter(std::string &Body);
+			void		_ClearHeader(std::string &Body);
+			void		_GetFileName(std::string header);
 	};
-
 }
 
 std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs);

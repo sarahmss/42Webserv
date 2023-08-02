@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 23:10:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/01 22:09:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "string"
 #include "map"
 #define CRLF "\r\n"
+#define CRLF2X "\r\n\r\n"
+#define BUFFSIZE 5
 
 namespace FT
 {

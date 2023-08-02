@@ -30,14 +30,12 @@ namespace FT
 			void launch(void);
 
 		private:
-			char	buffer[30000];
-			int		new_socket;
+			int			_newSocket;
 
-
-			void accepter();
-			void handler();
-			void responder();
-
+			void	_GetRequest(int _socketFd);
+			void	accepter();
+			void	handler();
+			void	responder();
 	};
 }
 

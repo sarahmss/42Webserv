@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 22:57:23 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/01 23:49:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,22 @@ void	FT::WebServ::accepter(void)
 	struct sockaddr_in	address = socket->get_address();
 	int					address_len = sizeof(address);
 
-	bzero(&buffer, 30000);
-	new_socket = accept(socket->get_sock(),
+	_newSocket = accept(socket->get_sock(), // client fd
 						(struct sockaddr *)&address,
 						(socklen_t *)&address_len);
-	read(new_socket, buffer, 30000);
 }
 
 void	FT::WebServ::handler(void)
 {
-	RequestParser	Request(buffer);
+	RequestParser	Request(_newSocket);
 	std::cout << Request;
 }
 
 void	FT::WebServ::responder(void)
 {
 	std::string response = "FT/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
-	write(new_socket, response.c_str(), response.size());
-	close(new_socket);
+	write(_newSocket, response.c_str(), response.size());
+	close(_newSocket);
 }
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
