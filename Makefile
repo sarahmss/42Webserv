@@ -20,6 +20,7 @@ SRCS_FILES =	./main.cpp										\
 				./srcs/Response/ResponseBuilder.cpp				\
 				./srcs/File_operation/File_op.cpp				\
 				./srcs/Settings/Parser.cpp						\
+				./srcs/Cgi_handler/Cgi_handler.cpp				\
 				./srcs/Settings/ParserUtils.cpp					\
 				./srcs/Settings/Server.cpp						\
 				./srcs/Settings/ServerParser.cpp				\
@@ -47,6 +48,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp						\
 					./srcs/Settings/ParserUtils.hpp					\
 					./srcs/Settings/Server.hpp						\
 					./srcs/File_operation/File_op.hpp				\
+					./srcs/Cgi_handler/Cgi_handler.hpp				\
 					./srcs/Response/ResponseBuilder.hpp				\
 					./srcs/Settings/ServerParser.hpp				\
 					./srcs/Settings/Directives/Cgi.hpp				\
@@ -82,7 +84,8 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/Networking/Sockets
 			@mkdir -p objects/srcs/File_operation
 			@mkdir -p objects/srcs/Response
-			@mkdir -p objects/srcs/httpMessages/Request/
+			@mkdir -p objects/srcs/httpMessages/Request
+			@mkdir -p objects/srcs/Cgi_handler
 
 
 			$(CC) $(FLAGS) -c  $< -o $@
