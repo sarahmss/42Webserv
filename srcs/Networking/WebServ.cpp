@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/01 23:49:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:19:12 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,16 @@ void	FT::WebServ::handler(void)
 
 void	FT::WebServ::responder(void)
 {
-	std::string response = "FT/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
-	write(_newSocket, response.c_str(), response.size());
+	//std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 12\n\nHello World";
+    //std::string response = resp_build.add_protocol_status("HTTP/1.1", "200");
+    //response += resp_build.add_value_pair("Content_Type", "text/html");
+    //response += resp_build.add_body_with_file("pages/index.html");
+    resp_build.add_protocol_status("HTTP/1.1", "200");
+    resp_build.add_value_pair("Content_Type", "text/html");
+    resp_build.add_body_with_file("pages/index.html");
+	write(_newSocket, resp_build.get_cresponse(), resp_build.get_response_size());
 	close(_newSocket);
+    resp_build.reset();
 }
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
