@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:42:35 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:06:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,15 @@ void	FT::RequestParser::_parseHeader(const std::string Headers)
 void	FT::RequestParser::_parseBody()
 {
 	Body	body(_socketFd, _headers);
+	int		bodyStatus = body.parseBody();
 
-	if (body.parseBody() == -1)
+	if (bodyStatus == EMPTYBODY)
 		return ;
+	if (bodyStatus == UNCHUNKED)
+		_headers["filename:"] = body.GetFileName();
+	if (bodyStatus == CHUNKED)
+		_headers["Content-Length:"] = body.GetContentLength();
 	_body = body.GetBody();
-	_headers["filename:"] = body.GetFileName();
 }
 
 /*

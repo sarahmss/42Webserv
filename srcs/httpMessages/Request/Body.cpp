@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:43:33 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:09:01 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,30 +38,53 @@ int	FT::Body::parseBody(void)
 {
 	if (MapHasKey(_headers, "Content-Length:" ) == false
 		|| MapHasKey(_headers, "Transfer-Encoding: ") == false)
-		return (-1);
+		return (EMPTYBODY);
 	if (GetMapItem(_headers, "Transfer-Encoding:") == "chunked")
-		_HandleChunckedBody();
+		return (_HandleChunkedBody());
 	else if (MapHasKey(_headers, "Content-Length:"))
-		_ReadMessageBody();
-	return (1);
+		return(_ReadMessageBody());
+	return (0);
 }
 
-void	FT::Body::_HandleChunckedBody(void)
+int	FT::Body::_HandleChunkedBody(void)
 {
-/*	int			length = 0;
-	ssize_t		chunckSize = _getChunckSize();
-	std::string	bodyLine;*/
+	int			length = 0;
+	size_t		chunkSize = _getChunkSize();
+	std::string	bodyLine = "";
 
-
+	for (size_t i = 0; i < chunkSize; i++)
+	{
+		bodyLine += GetSockStreamLine(_socketFd);
+		length += chunkSize;
+		chunkSize = _getChunkSize();
+	}
+	_body = bodyLine;
+	_ContentLenght = length;
+	return (CHUNKED);
 }
 
 
-ssize_t	FT::Body::_getChunckSize(void)
+size_t	FT::Body::_getChunkSize(void)
 {
-	return (1);
+	std::string	chunkSizeLine = GetSockStreamLine(_socketFd);
+	size_t		pos;
+
+	if (chunkSizeLine.empty())
+		return (0);
+	pos = chunkSizeLine.find(" ");
+	return (_convertChunkSize(chunkSizeLine.substr(0, pos)));
 }
 
-void	FT::Body::_ReadMessageBody(void)
+size_t	FT::Body::_convertChunkSize(std::string chunkSize)
+{
+	std::size_t			size;
+	std::stringstream	chunkStream(chunkSize);
+
+	chunkStream >> std::hex >> size;
+	return (size);
+}
+
+int	FT::Body::_ReadMessageBody(void)
 {
 	int			length = atoi(GetMapItem(_headers, "Content-Length:").c_str());
 	ssize_t		bytes = 0;
@@ -80,6 +103,7 @@ void	FT::Body::_ReadMessageBody(void)
 		memset(buffer, 0, BUFFSIZE);
 	}
 	_GetBodyMessage(bodyLine);
+	return (UNCHUNKED);
 }
 
 void	FT::Body::_GetBodyMessage(std::string &Body)
@@ -144,4 +168,8 @@ std::string	FT::Body::GetFileName(void)
 	return (_body);
 }
 
+int	FT::Body::GetContentLength(void)
+{
+	return (_ContentLenght);
+}
 /* ************************************************************************** */
