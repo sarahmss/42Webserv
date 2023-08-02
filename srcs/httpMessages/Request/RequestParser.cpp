@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 23:11:33 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:06:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 
 FT::RequestParser::RequestParser() { return ;}
 
-FT::RequestParser::RequestParser( const std::string &request )
+FT::RequestParser::RequestParser(int socketFd)
 {
-	_request = request;
-	parseRequest();
+	_body = "";
+	_socketFd = socketFd;
+	_parseRequest();
 }
 
 FT::RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -42,7 +43,6 @@ FT::RequestParser &	FT::RequestParser::operator=( RequestParser const & rhs )
 {
 	if ( this != &rhs )
 	{
-		this->_request = rhs.GetRequest();
 		this->_body = rhs.GetBody();
 		this->_headers = rhs.GetHeaders();
 		this->_method = rhs.GetMethod();
@@ -60,13 +60,12 @@ std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
 	std::cout << "Method: " << rhs.GetMethod() << std::endl;
 	std::cout << "URI: " << rhs.GetUri() << std::endl;
 	std::cout << "ProtocolVersion: " << rhs.GetProtocolVersion() << std::endl;
-	std::cout << "Body: " << rhs.GetBody() << std::endl;
-
 	while (it != headers.end())
 	{
 		o << it->first << " " << it->second << std::endl;
 		it++;
 	}
+	std::cout << "Body: " << rhs.GetBody() << std::endl;
 	return (o);
 }
 
@@ -74,29 +73,22 @@ std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-
-
-void	FT::RequestParser::parseRequest(void)
+void	FT::RequestParser::_parseRequest(void)
 {
-	std::string request = _request;
-	std::string line;
+	std::string	requestLine;
 
-	size_t pos = 0;
-	while ((pos = request.find(CRLF)) != std::string::npos) {
-		line = request.substr(0, pos);
-		request.erase(0, pos + 2);
-		if (line.empty() || line.find_first_not_of(" \t") == std::string::npos)
-			break;
-
-		if (line.find(":") != std::string::npos)
-			parseHeader(line);
+	for ( int i = 0; requestLine != CRLF; i++)
+	{
+		requestLine = GetSockStreamLine(_socketFd);
+		if (i == 0)
+			_parseRequestLine(requestLine);
 		else
-			parseRequestLine(line);
+			_parseHeader(requestLine);
 	}
-	parseBody(line);
+	_parseBody();
 }
 
-void	FT::RequestParser::parseRequestLine(const std::string RequestLine)
+void	FT::RequestParser::_parseRequestLine(std::string RequestLine)
 {
 	std::stringstream	RequestLineStream(RequestLine);
 	std::string			line;
@@ -109,7 +101,7 @@ void	FT::RequestParser::parseRequestLine(const std::string RequestLine)
 	_protocolVersion = line;
 }
 
-void	FT::RequestParser::parseHeader(const std::string Headers)
+void	FT::RequestParser::_parseHeader(const std::string Headers)
 {
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
@@ -123,37 +115,24 @@ void	FT::RequestParser::parseHeader(const std::string Headers)
 	}
 }
 
-void	FT::RequestParser::parseBody(const std::string Body)
+void	FT::RequestParser::_parseBody()
 {
-	if (MapHasKey(_headers, "Content-Length:" ) == false
-		|| MapHasKey(_headers, "Transfer-Encoding: ") == false)
-		return;
-	if (GetMapItem(_headers, "Transfer-Encoding:") == "chunked")
-		_body = _HandleChunckedBody(Body);
-	else if (MapHasKey(_headers, "Content-Length:"))
-		_body = _ReadMessageBody(Body);
-}
+	Body	body(_socketFd, _headers);
+	int		bodyStatus = body.parseBody();
 
-std::string	FT::RequestParser::_HandleChunckedBody(const std::string Body)
-{
-	std::cout << "Handle chuncked body Not implemented" << Body << std::endl;
-	return (Body);
-}
-std::string	FT::RequestParser::_ReadMessageBody(const std::string Body)
-{
-	std::cout << "Read message body Not implemented" << Body << std::endl;
-	return (Body);
+	if (bodyStatus == EMPTYBODY)
+		return ;
+	if (bodyStatus == UNCHUNKED)
+		_headers["filename:"] = body.GetFileName();
+	if (bodyStatus == CHUNKED)
+		_headers["Content-Length:"] = body.GetContentLength();
+	_body = body.GetBody();
 }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-
-std::string	FT::RequestParser::GetRequest() const
-{
-	return (_request);
-}
 std::string	FT::RequestParser::GetMethod() const
 {
 	return (_method);

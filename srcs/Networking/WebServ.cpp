@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 22:57:23 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:19:12 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,14 @@ void	FT::WebServ::accepter(void)
 	struct sockaddr_in	address = socket->get_address();
 	int					address_len = sizeof(address);
 
-	bzero(&buffer, 30000);
-	new_socket = accept(socket->get_sock(),
+	_newSocket = accept(socket->get_sock(), // client fd
 						(struct sockaddr *)&address,
 						(socklen_t *)&address_len);
-	read(new_socket, buffer, 30000);
 }
 
 void	FT::WebServ::handler(void)
 {
-	RequestParser	Request(buffer);
+	RequestParser	Request(_newSocket);
 	std::cout << Request;
 }
 
@@ -74,8 +72,8 @@ void	FT::WebServ::responder(void)
     resp_build.add_protocol_status("HTTP/1.1", "200");
     resp_build.add_value_pair("Content_Type", "text/html");
     resp_build.add_body_with_file("pages/index.html");
-	write(new_socket, resp_build.get_cresponse(), resp_build.get_response_size());
-	close(new_socket);
+	write(_newSocket, resp_build.get_cresponse(), resp_build.get_response_size());
+	close(_newSocket);
     resp_build.reset();
 }
 /*

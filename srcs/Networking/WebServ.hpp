@@ -17,8 +17,8 @@
 # include <string.h>
 # include <unistd.h>
 # include "./SimpleServer.hpp"
-# include "../Response/ResponseBuilder.hpp"
 # include "../httpMessages/Request/RequestParser.hpp"
+# include "../httpMessages/Response/ResponseBuilder.hpp"
 
 namespace FT
 {
@@ -32,14 +32,12 @@ namespace FT
 			void launch(void);
 
 		private:
-			char	buffer[30000];
-			int		new_socket;
-            ResponseBuilder resp_build;
+			int				_newSocket;
+			ResponseBuilder	resp_build;
 
-
-			void accepter();
-			void handler();
-			void responder();
+			void	accepter();
+			void	handler();
+			void	responder();
 	};
 }
 

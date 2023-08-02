@@ -6,20 +6,14 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/31 23:12:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:40:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REQUESTPARSER_HPP
 # define REQUESTPARSER_HPP
 
-# include <iostream>
-# include <string>
-# include <sstream>
-# include <fstream>
-# include <stdlib.h>
-
-# include "../Utils.hpp"
+#include "Body.hpp"
 
 namespace FT
 {
@@ -27,7 +21,7 @@ namespace FT
 	{
 		public:
 			RequestParser();
-			RequestParser( const std::string &request );
+			RequestParser(int socketFd);
 			RequestParser( const RequestParser & src );
 			~RequestParser();
 
@@ -42,21 +36,18 @@ namespace FT
 			std::string	GetProtocolVersion() const;
 
 		private:
-			std::string	_request;
+			int			_socketFd;
 			std::string	_body;
 			HeadersType	_headers;
 			std::string	_method;
 			std::string	_uri;
 			std::string	_protocolVersion;
 
-			void		parseRequest(void);
-			void		parseRequestLine(const std::string RequestLine);
-			void		parseHeader(const std::string Headers);
-			void		parseBody(const std::string Body);
-			std::string	_HandleChunckedBody(const std::string Body);
-			std::string	_ReadMessageBody(const std::string Body);
+			void		_parseRequest(void);
+			void		_parseBody(void);
+			void		_parseRequestLine(std::string RequestLine);
+			void		_parseHeader(const std::string Headers);
 	};
-
 }
 
 std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs);
