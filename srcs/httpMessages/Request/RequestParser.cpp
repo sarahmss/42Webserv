@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:31:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:42:35 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,34 +73,13 @@ std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-std::string	FT::RequestParser::_getRequestLine()
-{
-	ssize_t		bytes = 0;
-	char		buffer[BUFFSIZE]= {0};
-	std::string	Line;
-
-	while (true)
-	{
-		bytes = recv(_socketFd, buffer, 1, 0);
-		if (bytes == -1)
-			throw(std::runtime_error("Failed reading from socket!"));
-		if (bytes == 0)
-			break;
-		Line.append(buffer, bytes);
-		memset(buffer, 0, BUFFSIZE);
-		if (Line.rfind(CRLF) != std::string::npos)
-			break;
-	}
-	return (Line);
-}
-
 void	FT::RequestParser::_parseRequest(void)
 {
 	std::string	requestLine;
 
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
-		requestLine = _getRequestLine();
+		requestLine = GetSockStreamLine(_socketFd);
 		if (i == 0)
 			_parseRequestLine(requestLine);
 		else

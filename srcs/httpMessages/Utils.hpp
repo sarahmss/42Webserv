@@ -6,15 +6,22 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/01 22:09:11 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:42:00 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
-#include "string"
-#include "map"
+# include <iostream>
+# include <string>
+# include <sstream>
+# include <fstream>
+# include <stdlib.h>
+# include <string.h>
+# include <sys/socket.h>
+#include <map>
+
 #define CRLF "\r\n"
 #define CRLF2X "\r\n\r\n"
 #define BUFFSIZE 5
@@ -26,7 +33,7 @@ namespace FT
 
 	bool		MapHasKey(HeadersType map, std::string key);
 	std::string	GetMapItem(HeadersType map, std::string key);
-
+	std::string	GetSockStreamLine(int socketFd);
 }
 
 #endif // UTILS_HPP

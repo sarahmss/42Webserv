@@ -6,18 +6,13 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:31:57 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:40:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REQUESTPARSER_HPP
 # define REQUESTPARSER_HPP
 
-# include <iostream>
-# include <string>
-# include <sstream>
-# include <fstream>
-# include <stdlib.h>
 #include "Body.hpp"
 
 namespace FT
@@ -48,7 +43,6 @@ namespace FT
 			std::string	_uri;
 			std::string	_protocolVersion;
 
-			std::string	_getRequestLine(void);
 			void		_parseRequest(void);
 			void		_parseBody(void);
 			void		_parseRequestLine(std::string RequestLine);

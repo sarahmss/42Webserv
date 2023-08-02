@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:21:26 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:43:33 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,17 @@ int	FT::Body::parseBody(void)
 
 void	FT::Body::_HandleChunckedBody(void)
 {
-	std::cout << "Handle chuncked body Not implemented" << std::endl;
+/*	int			length = 0;
+	ssize_t		chunckSize = _getChunckSize();
+	std::string	bodyLine;*/
+
+
+}
+
+
+ssize_t	FT::Body::_getChunckSize(void)
+{
+	return (1);
 }
 
 void	FT::Body::_ReadMessageBody(void)

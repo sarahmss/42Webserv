@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:58:42 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:24:19 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:41:22 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 #ifndef BODY_HPP
 # define BODY_HPP
 
-# include <iostream>
-# include <string>
-# include <string.h>
-# include <stdlib.h>
-# include <sys/socket.h>
 # include "../Utils.hpp"
 
 namespace FT {
@@ -40,6 +35,7 @@ namespace FT {
 			std::string	_fileName;
 
 			void		_HandleChunckedBody();
+			ssize_t		_getChunckSize();
 			void		_ReadMessageBody();
 			void		_GetBodyMessage(std::string &Body);
 			bool		_IsMultipartFormData();
