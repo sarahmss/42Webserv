@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/01 23:50:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:28:27 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ FT::RequestParser::RequestParser() { return ;}
 
 FT::RequestParser::RequestParser(int socketFd)
 {
+	_body = "";
 	_socketFd = socketFd;
-	parseRequest();
+	_parseRequest();
 }
 
 FT::RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -60,13 +61,12 @@ std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
 	std::cout << "Method: " << rhs.GetMethod() << std::endl;
 	std::cout << "URI: " << rhs.GetUri() << std::endl;
 	std::cout << "ProtocolVersion: " << rhs.GetProtocolVersion() << std::endl;
-	std::cout << "Body: " << rhs.GetBody() << std::endl;
-	std::cout << "Headers:";
 	while (it != headers.end())
 	{
 		o << it->first << " " << it->second << std::endl;
 		it++;
 	}
+	std::cout << "Body: " << rhs.GetBody() << std::endl;
 	return (o);
 }
 
@@ -74,7 +74,7 @@ std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-std::string	FT::RequestParser::_GetRequestLine()
+std::string	FT::RequestParser::_getRequestLine()
 {
 	ssize_t		bytes = 0;
 	char		buffer[BUFFSIZE]= {0};
@@ -95,22 +95,22 @@ std::string	FT::RequestParser::_GetRequestLine()
 	return (Line);
 }
 
-void	FT::RequestParser::parseRequest(void)
+void	FT::RequestParser::_parseRequest(void)
 {
 	std::string	requestLine;
 
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
-		requestLine = _GetRequestLine();
+		requestLine = _getRequestLine();
 		if (i == 0)
-			parseRequestLine(requestLine);
+			_parseRequestLine(requestLine);
 		else
-			parseHeader(requestLine);
+			_parseHeader(requestLine);
 	}
-	parseBody();
+	_parseBody();
 }
 
-void	FT::RequestParser::parseRequestLine(std::string RequestLine)
+void	FT::RequestParser::_parseRequestLine(std::string RequestLine)
 {
 	std::stringstream	RequestLineStream(RequestLine);
 	std::string			line;
@@ -123,7 +123,7 @@ void	FT::RequestParser::parseRequestLine(std::string RequestLine)
 	_protocolVersion = line;
 }
 
-void	FT::RequestParser::parseHeader(const std::string Headers)
+void	FT::RequestParser::_parseHeader(const std::string Headers)
 {
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
@@ -137,89 +137,14 @@ void	FT::RequestParser::parseHeader(const std::string Headers)
 	}
 }
 
-void	FT::RequestParser::parseBody(void)
+void	FT::RequestParser::_parseBody()
 {
-	if (MapHasKey(_headers, "Content-Length:" ) == false
-		|| MapHasKey(_headers, "Transfer-Encoding: ") == false)
-		return;
-	if (GetMapItem(_headers, "Transfer-Encoding:") == "chunked")
-		_HandleChunckedBody();
-	else if (MapHasKey(_headers, "Content-Length:"))
-		_ReadMessageBody();
-}
+	Body	body(_socketFd, _headers);
 
-void	FT::RequestParser::_HandleChunckedBody(void)
-{
-	std::cout << "Handle chuncked body Not implemented" << std::endl;
-}
-
-void	FT::RequestParser::_ReadMessageBody(void)
-{
-	int			length = atoi(GetMapItem(_headers, "Content-Length:").c_str());
-	ssize_t		bytes = 0;
-	char		buffer[BUFFSIZE]= {0};
-	std::string	bodyLine;
-
-	while (length > 0)
-	{
-		bytes = recv(_socketFd, buffer, BUFFSIZE, 0);
-		if (bytes == -1)
-			throw(std::runtime_error("Failed reading from socket!"));
-		if (bytes == 0)
-			break;
-		length -= bytes;
-		bodyLine.append(buffer, bytes);
-		memset(buffer, 0, BUFFSIZE);
-	}
-	_GetBodyMessage(bodyLine);
-}
-
-void	FT::RequestParser::_GetBodyMessage(std::string &Body)
-{
-	if (_IsMultipartFormData() == true)
-	{
-		_ClearHeader(Body);
-		_ClearFooter(Body);
-	}
-	_body = Body;
-}
-
-bool FT::RequestParser::_IsMultipartFormData(void)
-{
-	std::string	contentType;
-
-	contentType = GetMapItem(_headers, "Content-Type:");
-	return (contentType.find("multipart/form-data:") != std::string::npos);
-}
-
-
-void	FT::RequestParser::_ClearFooter(std::string &Body)
-{
-	std::string	footer;
-
-	footer = Body.substr(Body.rfind(CRLF), Body.npos);
-	Body.erase(Body.length() - footer.length(), Body.npos);
-}
-
-void	FT::RequestParser::_ClearHeader(std::string &Body)
-{
-	std::string	header;
-
-	header = Body.substr(0, Body.find(CRLF2X));
-	_GetFileName(header);
-	Body.erase(0, header.length() + 4);
-}
-
-void	FT::RequestParser::_GetFileName(std::string header)
-{
-	std::string	filename;
-	size_t	begin;
-	size_t	end;
-
-	begin = header.find("filename=\"") + 11;
-	end = header.find("\"", begin);
-	filename = header.substr(begin, (end - begin));
-	_headers["filename:"] = filename;
+	if (body.parseBody() == -1)
+		return ;
+	_body = body.GetBody();
+	_headers["filename:"] = body.GetFileName();
 }
 
 /*

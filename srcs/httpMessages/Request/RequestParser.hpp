@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/01 23:46:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 00:19:08 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@
 # include <sstream>
 # include <fstream>
 # include <stdlib.h>
-#include <string.h>
-# include "../Utils.hpp"
-#include <sys/socket.h>
-
+#include "Body.hpp"
 
 namespace FT
 {
@@ -52,18 +49,11 @@ namespace FT
 			std::string	_uri;
 			std::string	_protocolVersion;
 
-			void		parseRequest(void);
-			std::string	_GetRequestLine(void);
-			void		parseRequestLine(std::string RequestLine);
-			void		parseHeader(const std::string Headers);
-			void		parseBody();
-			void		_HandleChunckedBody();
-			void		_ReadMessageBody();
-			void		_GetBodyMessage(std::string &Body);
-			bool		_IsMultipartFormData();
-			void		_ClearFooter(std::string &Body);
-			void		_ClearHeader(std::string &Body);
-			void		_GetFileName(std::string header);
+			std::string	_getRequestLine(void);
+			void		_parseRequest(void);
+			void		_parseBody(void);
+			void		_parseRequestLine(std::string RequestLine);
+			void		_parseHeader(const std::string Headers);
 	};
 }
 
