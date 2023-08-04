@@ -54,11 +54,11 @@ int FT::Cgi_handler::cgi_handler(std::string parsed_req) {
 }
 
 void FT::Cgi_handler::handler_php() {
-    dup2();
+    dup2(STDOUT_FILENO, socketpair_fd[0]);
     execve();
 }
 void FT::Cgi_handler::handle_python() {
-    dup2();
+    dup2(STDOUT_FILENO, socketpair_fd[0]);
     execve();
 }
 */

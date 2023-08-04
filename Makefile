@@ -89,6 +89,7 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/httpMessages/Request
 			@mkdir -p objects/srcs/httpMessages/Response
 			@mkdir -p objects/srcs/httpMessages/Response/File_operation
+			@mkdir -p objects/srcs/Cgi_handler
 
 
 			$(CC) $(FLAGS) -c  $< -o $@
