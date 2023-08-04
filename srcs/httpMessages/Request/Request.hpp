@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 17:26:48 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:56:51 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,16 @@ namespace FT {
 			Request(int clientSocket);
 			~Request();
 
-			void	launch(void);
+			void			launch(void);
+			RequestParser	getRequestParser(void);
 		private:
 			int				_clientSocket;
-			RequestParser	_requestParser;
+			RequestParser	_requestParsed;
 			std::string		_serverName;
 			std::string		_uri;
 
 			void			_runRequest(void);
 			void			_chooseServer(void);
-
 
 	};
 }

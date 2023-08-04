@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:00:19 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ FT::RequestParser &	FT::RequestParser::operator=( RequestParser const & rhs )
 	return *this;
 }
 
-std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
+std::ostream &FT::operator<<(std::ostream &o, const FT::RequestParser &rhs)
 {
 
 	FT::HeadersType				headers = rhs.getHeaders();

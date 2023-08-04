@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 17:26:57 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:57:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ FT::Request::~Request() { return ;}
 */
 void	FT::Request::launch(void)
 {
-	RequestParser	Request(_clientSocket);
+	_requestParsed = RequestParser(_clientSocket);
 
-	_serverName = Request.getServerName();
-	_uri = Request.getUri();
+	_serverName = _requestParsed.getServerName();
+	_uri = _requestParsed.getUri();
 	_runRequest();
 }
 
@@ -52,5 +52,8 @@ void	FT::Request::_runRequest(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-
+FT::RequestParser	FT::Request::getRequestParser(void)
+{
+	return (_requestParsed);
+}
 /* ************************************************************************** */

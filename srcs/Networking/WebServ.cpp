@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 18:32:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:33:40 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	FT::WebServ::_initServers(void)
 	PortServerType::iterator	begin = _portServer.begin();
 	PortServerType::iterator	end = _portServer.end();
 
-	for (; begin != end; begin++)
+	for (int i  = 0; begin != end; begin++, i++)
 	{
 		SimpleServer	*newServer = new SimpleServer(begin->first, _backLog);
 		_addToPoll(newServer);
@@ -93,7 +93,6 @@ void	FT::WebServ::_coreLoop(void)
 {
 	SimpleServer	*server;
 	int				numEvents;
-	int				serverSocket;
 
 	while (true)
 	{
@@ -102,18 +101,18 @@ void	FT::WebServ::_coreLoop(void)
 		for (int i = 0; i < numEvents; i++)
 		{
 			epollEventType	&currentEvent = _epoll.getEvents()[i];
-			serverSocket = currentEvent.data.fd;
 			server = static_cast<SimpleServer *>(currentEvent.data.ptr);
 
+			_accepter(server);
 			if (currentEvent.events & EPOLLIN)
-			{
-				if (serverSocket == server->getSocket())
-					_accepter(server);
-				else
-					_handler(server);
-			}
+				_handler(server);
 			if (currentEvent.events & EPOLLOUT)
 				_responder(server);
+			if (currentEvent.events & EPOLLERR)
+			{
+				throw (std::runtime_error("Epoll error"));
+				break ;
+			}
 		}
 		std::cout << "============Done===============" << std::endl;
 	}
@@ -132,12 +131,14 @@ void	FT::WebServ::_accepter(SimpleServer* server)
 	server->setClientSocket(accept(socket->get_sock(),
 						(struct sockaddr *)&address,
 						(socklen_t *)&address_len));
+
 }
 void	FT::WebServ::_handler(SimpleServer* server)
 {
 	Request	Request(server->getClientSocket());
 
 	Request.launch();
+	std::cout << Request.getRequestParser();
 }
 
 void	FT::WebServ::_responder(SimpleServer* server)
