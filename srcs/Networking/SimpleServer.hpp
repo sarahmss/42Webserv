@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:51 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:45:36 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:41:26 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,35 @@
 
 # include <iostream>
 # include <string>
-
+# include <string.h>
+# include <unistd.h>
 #include "./Sockets/Sockets.hpp"
+# include "../httpMessages/Request/RequestParser.hpp"
+# include "../httpMessages/Request/Request.hpp"
+#include "../httpMessages/Response/ResponseBuilder.hpp"
 
 namespace FT
 {
 	class SimpleServer
 	{
-
 		public:
+			SimpleServer(const int port, int backlog);
+			~SimpleServer();
 
-			SimpleServer(int domain, int service, int protocol, int port, unsigned long int interface, int bklg);
-			SimpleServer( SimpleServer & src );
-			virtual ~SimpleServer();
-
-			virtual void launch(void) = 0;
-			ListeningSocket *get_socket();
+			void	launch(void);
+			void	init(void);
+			ListeningSocket	*get_socket();
 
 		private:
 			ListeningSocket	*socket;
-			virtual void accepter(void) = 0;
-			virtual void handler(void) = 0;
-			virtual void responder(void) = 0;
+			int				_port;
+			int				_newSocket;
+			int				_backlog;
+			ResponseBuilder	resp_build;
+
+			void	accepter();
+			void	handler();
+			void	responder();
 	};
 }
 

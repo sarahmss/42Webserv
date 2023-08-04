@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/25 23:09:33 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:20:12 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,29 @@
 
 # include <iostream>
 # include <string>
+# include "../../Settings/Parser.hpp"
+# include "./RequestParser.hpp"
 
-class Request
-{
+namespace FT {
+	class Request
+	{
+		public:
+			Request(int socketFd);
+			~Request();
 
-	public:
+			void	launch(void);
+		private:
+			int				_socketFd;
+			RequestParser	_requestParser;
+			std::string		_serverName;
+			std::string		_uri;
+			ServerVecType	_serversConfs;
 
-		Request();
-		Request( Request const & src );
-		~Request();
+			void			_runRequest(void);
+			void			_chooseServer(void);
 
-		Request &		operator=( Request const & rhs );
 
-	private:
-
-};
-
-std::ostream &			operator<<( std::ostream & o, Request const & i );
+	};
+}
 
 #endif /* *************************************************** Request_H */

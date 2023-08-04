@@ -47,15 +47,15 @@ FT::Location &	FT::Location::operator=( Location const & rhs )
 {
 	if ( this != &rhs )
 	{
-			this->_allowedMethod = rhs.GetAllowedMethods();
-			this->_index = rhs.GetIndex();
-			this->_redirection = rhs.GetRedirection();
-			this->_root = rhs.GetRoot();
-			this->_prefix = rhs.GetPrefix();
-			this->_cgi = rhs.GetCgi();
-			this->_errorPages = rhs.GetErrorPages();
-			this->_autoIndex = rhs.GetAutoIndex();
-			this->_bodySize = rhs.GetBodySize();
+			this->_allowedMethod = rhs.getAllowedMethods();
+			this->_index = rhs.getIndex();
+			this->_redirection = rhs.getRedirection();
+			this->_root = rhs.getRoot();
+			this->_prefix = rhs.getPrefix();
+			this->_cgi = rhs.getCgi();
+			this->_errorPages = rhs.getErrorPages();
+			this->_autoIndex = rhs.getAutoIndex();
+			this->_bodySize = rhs.getBodySize();
 	}
 	return *this;
 }
@@ -64,13 +64,13 @@ std::ostream &	FT::operator<<( std::ostream & o, Location const & i )
 {
 	o 		<< "allowedMethod: "	<<	i.AllowedMethodsToStr() << std::endl
 			<< "index: "			<<	i.IndexToStr() << std::endl
-			<< "redirection: "		<<	i.GetRedirection() << std::endl
-			<< "root: "				<<	i.GetRoot() << std::endl
-			<< "prefix: "			<<	i.GetPrefix() << std::endl
-			<< "cgi: "				<<	i.GetCgi() << std::endl
-			<< "errorPages: "		<<	i.GetErrorPages() << std::endl
-			<< "autoIndex: "		<<	i.GetAutoIndex() << std::endl
-			<< "bodySize: "			<<	i.GetBodySize() << std::endl;
+			<< "redirection: "		<<	i.getRedirection() << std::endl
+			<< "root: "				<<	i.getRoot() << std::endl
+			<< "prefix: "			<<	i.getPrefix() << std::endl
+			<< "cgi: "				<<	i.getCgi() << std::endl
+			<< "errorPages: "		<<	i.getErrorPages() << std::endl
+			<< "autoIndex: "		<<	i.getAutoIndex() << std::endl
+			<< "bodySize: "			<<	i.getBodySize() << std::endl;
 	return o;
 }
 
@@ -106,7 +106,7 @@ bool	FT::Location::operator!=(Location const &rhs) const
 std::string	FT::Location::AllowedMethodsToStr(void) const
 {
 	std::string			str;
-	LocationMethodsType	methods = GetAllowedMethods();
+	LocationMethodsType	methods = getAllowedMethods();
 	LocationMethodsType::const_iterator	it;
 
 	for (it = methods.begin(); it != methods.end(); ++it)
@@ -140,43 +140,43 @@ bool	FT::Location::hasRootSet(void) const
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-LocationMethodsType	FT::Location::GetAllowedMethods(void) const
+LocationMethodsType	FT::Location::getAllowedMethods(void) const
 {
 	return (_allowedMethod);
 }
-LocationIndexType	FT::Location::GetIndex(void) const
+LocationIndexType	FT::Location::getIndex(void) const
 {
 	return (_index);
 }
-std::string	FT::Location::GetRedirection(void) const
+std::string	FT::Location::getRedirection(void) const
 {
 	return (_redirection);
 }
-std::string	FT::Location::GetRoot(void) const
+std::string	FT::Location::getRoot(void) const
 {
 	return (_root);
 }
-std::string	FT::Location::GetPrefix(void) const
+std::string	FT::Location::getPrefix(void) const
 {
 	return (_prefix);
 }
-FT::Cgi			FT::Location::GetCgi(void) const
+FT::Cgi			FT::Location::getCgi(void) const
 {
 	return (_cgi);
 }
-FT::ErrorPages	FT::Location::GetErrorPages(void) const
+FT::ErrorPages	FT::Location::getErrorPages(void) const
 {
 	return (_errorPages);
 }
-std::string	FT::Location::GetErrorPage(std::string code) const
+std::string	FT::Location::getErrorPage(std::string code) const
 {
-	return (_errorPages.GetErrorPage(code));
+	return (_errorPages.getErrorPage(code));
 }
-bool		FT::Location::GetAutoIndex(void) const
+bool		FT::Location::getAutoIndex(void) const
 {
 	return (_autoIndex);
 }
-int			FT::Location::GetBodySize(void) const
+int			FT::Location::getBodySize(void) const
 {
 	return (_bodySize);
 }

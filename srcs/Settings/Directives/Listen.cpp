@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:24 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 14:24:54 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ FT::Listen	&FT::Listen::operator=( FT::Listen const & rhs )
 {
 	if ( this != &rhs )
 	{
-		this->_host = rhs.GetHost();
-		this->_port = rhs.GetPort();
+		this->_host = rhs.getHost();
+		this->_port = rhs.getPort();
 	}
 	return *this;
 }
 
 std::ostream	&FT::operator<<( std::ostream & o, FT::Listen const & i )
 {
-	o	<< "Host = " << i.GetHost() << std::endl
-		<< "Port =" << i.GetPort() << std::endl;
+	o	<< "Host = " << i.getHost() << std::endl
+		<< "Port =" << i.getPort() << std::endl;
 
 	return o;
 }
@@ -64,12 +64,12 @@ bool	FT::Listen::IsSet(void) const
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string	FT::Listen::GetHost(void) const
+std::string	FT::Listen::getHost(void) const
 {
 	return _host;
 }
 
-int	FT::Listen::GetPort(void) const
+int	FT::Listen::getPort(void) const
 {
 	return _port;
 }

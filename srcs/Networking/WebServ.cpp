@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 01:19:12 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 23:18:44 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,66 +16,59 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::WebServ::WebServ(): SimpleServer(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY, 10)
+FT::WebServ::WebServ(ServerVecType confs)
 {
+	_serversConfs = confs;
+	_backLog = 50;
 	return ;
 }
-
 
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::WebServ::~WebServ() { return ;}
+FT::WebServ::~WebServ() {
+	for (size_t i = 0; i < _simpleServers.size(); i++)
+		if (_simpleServers[i])
+			delete _simpleServers[i];
+}
 
 
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	FT::WebServ::launch()
+void	FT::WebServ::launch(void)
 {
-	while (true)
+	_groupServers();
+	_initServers();
+}
+
+/*
+	@brief: Group Servers defined in conf file by ports number
+*/
+void	FT::WebServ::_groupServers(void)
+{
+	for (size_t i =0; i < _serversConfs.size(); i++)
 	{
-		std::cout << "===== WAITING =====" << std::endl;
-		accepter();
-		handler();
-		responder();
-		std::cout << "===== DONE =====" << std::endl;
+		int port = _serversConfs[i].getListen().getPort();
+		_portServer[port].push_back(_serversConfs[i]);
 	}
 }
 
-void	FT::WebServ::accepter(void)
+void	FT::WebServ::_initServers(void)
 {
-	ListeningSocket *	socket = get_socket();
-	struct sockaddr_in	address = socket->get_address();
-	int					address_len = sizeof(address);
+	PortServerType::iterator	begin = _portServer.begin();
+	PortServerType::iterator	end = _portServer.end();
 
-	_newSocket = accept(socket->get_sock(), // client fd
-						(struct sockaddr *)&address,
-						(socklen_t *)&address_len);
+	for (; begin != end; begin++)
+	{
+		SimpleServer	*newServer = new SimpleServer(begin->first, _backLog);
+		_simpleServers.push_back(newServer);
+	}
 }
 
-void	FT::WebServ::handler(void)
-{
-	RequestParser	Request(_newSocket);
-	std::cout << Request;
-}
-
-void	FT::WebServ::responder(void)
-{
-	//std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 12\n\nHello World";
-    //std::string response = resp_build.add_protocol_status("HTTP/1.1", "200");
-    //response += resp_build.add_value_pair("Content_Type", "text/html");
-    //response += resp_build.add_body_with_file("pages/index.html");
-    resp_build.add_protocol_status("HTTP/1.1", "200");
-    resp_build.add_value_pair("Content_Type", "text/html");
-    resp_build.add_body_with_file("pages/index.html");
-	write(_newSocket, resp_build.get_cresponse(), resp_build.get_response_size());
-	close(_newSocket);
-    resp_build.reset();
-}
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */

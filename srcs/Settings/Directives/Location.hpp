@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 22:13:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 14:18:55 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ namespace FT
 
 			Location &		operator=( Location const & rhs );
 
-			LocationMethodsType	GetAllowedMethods(void) const;
-			LocationIndexType	GetIndex(void) const;
-			std::string			GetRedirection(void) const;
-			std::string			GetRoot(void) const;
-			std::string			GetPrefix(void) const;
-			Cgi					GetCgi(void) const;
-			ErrorPages			GetErrorPages(void) const;
-			std::string			GetErrorPage(std::string code) const;
-			bool				GetAutoIndex(void) const;
-			int					GetBodySize(void) const;
+			LocationMethodsType	getAllowedMethods(void) const;
+			LocationIndexType	getIndex(void) const;
+			std::string			getRedirection(void) const;
+			std::string			getRoot(void) const;
+			std::string			getPrefix(void) const;
+			Cgi					getCgi(void) const;
+			ErrorPages			getErrorPages(void) const;
+			std::string			getErrorPage(std::string code) const;
+			bool				getAutoIndex(void) const;
+			int					getBodySize(void) const;
 
 			void	AddAllowedMethods(std::string allowedMethods);
 			void	AddIndex(std::string index);

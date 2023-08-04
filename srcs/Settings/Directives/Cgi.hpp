@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 22:13:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/11 22:13:04 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ namespace FT
 
 			Cgi &		operator=( Cgi const & rhs );
 
-			CgiProgramType	GetPrograms() const;
-			std::string		GetProgram(std::string extension) const;
+			CgiProgramType	getPrograms() const;
+			std::string		getProgram(std::string extension) const;
 
 			size_t			size(void) const;
 			void			addProgram(std::string extension, std::string path);

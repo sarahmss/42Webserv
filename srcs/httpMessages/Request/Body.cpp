@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 01:09:01 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ FT::Body::Body(int socketFd, HeadersType headers)
 	_socketFd = socketFd;
 	_headers = headers;
 }
-
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
@@ -39,7 +38,7 @@ int	FT::Body::parseBody(void)
 	if (MapHasKey(_headers, "Content-Length:" ) == false
 		|| MapHasKey(_headers, "Transfer-Encoding: ") == false)
 		return (EMPTYBODY);
-	if (GetMapItem(_headers, "Transfer-Encoding:") == "chunked")
+	if (getMapItem(_headers, "Transfer-Encoding:") == "chunked")
 		return (_HandleChunkedBody());
 	else if (MapHasKey(_headers, "Content-Length:"))
 		return(_ReadMessageBody());
@@ -54,7 +53,7 @@ int	FT::Body::_HandleChunkedBody(void)
 
 	for (size_t i = 0; i < chunkSize; i++)
 	{
-		bodyLine += GetSockStreamLine(_socketFd);
+		bodyLine += getSockStreamLine(_socketFd);
 		length += chunkSize;
 		chunkSize = _getChunkSize();
 	}
@@ -66,7 +65,7 @@ int	FT::Body::_HandleChunkedBody(void)
 
 size_t	FT::Body::_getChunkSize(void)
 {
-	std::string	chunkSizeLine = GetSockStreamLine(_socketFd);
+	std::string	chunkSizeLine = getSockStreamLine(_socketFd);
 	size_t		pos;
 
 	if (chunkSizeLine.empty())
@@ -86,7 +85,7 @@ size_t	FT::Body::_convertChunkSize(std::string chunkSize)
 
 int	FT::Body::_ReadMessageBody(void)
 {
-	int			length = atoi(GetMapItem(_headers, "Content-Length:").c_str());
+	int			length = atoi(getMapItem(_headers, "Content-Length:").c_str());
 	ssize_t		bytes = 0;
 	char		buffer[BUFFSIZE]= {0};
 	std::string	bodyLine;
@@ -102,11 +101,11 @@ int	FT::Body::_ReadMessageBody(void)
 		bodyLine.append(buffer, bytes);
 		memset(buffer, 0, BUFFSIZE);
 	}
-	_GetBodyMessage(bodyLine);
+	_getBodyMessage(bodyLine);
 	return (UNCHUNKED);
 }
 
-void	FT::Body::_GetBodyMessage(std::string &Body)
+void	FT::Body::_getBodyMessage(std::string &Body)
 {
 	if (_IsMultipartFormData() == true)
 	{
@@ -120,7 +119,7 @@ bool FT::Body::_IsMultipartFormData(void)
 {
 	std::string	contentType;
 
-	contentType = GetMapItem(_headers, "Content-Type:");
+	contentType = getMapItem(_headers, "Content-Type:");
 	return (contentType.find("multipart/form-data:") != std::string::npos);
 }
 
@@ -138,11 +137,11 @@ void	FT::Body::_ClearHeader(std::string &Body)
 	std::string	header;
 
 	header = Body.substr(0, Body.find(CRLF2X));
-	_GetFileName(header);
+	_getFileName(header);
 	Body.erase(0, header.length() + 4);
 }
 
-void	FT::Body::_GetFileName(std::string header)
+void	FT::Body::_getFileName(std::string header)
 {
 	std::string	filename;
 	size_t	begin;
@@ -158,17 +157,17 @@ void	FT::Body::_GetFileName(std::string header)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string	FT::Body::GetBody(void)
+std::string	FT::Body::getBody(void)
 {
 	return (_body);
 }
 
-std::string	FT::Body::GetFileName(void)
+std::string	FT::Body::getFileName(void)
 {
 	return (_body);
 }
 
-int	FT::Body::GetContentLength(void)
+int	FT::Body::getContentLength(void)
 {
 	return (_ContentLenght);
 }

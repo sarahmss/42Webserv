@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:40:54 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ namespace FT
 
 			RequestParser& operator= (RequestParser const & rhs);
 
-			std::string	GetRequest() const;
-			std::string	GetMethod() const;
-			std::string	GetUri() const;
-			HeadersType	GetHeaders() const;
-			std::string	GetHeader(const std::string &HeaderName) const;
-			std::string	GetBody() const;
-			std::string	GetProtocolVersion() const;
+			std::string	getRequest() const;
+			std::string	getMethod() const;
+			std::string	getUri() const;
+			HeadersType	getHeaders() const;
+			std::string	getHeader(const std::string &HeaderName) const;
+			std::string	getBody() const;
+			std::string	getProtocolVersion() const;
+			std::string	getServerName(void) const;
 
 		private:
 			int			_socketFd;

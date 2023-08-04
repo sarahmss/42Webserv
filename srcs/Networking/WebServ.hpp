@@ -13,31 +13,31 @@
 #ifndef WEB_SERV_HPP
 #define WEB_SERV_HPP
 
-
-# include <string.h>
-# include <unistd.h>
 # include "./SimpleServer.hpp"
-# include "../httpMessages/Request/RequestParser.hpp"
-# include "../httpMessages/Response/ResponseBuilder.hpp"
+
+typedef std::map<int, ServerVecType>	PortServerType;
+typedef std::vector<FT::SimpleServer *>	SimpleServerVecType;
 
 namespace FT
 {
-	class WebServ: public SimpleServer
+		class WebServ
 	{
 		public:
 
-			WebServ();
+			WebServ(ServerVecType confs);
 			~WebServ();
 
-			void launch(void);
+			void	launch(void);
 
 		private:
-			int				_newSocket;
-			ResponseBuilder	resp_build;
+			SimpleServerVecType	_simpleServers;
+			ServerVecType		_serversConfs;
+			PortServerType		_portServer;
+			size_t				_backLog;
 
-			void	accepter();
-			void	handler();
-			void	responder();
+			void			_groupServers();
+			void			_initServers();
+
 	};
 }
 

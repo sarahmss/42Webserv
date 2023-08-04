@@ -145,7 +145,7 @@ std::string	FT::Server::getRoot(void) const
 }
 std::string	FT::Server::getErrorPage(std::string code) const
 {
-	return (_errorPages.GetErrorPage(code));
+	return (_errorPages.getErrorPage(code));
 }
 ErrorType	FT::Server::getDefaultErrorPages(void) const
 {
