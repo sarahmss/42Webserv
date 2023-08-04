@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/03 21:56:40 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/04 17:42:26 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/httpMessages/Request/Body.cpp					\
 				./srcs/httpMessages/Response/ResponseBuilder.cpp		\
 				./srcs/httpMessages/Response/File_operation/File_op.cpp	\
+				./srcs/multiplexing/PollHandler.cpp						\
 				./srcs/Networking/WebServ.cpp
 
 
@@ -66,6 +67,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/httpMessages/Request/Body.hpp					\
 					./srcs/httpMessages/Response/ResponseBuilder.hpp		\
 					./srcs/httpMessages/Response/File_operation/File_op.hpp	\
+					./srcs/multiplexing/PollHandler.hpp						\
 					./srcs/Networking/WebServ.hpp
 
 
@@ -87,7 +89,7 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/httpMessages/Request
 			@mkdir -p objects/srcs/httpMessages/Response
 			@mkdir -p objects/srcs/httpMessages/Response/File_operation
-
+			@mkdir -p objects/srcs/multiplexing
 
 			$(CC) $(FLAGS) -c  $< -o $@
 

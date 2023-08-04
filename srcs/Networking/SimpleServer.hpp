@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:51 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:41:26 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:20:18 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,20 @@ namespace FT
 			SimpleServer(const int port, int backlog);
 			~SimpleServer();
 
-			void	launch(void);
-			void	init(void);
-			ListeningSocket	*get_socket();
+			void			init(void);
+
+			ListeningSocket	*getListeningSocket(void);
+			int				getSocket(void);
+			int				getClientSocket(void);
+			void			setClientSocket(int clientSocket);
+			int				getPort(void);
+			int				getBacklog(void);
 
 		private:
 			ListeningSocket	*socket;
+			int				_clientSocket;
 			int				_port;
-			int				_newSocket;
 			int				_backlog;
-			ResponseBuilder	resp_build;
-
-			void	accepter();
-			void	handler();
-			void	responder();
 	};
 }
 

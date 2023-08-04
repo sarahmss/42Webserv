@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:49:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:18:53 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ FT::ListeningSocket::ListeningSocket(int domain, int service, int protocol,  int
 BindingSocket(domain, service, protocol, port, interface)
 {
 	backlog = bklog;
-	start_listening();
+	startListening();
 	test_connection(listening);
 
 }
@@ -51,8 +51,8 @@ FT::ListeningSocket &				FT::ListeningSocket::operator=( ListeningSocket  & rhs 
 	if ( this != &rhs )
 	{
         FT::BindingSocket::operator=(rhs);
-		this->listening = rhs.get_listening();
-		this->backlog = rhs.get_backlog();
+		this->listening = rhs.getListening();
+		this->backlog = rhs.getBacklog();
 	}
 	return *this;
 }
@@ -61,7 +61,7 @@ FT::ListeningSocket &				FT::ListeningSocket::operator=( ListeningSocket  & rhs 
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void FT::ListeningSocket::start_listening()
+void FT::ListeningSocket::startListening()
 {
 	listening = listen(get_sock(), backlog);
 }
@@ -70,12 +70,12 @@ void FT::ListeningSocket::start_listening()
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-int FT::ListeningSocket::get_listening()
+int FT::ListeningSocket::getListening()
 {
 	return (listening);
 }
 
-int FT::ListeningSocket::get_backlog()
+int FT::ListeningSocket::getBacklog()
 {
 	return (backlog);
 }
