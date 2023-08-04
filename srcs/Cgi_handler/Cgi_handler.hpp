@@ -2,6 +2,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <string>
+#include "../Settings/Directives/Cgi.hpp"
 
 namespace FT {
 	class Cgi_handler {
@@ -19,6 +20,7 @@ namespace FT {
 
         private:
             int socketpair_fd[2];
+            FT::Cgi cgi_config;
 	};
 }
 
