@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 00:40:54 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:08:41 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ namespace FT
 			std::string	GetHeader(const std::string &HeaderName) const;
 			std::string	GetBody() const;
 			std::string	GetProtocolVersion() const;
+			std::string	GetServerName(void) const;
 
 		private:
 			int			_socketFd;

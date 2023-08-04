@@ -21,8 +21,6 @@
 # include "./Directives/Cgi.hpp"
 # include "./Directives/ErrorPages.hpp"
 
-
-
 # define ServerNameType		std::vector<std::string>
 # define ListenType			FT::Listen
 # define LocationType		FT::Location

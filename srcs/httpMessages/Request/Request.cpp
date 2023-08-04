@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/25 23:09:26 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:56:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,51 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-Request::Request()
+FT::Request::Request(int socketFd, ServerVecType confs)
 {
+	_socketFd = socketFd;
+	_serversConfs = confs;
 }
-
-Request::Request( const Request & src )
-{
-}
-
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-Request::~Request()
-{
-}
-
+FT::Request::~Request() { return ;}
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-Request &				Request::operator=( Request const & rhs )
-{
-	//if ( this != &rhs )
-	//{
-		//this->_value = rhs.getValue();
-	//}
-	return *this;
-}
-
-std::ostream &			operator<<( std::ostream & o, Request const & i )
-{
-	//o << "Value = " << i.getValue();
-	return o;
-}
-
-
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
+void	FT::Request::launch(void)
+{
+	RequestParser	Request(_socketFd);
 
+	_serverName = Request.GetServerName();
+	_uri = Request.GetUri();
+	_runRequest();
+}
+
+void	FT::Request::_runRequest(void)
+{
+	/*	_chooseServer();*/
+	return ;
+}
+
+void	FT::Request::_chooseServer(void)
+{
+/*	ServerVecType::iterator begin = _serversConfs.begin();
+	ServerVecType::iterator end = _serversConfs.end();
+
+	for (; begin != end; begin++)
+	{
+
+	}
+*/
+}
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------

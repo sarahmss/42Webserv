@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:51 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:45:36 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:44:27 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@ namespace FT
 {
 	class SimpleServer
 	{
-
 		public:
 
-			SimpleServer(int domain, int service, int protocol, int port, unsigned long int interface, int bklg);
-			SimpleServer( SimpleServer & src );
+			SimpleServer(void);
 			virtual ~SimpleServer();
 
-			virtual void launch(void) = 0;
-			ListeningSocket *get_socket();
+			virtual void		launch(void) = 0;
+			ListeningSocket		*get_socket();
+			void				init(int domain, int service, int protocol, int port, unsigned long int interface, int bklg);
 
 		private:
 			ListeningSocket	*socket;

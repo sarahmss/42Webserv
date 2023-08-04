@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 01:19:12 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:54:55 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::WebServ::WebServ(): SimpleServer(AF_INET, SOCK_STREAM, 0, 80, INADDR_ANY, 10)
+FT::WebServ::WebServ(ServerVecType confs): SimpleServer()
 {
+	_serversConfs = confs;
+	_port = 80;
 	return ;
 }
-
 
 
 /*
@@ -36,6 +37,7 @@ FT::WebServ::~WebServ() { return ;}
 
 void	FT::WebServ::launch()
 {
+	init(AF_INET, SOCK_STREAM, 0, _port, INADDR_ANY, 10);
 	while (true)
 	{
 		std::cout << "===== WAITING =====" << std::endl;
@@ -59,8 +61,9 @@ void	FT::WebServ::accepter(void)
 
 void	FT::WebServ::handler(void)
 {
-	RequestParser	Request(_newSocket);
-	std::cout << Request;
+	Request	Request(_newSocket, _serversConfs);
+
+	Request.launch();
 }
 
 void	FT::WebServ::responder(void)
@@ -76,6 +79,7 @@ void	FT::WebServ::responder(void)
 	close(_newSocket);
     resp_build.reset();
 }
+
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */

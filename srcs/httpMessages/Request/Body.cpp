@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 01:09:01 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/02 01:41:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ FT::Body::Body(int socketFd, HeadersType headers)
 	_socketFd = socketFd;
 	_headers = headers;
 }
-
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------

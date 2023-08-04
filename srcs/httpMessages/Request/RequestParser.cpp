@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 01:06:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:08:31 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,12 @@ void	FT::RequestParser::_parseBody()
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
+
+std::string	FT::RequestParser::GetServerName() const
+{
+	std::string	host = GetMapItem(_headers, "Host");
+	return (host.substr(0, host.find(':')));
+}
 
 std::string	FT::RequestParser::GetMethod() const
 {

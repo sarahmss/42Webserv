@@ -18,15 +18,16 @@
 # include <unistd.h>
 # include "./SimpleServer.hpp"
 # include "../httpMessages/Request/RequestParser.hpp"
+# include "../httpMessages/Request/Request.hpp"
 #include "../httpMessages/Response/ResponseBuilder.hpp"
 
 namespace FT
 {
-	class WebServ: public SimpleServer
+		class WebServ: public SimpleServer
 	{
 		public:
 
-			WebServ();
+			WebServ(ServerVecType confs);
 			~WebServ();
 
 			void launch(void);
@@ -34,6 +35,8 @@ namespace FT
 		private:
 			int				_newSocket;
 			ResponseBuilder	resp_build;
+			ServerVecType	_serversConfs;
+			int				_port;
 
 			void	accepter();
 			void	handler();
