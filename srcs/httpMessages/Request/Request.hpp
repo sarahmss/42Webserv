@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 21:36:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:20:12 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace FT {
 	class Request
 	{
 		public:
-			Request(int socketFd, ServerVecType confs);
+			Request(int socketFd);
 			~Request();
 
 			void	launch(void);

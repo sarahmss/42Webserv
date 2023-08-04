@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:58:42 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/02 01:04:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ namespace FT {
 			~Body();
 
 			int			parseBody();
-			std::string	GetBody(void);
-			std::string	GetFileName(void);
-			int			GetContentLength(void);
+			std::string	getBody(void);
+			std::string	getFileName(void);
+			int			getContentLength(void);
 
 		private:
 			int			_socketFd;
@@ -42,11 +42,11 @@ namespace FT {
 			size_t		_getChunkSize();
 			size_t		_convertChunkSize(std::string chunkSize);
 			int			_ReadMessageBody();
-			void		_GetBodyMessage(std::string &Body);
+			void		_getBodyMessage(std::string &Body);
 			bool		_IsMultipartFormData();
 			void		_ClearFooter(std::string &Body);
 			void		_ClearHeader(std::string &Body);
-			void		_GetFileName(std::string header);
+			void		_getFileName(std::string header);
 
 	};
 }

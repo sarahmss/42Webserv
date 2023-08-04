@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:15 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/19 23:00:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ namespace FT
 
 			ErrorPages &	operator=( ErrorPages const & rhs );
 
-			ErrorPagesType	GetErrorPages(void) const;
-			std::string		GetErrorPage(std::string code) const;
+			ErrorPagesType	getErrorPages(void) const;
+			std::string		getErrorPage(std::string code) const;
 			void			SetDefaultPages(void);
 
 			void			addPage(std::string code, std::string path);

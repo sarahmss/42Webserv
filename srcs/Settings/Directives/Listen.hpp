@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:29 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/20 14:11:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ namespace FT
 			void		SetHost(std::string host);
 			void		SetPort(int port);
 
-			std::string	GetHost(void) const;
-			int			GetPort(void) const;
+			std::string	getHost(void) const;
+			int			getPort(void) const;
 
 			bool		IsSet(void) const;
 

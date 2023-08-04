@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 21:08:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ FT::RequestParser &	FT::RequestParser::operator=( RequestParser const & rhs )
 {
 	if ( this != &rhs )
 	{
-		this->_body = rhs.GetBody();
-		this->_headers = rhs.GetHeaders();
-		this->_method = rhs.GetMethod();
-		this->_uri = rhs.GetUri();
+		this->_body = rhs.getBody();
+		this->_headers = rhs.getHeaders();
+		this->_method = rhs.getMethod();
+		this->_uri = rhs.getUri();
 	}
 	return *this;
 }
@@ -54,18 +54,18 @@ FT::RequestParser &	FT::RequestParser::operator=( RequestParser const & rhs )
 std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs)
 {
 
-	FT::HeadersType				headers = rhs.GetHeaders();
+	FT::HeadersType				headers = rhs.getHeaders();
 	FT::HeadersType::iterator	it = headers.begin();
 
-	std::cout << "Method: " << rhs.GetMethod() << std::endl;
-	std::cout << "URI: " << rhs.GetUri() << std::endl;
-	std::cout << "ProtocolVersion: " << rhs.GetProtocolVersion() << std::endl;
+	std::cout << "Method: " << rhs.getMethod() << std::endl;
+	std::cout << "URI: " << rhs.getUri() << std::endl;
+	std::cout << "ProtocolVersion: " << rhs.getProtocolVersion() << std::endl;
 	while (it != headers.end())
 	{
 		o << it->first << " " << it->second << std::endl;
 		it++;
 	}
-	std::cout << "Body: " << rhs.GetBody() << std::endl;
+	std::cout << "Body: " << rhs.getBody() << std::endl;
 	return (o);
 }
 
@@ -79,7 +79,7 @@ void	FT::RequestParser::_parseRequest(void)
 
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
-		requestLine = GetSockStreamLine(_socketFd);
+		requestLine = getSockStreamLine(_socketFd);
 		if (i == 0)
 			_parseRequestLine(requestLine);
 		else
@@ -123,46 +123,46 @@ void	FT::RequestParser::_parseBody()
 	if (bodyStatus == EMPTYBODY)
 		return ;
 	if (bodyStatus == UNCHUNKED)
-		_headers["filename:"] = body.GetFileName();
+		_headers["filename:"] = body.getFileName();
 	if (bodyStatus == CHUNKED)
-		_headers["Content-Length:"] = body.GetContentLength();
-	_body = body.GetBody();
+		_headers["Content-Length:"] = body.getContentLength();
+	_body = body.getBody();
 }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string	FT::RequestParser::GetServerName() const
+std::string	FT::RequestParser::getServerName() const
 {
-	std::string	host = GetMapItem(_headers, "Host");
+	std::string	host = getMapItem(_headers, "Host");
 	return (host.substr(0, host.find(':')));
 }
 
-std::string	FT::RequestParser::GetMethod() const
+std::string	FT::RequestParser::getMethod() const
 {
 	return (_method);
 }
-std::string	FT::RequestParser::GetUri() const
+std::string	FT::RequestParser::getUri() const
 {
 	return (_uri);
 }
-FT::HeadersType	FT::RequestParser::GetHeaders() const
+FT::HeadersType	FT::RequestParser::getHeaders() const
 {
 	return (_headers);
 }
 
-std::string	FT::RequestParser::GetHeader(const std::string &HeaderName) const
+std::string	FT::RequestParser::getHeader(const std::string &HeaderName) const
 {
 	return (_headers.at(HeaderName));
 }
 
-std::string	FT::RequestParser::GetBody() const
+std::string	FT::RequestParser::getBody() const
 {
 	return (_body);
 }
 
-std::string	FT::RequestParser::GetProtocolVersion() const
+std::string	FT::RequestParser::getProtocolVersion() const
 {
 	return (_protocolVersion);
 }
