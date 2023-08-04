@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 20:25:21 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:38:56 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	FT::WebServ::_handler(SimpleServer* server)
 	Request	Request(clientSocket);
 
 	Request.launch();
-	std::cout << Request.getRequestParser();
+//	std::cout << Request.getRequestParser();
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
 	_epoll.modify(server->getSocket(), _epoll.ServerToData(server), EPOLLOUT);
 }
@@ -148,7 +148,10 @@ void	FT::WebServ::_responder(SimpleServer* server)
 	resp_build.add_protocol_status("HTTP/1.1", "200");
 	resp_build.add_value_pair("Content_Type", "text/html");
 	resp_build.add_body_with_file("pages/index.html");
-	write(clientSocket, resp_build.get_cresponse(), resp_build.get_response_size());
+
+	if (send(clientSocket, resp_build.get_cresponse(), resp_build.get_response_size(), 0) < 0)
+		throw std::runtime_error("Error sending response");
+
 	close(clientSocket);
 	resp_build.reset();
 }
