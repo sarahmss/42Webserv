@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:35:47 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 19:20:47 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:43:27 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string>
 # include <sys/epoll.h>
 # include <fcntl.h>
+# include "../Networking/SimpleServer.hpp"
 
 # define MAX_EVENTS 500
 
@@ -35,8 +36,8 @@ namespace FT
 			int		modify(int fd, epoll_data_t data, uint32_t newEvents);
 			int		remove(int fd);
 			int		wait(int timeout);
-			bool	setNonblocking(int fd);
 
+			epoll_data_t	ServerToData(SimpleServer *server);
 			epollEventType	*getEvents(void);
 		private:
 			epollEventType	*_events;

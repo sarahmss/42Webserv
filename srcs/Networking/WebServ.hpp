@@ -13,7 +13,6 @@
 #ifndef WEB_SERV_HPP
 #define WEB_SERV_HPP
 
-# include "./SimpleServer.hpp"
 # include "../multiplexing/PollHandler.hpp"
 
 typedef std::map<int, ServerVecType>	PortServerType;

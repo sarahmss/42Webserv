@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 19:33:40 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:25:21 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ void	FT::WebServ::_initServers(void)
 */
 void	FT::WebServ::_addToPoll(SimpleServer *newServer)
 {
-	epoll_data_t	eventData;
-	eventData.ptr = newServer;
-
-	_epoll.add(newServer->getSocket(), eventData, EPOLLIN | EPOLLOUT);
+	_epoll.add(newServer->getSocket(), _epoll.ServerToData(newServer), 	EPOLLIN | EPOLLOUT);
 }
 
 /*
@@ -96,7 +93,6 @@ void	FT::WebServ::_coreLoop(void)
 
 	while (true)
 	{
-		std::cout << "============Waiting===============" << std::endl;
 		numEvents = _epoll.wait(0);
 		for (int i = 0; i < numEvents; i++)
 		{
@@ -114,7 +110,6 @@ void	FT::WebServ::_coreLoop(void)
 				break ;
 			}
 		}
-		std::cout << "============Done===============" << std::endl;
 	}
 }
 
@@ -127,18 +122,23 @@ void	FT::WebServ::_accepter(SimpleServer* server)
 	ListeningSocket *	socket = server->getListeningSocket();
 	struct sockaddr_in	address = socket->get_address();
 	int					address_len = sizeof(address);
+	int					clientSocket;
 
-	server->setClientSocket(accept(socket->get_sock(),
+	clientSocket = accept(socket->get_sock(),
 						(struct sockaddr *)&address,
-						(socklen_t *)&address_len));
-
+						(socklen_t *)&address_len);
+	_epoll.add(clientSocket, _epoll.ServerToData(server), EPOLLIN | EPOLLOUT);
+	server->setClientSocket(clientSocket);
 }
 void	FT::WebServ::_handler(SimpleServer* server)
 {
-	Request	Request(server->getClientSocket());
+	int		clientSocket = server->getClientSocket();
+	Request	Request(clientSocket);
 
 	Request.launch();
 	std::cout << Request.getRequestParser();
+	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
+	_epoll.modify(server->getSocket(), _epoll.ServerToData(server), EPOLLOUT);
 }
 
 void	FT::WebServ::_responder(SimpleServer* server)

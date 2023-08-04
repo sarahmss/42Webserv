@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:03:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 18:21:44 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:45:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,12 @@ int FT::PollHandler::wait(int timeout)
 	return (fd);
 }
 
-bool	FT::PollHandler::setNonblocking(int fd)
+epoll_data_t	FT::PollHandler::ServerToData(SimpleServer *server)
 {
-	int	flags = fcntl(fd, F_GETFL, 0);
-	if (flags == -1)
-		return (false);
-	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)
-	{
-		throw std::runtime_error("Failed []");
-		return (false);
-	}
-	return (true);
+	epoll_data_t	eventData;
+
+	eventData.ptr = server;
+	return(eventData);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 18:25:49 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:14:35 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ FT::SimpleServer::SimpleServer(const int port, int backlog) : _port(port), _back
 
 FT::SimpleServer::~SimpleServer()
 {
+	close(getSocket());
 	delete socket;
 	return ;
 }
