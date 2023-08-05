@@ -1,8 +1,9 @@
 
-#include <sys/socket.h>
-#include <unistd.h>
-#include <string>
-#include "../Settings/Directives/Cgi.hpp"
+# include <sys/socket.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include <string>
+# include "../Settings/Directives/Cgi.hpp"
 
 namespace FT {
 	class Cgi_handler {
@@ -13,14 +14,19 @@ namespace FT {
 			Cgi_handler& operator=(const Cgi_handler &other);
 
             int open_socketpair();
-            int open_socketpair(int *fd_pair);
-            int cgi_handler(std::string parsed_req);
-            void handle_php();
-            void handle_python();
+            int cgi_handler(std::string root_directory, std::string parsed_req, std::string body);
 
         private:
-            int socketpair_fd[2];
-            FT::Cgi cgi_config;
+            void handler(std::string root_directory,
+                    std::string req_script,
+                    std::string extension,
+                    std::string body = "");
+
+            std::string get_extension(std::string req_path);
+
+            int _socketpair_fd[2];
+            FT::Cgi _cgi_program_list;
+            std::string _response;
 	};
 }
 
