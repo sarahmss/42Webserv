@@ -73,7 +73,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 
 HEADERS = $(addprefix $(INCLUDES_PATH), $(HEADER_FILES))
 
-CC			= c++
+CC			= g++
 FLAGS		= -Wall -Wextra -Werror -g -std=c++98
 INCLUDES	= -I $(INCLUDES_PATH)
 

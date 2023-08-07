@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "WebServ.hpp"
+#include <sys/epoll.h>
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
@@ -101,9 +102,9 @@ void	FT::WebServ::_coreLoop(void)
 
 			_accepter(server);
 			if (currentEvent.events & EPOLLIN)
-				_handler(server);
-			if (currentEvent.events & EPOLLOUT)
 				_responder(server);
+			if (currentEvent.events & EPOLLOUT)
+				_handler(server);
 			if (currentEvent.events & EPOLLERR)
 			{
 				throw (std::runtime_error("Epoll error"));
