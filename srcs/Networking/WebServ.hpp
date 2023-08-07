@@ -40,6 +40,7 @@ namespace FT
 			void			_groupServers(void);
 			void			_initServers(void);
 			void			_addToPoll(SimpleServer *newServer);
+			void			_removeFromPoll(int fd);
 			void			_coreLoop(void);
 			void			_accepter(SimpleServer *server);
 			void			_handler(SimpleServer* server);

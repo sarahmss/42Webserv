@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 20:38:56 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:07:12 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,12 @@ void	FT::WebServ::_addToPoll(SimpleServer *newServer)
 	_epoll.add(newServer->getSocket(), _epoll.ServerToData(newServer), 	EPOLLIN | EPOLLOUT);
 }
 
+void	FT::WebServ::_removeFromPoll(int fd)
+{
+	_epoll.remove(fd);
+	close(fd);
+}
+
 /*
 	@brief: Waits for I/O events
 */
@@ -107,16 +113,18 @@ void	FT::WebServ::_coreLoop(void)
 				_handler(server);
 			if (currentEvent.events & EPOLLERR)
 			{
+				_removeFromPoll(server->getClientSocket());
 				throw (std::runtime_error("Epoll error"));
-				break ;
 			}
+			if (currentEvent.events & (EPOLLRDHUP | EPOLLHUP))
+				_removeFromPoll(server->getClientSocket());
 		}
 	}
 }
 
 /*
 	@brief: accepts an incoming connection and creates a client socket
-	which represemts accepted connection
+	which represents accepted connection
 */
 void	FT::WebServ::_accepter(SimpleServer* server)
 {
@@ -137,9 +145,8 @@ void	FT::WebServ::_handler(SimpleServer* server)
 	Request	Request(clientSocket);
 
 	Request.launch();
-//	std::cout << Request.getRequestParser();
+	std::cout << Request.getRequestParser();
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
-	_epoll.modify(server->getSocket(), _epoll.ServerToData(server), EPOLLOUT);
 }
 
 void	FT::WebServ::_responder(SimpleServer* server)
@@ -152,8 +159,7 @@ void	FT::WebServ::_responder(SimpleServer* server)
 
 	if (send(clientSocket, resp_build.get_cresponse(), resp_build.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");
-
-	close(clientSocket);
+	_removeFromPoll(clientSocket);
 	resp_build.reset();
 }
 

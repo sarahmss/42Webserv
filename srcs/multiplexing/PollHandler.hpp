@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:35:47 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 19:43:27 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:20:55 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace FT
 			epoll_data_t	ServerToData(SimpleServer *server);
 			epollEventType	*getEvents(void);
 		private:
-			epollEventType	*_events;
+			epollEventType	*_interestList;
 			int				_epollFd;
 			size_t			_eventsMax;
 	};

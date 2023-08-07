@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:03:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 19:45:57 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:18:53 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ FT::PollHandler::PollHandler(size_t eventsMax) : _eventsMax(eventsMax)
 	_epollFd = epoll_create(1);
 	if (_epollFd == -1)
 		throw std::runtime_error("Failed to create epoll");
-	_events = new epoll_event[_eventsMax];
-	memset(_events, 0, sizeof(epoll_event) * _eventsMax);
+	_interestList = new epoll_event[_eventsMax];
+	memset(_interestList, 0, sizeof(epoll_event) * _eventsMax);
 }
 
 /*
@@ -35,7 +35,7 @@ FT::PollHandler::PollHandler(size_t eventsMax) : _eventsMax(eventsMax)
 
 FT::PollHandler::~PollHandler()
 {
-	delete[] _events;
+	delete[] _interestList;
 	close(_epollFd);
 }
 
@@ -58,7 +58,7 @@ int FT::PollHandler::add(int fd, epoll_data_t data, uint32_t events)
 }
 int FT::PollHandler::modify(int fd, epoll_data_t data, uint32_t newEvents)
 {
-	struct epoll_event event;
+	epollEventType event;
 
 	event.events = newEvents;
 	event.data = data;
@@ -81,7 +81,7 @@ int FT::PollHandler::remove(int fd)
 }
 int FT::PollHandler::wait(int timeout)
 {
-	int fd = epoll_wait(_epollFd, _events, _eventsMax, timeout);
+	int fd = epoll_wait(_epollFd, _interestList, _eventsMax, timeout);
 	if (fd == -1)
 	{
 		throw std::runtime_error("Failed to wait");
@@ -104,6 +104,6 @@ epoll_data_t	FT::PollHandler::ServerToData(SimpleServer *server)
 
 struct epoll_event *FT::PollHandler::getEvents(void)
 {
-	return (_events);
+	return (_interestList);
 }
 /* ************************************************************************** */

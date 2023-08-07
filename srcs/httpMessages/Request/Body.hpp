@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:58:42 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:03:20 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace FT {
 			size_t		_convertChunkSize(std::string chunkSize);
 			int			_ReadMessageBody();
 			void		_getBodyMessage(std::string &Body);
-			bool		_IsMultipartFormData();
+			bool		_IsMultipartForm();
 			void		_ClearFooter(std::string &Body);
 			void		_ClearHeader(std::string &Body);
 			void		_getFileName(std::string header);
