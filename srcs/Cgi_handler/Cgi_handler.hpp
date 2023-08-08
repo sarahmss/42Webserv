@@ -5,6 +5,7 @@
 
 
 # include <map>
+#include <cstdlib>
 # include <vector>
 # include <sys/socket.h>
 # include <sys/wait.h>

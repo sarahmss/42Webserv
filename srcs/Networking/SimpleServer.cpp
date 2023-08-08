@@ -81,7 +81,7 @@ void	FT::SimpleServer::responder(void)
     //response += resp_build.add_value_pair("Content_Type", "text/html");
     //response += resp_build.add_body_with_file("pages/index.html");
     resp_build.add_protocol_status("HTTP/1.1", "200");
-    resp_build.add_value_pair("Content_Type", "text/html");
+    resp_build.add_value_pair("Content-Type", "text/html");
     resp_build.add_body_with_file("pages/index.html");
 	write(_newSocket, resp_build.get_cresponse(), resp_build.get_response_size());
 	close(_newSocket);

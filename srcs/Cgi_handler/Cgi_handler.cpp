@@ -1,29 +1,32 @@
 
 
 #include "Cgi_handler.hpp"
-#include <utility>
 
+// php program handler
+// python program handler
 FT::Cgi_handler::Cgi_handler () {
     _cgi_program_list.addProgram("php", "/usr/bin/php-cgi");
-    _env.insert(std::make_pair("Make something", "Make something"));
+    _cgi_program_list.addProgram("py", "CGI-Scripts/execute-python.sh");
+    _env["SCRIPT_FILENAME"] = "";
+    _env["DOCUMENT_ROOT"] = "";
+    _env[""] = "";
 }
 
 FT::Cgi_handler::~Cgi_handler () {
 }
 
-FT::Cgi_handler::Cgi_handler ( Cgi_handler &other) {
+FT::Cgi_handler::Cgi_handler ( Cgi_handler &other ) {
 	(void) other;
 	return;
 }
 
-FT::Cgi_handler& FT::Cgi_handler::operator= (const Cgi_handler & other) {
+FT::Cgi_handler& FT::Cgi_handler::operator= ( const Cgi_handler & other ) {
 	(void) other;
 	return *this;
 }
 
 // Using socketpair allow us to have a two way communication
-// Instead of opening two pipes
-// Achieve interprocess communication
+// Instead of opening two pipes Achieve interprocess communication
 // Init internal fd using socketpair
 // fd[0] -> child
 // fd[1] -> parent
@@ -92,5 +95,5 @@ void FT::Cgi_handler::_handler(
     execve(program.c_str(), NULL, const_cast<char **>(envp)); 
     close(_socketpair_fd[0]);
     close(_socketpair_fd[1]);
-    exit(-1);
+    exit(2);
 }
