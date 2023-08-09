@@ -7,9 +7,23 @@
 FT::Cgi_handler::Cgi_handler () {
     _cgi_program_list.addProgram("php", "/usr/bin/php-cgi");
     _cgi_program_list.addProgram("py", "CGI-Scripts/execute-python.sh");
-    _env["SCRIPT_FILENAME"] = "";
     _env["DOCUMENT_ROOT"] = "";
-    _env[""] = "";
+    _env["HTTP_HOST"] = "";
+    _env["HTTP_REFERER"] = "";
+    _env["HTTP_USER_AGENT"] = "";
+    _env["PATH"] = "";
+    _env["QUERY_STRING"] = "";
+    _env["REMOTE_ADDR"] = "";
+    _env["REMOTE_HOST"] = "";
+    _env["REMOTE_PORT"] = "";
+    _env["REMOTE_USER"] = "";
+    _env["REMOTE_URI"] = "";
+    _env["SCRIPT_FILENAME"] = "";
+    _env["SCRIPT_NAME"] = "";
+    _env["SERVER_ADMIN"] = "";
+    _env["SERVER_NAME"] = "";
+    _env["SERVER_PORT"] = "";
+    _env["SERVER_SOFTWARE"] = "";
 }
 
 FT::Cgi_handler::~Cgi_handler () {

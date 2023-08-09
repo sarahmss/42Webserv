@@ -1,4 +1,3 @@
-
 DOCUMENT_ROOT       diretorio raiz do server
 HTTP_HOST           hostname da pagina a ser acessada
 HTTP_REFERER        url que chamou o programa
