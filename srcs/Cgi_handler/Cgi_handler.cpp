@@ -1,6 +1,7 @@
 
 
 #include "Cgi_handler.hpp"
+#include <unistd.h>
 
 // php program handler
 // python program handler
@@ -57,35 +58,43 @@ std::string FT::Cgi_handler::_get_extension(std::string req_path) {
     return req_path.substr(index);
 }
 
+// Return value meaning
+// 1 = no extension specified
+// 0 = Success
+// -1 = Failure at some point
 int FT::Cgi_handler::cgi_handler(
         std::string root_directory,
         std::string req_script,
         std::string body) {
 
     int status;
+    char buff[10000];
     std::string extension = _get_extension(req_script);
     std::string full_path = root_directory + "/" + req_script;
 
     if (extension == "")
+        return (1);
+    if (this->_open_socketpair() == -1)
         return (-1);
 
-    this->_open_socketpair();
     int child_pid = fork();
     if (child_pid == -1)
         std::cerr << "Failure at fork()" << std::endl;
 
     if (child_pid > 0) {
-        close(_socketpair_fd[0]);
         waitpid(child_pid, &status, 0);
+        read(_socketpair_fd[0], buff, 10000);
     }
-    else
+    else {
         _handler(root_directory, req_script, extension, body);
+    }
 
+    close(_socketpair_fd[0]);
     close(_socketpair_fd[1]);
     return 0;
 }
 
-char const **FT::Cgi_handler::_make_env_list(std::vector<const char *> &env_vector) {
+char const **FT::Cgi_handler::_make_list(std::vector<const char *> &env_vector) {
     for (env_var_t::iterator iter = _env.begin(); iter != _env.end(); iter++ ) {
         std::string buff = iter->first + "=" + iter->second;
         env_vector.push_back(buff.c_str());
@@ -94,6 +103,8 @@ char const **FT::Cgi_handler::_make_env_list(std::vector<const char *> &env_vect
     return env_vector.data();
 }
 
+// Const cast pode ser usado porque o execve so vai lar
+// os arrays de ponteiros char(string)
 void FT::Cgi_handler::_handler(
         std::string root_directory,
         std::string req_script,
@@ -102,11 +113,13 @@ void FT::Cgi_handler::_handler(
 
     std::string program = _cgi_program_list.getProgram(extension);
     std::vector<const char *> env_vector;
+    std::vector<const char *> arg_vector;
 
-    char const **envp = _make_env_list(env_vector);
+    char const **envp = _make_list(env_vector);
+    char const **arg = _make_list(arg_vector);
 
     dup2(STDOUT_FILENO, _socketpair_fd[0]);
-    execve(program.c_str(), NULL, const_cast<char **>(envp)); 
+    execve(program.c_str(), const_cast<char **>(arg), const_cast<char **>(envp)); 
     close(_socketpair_fd[0]);
     close(_socketpair_fd[1]);
     exit(2);

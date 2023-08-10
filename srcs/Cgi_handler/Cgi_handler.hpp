@@ -37,7 +37,7 @@ namespace FT {
             std::string _get_extension(std::string req_path);
 
             int         _open_socketpair();
-            char const**_make_env_list(std::vector<const char *> &env_vec);
+            char const**_make_list(std::vector<const char *> &env_vec);
 
             int         _socketpair_fd[2];
             FT::Cgi     _cgi_program_list;
