@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 20:14:35 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:57:06 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::SimpleServer::SimpleServer(const int port, int backlog) : _port(port), _backlog(backlog)
+FT::SimpleServer::SimpleServer(ServerConf confs, const int port, int backlog) :
+								_confs(confs),
+								_port(port),
+								_backlog(backlog)
 {
 	init();
 	return ;
@@ -50,9 +53,14 @@ void	FT::SimpleServer::init(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::ListeningSocket * FT::SimpleServer::getListeningSocket(void)
+FT::ListeningSocket	*FT::SimpleServer::getListeningSocket(void)
 {
 	return (socket);
+}
+
+FT::ServerConf	FT::SimpleServer::getConf(void)
+{
+	return (_confs);
 }
 
 int	FT::SimpleServer::getSocket(void)

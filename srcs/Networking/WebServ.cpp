@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/07 17:07:12 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/10 01:07:41 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::WebServ::WebServ(ServerVecType confs):
+FT::WebServ::WebServ(ConfsVecType confs):
 									_epoll(MAX_EVENTS * confs.size()),
 									_serversConfs(confs),
 									_backLog(50)
@@ -65,12 +65,12 @@ void	FT::WebServ::_groupServers(void)
 */
 void	FT::WebServ::_initServers(void)
 {
-	PortServerType::iterator	begin = _portServer.begin();
-	PortServerType::iterator	end = _portServer.end();
-
-	for (int i  = 0; begin != end; begin++, i++)
+	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
-		SimpleServer	*newServer = new SimpleServer(begin->first, _backLog);
+		int port = _serversConfs[i].getListen().getPort();
+		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
+														port,
+														_backLog);
 		_addToPoll(newServer);
 		_simpleServers.push_back(newServer);
 	}
@@ -108,9 +108,12 @@ void	FT::WebServ::_coreLoop(void)
 
 			_accepter(server);
 			if (currentEvent.events & EPOLLIN)
-				_responder(server);
-			if (currentEvent.events & EPOLLOUT)
 				_handler(server);
+			if (currentEvent.events & EPOLLOUT)
+			{
+				std::cout << "Prestes a responder\n";
+				_responder(server);
+			}
 			if (currentEvent.events & EPOLLERR)
 			{
 				_removeFromPoll(server->getClientSocket());
@@ -139,13 +142,14 @@ void	FT::WebServ::_accepter(SimpleServer* server)
 	_epoll.add(clientSocket, _epoll.ServerToData(server), EPOLLIN | EPOLLOUT);
 	server->setClientSocket(clientSocket);
 }
+
 void	FT::WebServ::_handler(SimpleServer* server)
 {
 	int		clientSocket = server->getClientSocket();
-	Request	Request(clientSocket);
+	Handler	Handler(clientSocket, server->getConf());
 
-	Request.launch();
-	std::cout << Request.getRequestParser();
+	Handler.launch();
+	std::cout << Handler.getRequestParser();
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
 }
 
@@ -159,6 +163,7 @@ void	FT::WebServ::_responder(SimpleServer* server)
 
 	if (send(clientSocket, resp_build.get_cresponse(), resp_build.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");
+	std::cout << "Resposta enviada\n";
 	_removeFromPoll(clientSocket);
 	resp_build.reset();
 }

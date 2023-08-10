@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:40:28 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void	FT::ServerParser::_setCgi(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::Server		FT::ServerParser::getServer(void) const
+FT::ServerConf		FT::ServerParser::getServer(void) const
 {
 	return (_server);
 }

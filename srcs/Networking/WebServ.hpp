@@ -15,7 +15,7 @@
 
 # include "../multiplexing/PollHandler.hpp"
 
-typedef std::map<int, ServerVecType>	PortServerType;
+typedef std::map<int, ConfsVecType>	PortServerType;
 typedef std::vector<FT::SimpleServer *>	SimpleServerVecType;
 
 namespace FT
@@ -24,7 +24,7 @@ namespace FT
 	{
 		public:
 
-			WebServ(ServerVecType confs);
+			WebServ(ConfsVecType confs);
 			~WebServ();
 
 			void	launch(void);
@@ -32,7 +32,7 @@ namespace FT
 		private:
 			PollHandler			_epoll;
 			SimpleServerVecType	_simpleServers;
-			ServerVecType		_serversConfs;
+			ConfsVecType		_serversConfs;
 			PortServerType		_portServer;
 			size_t				_backLog;
 			ResponseBuilder		resp_build;

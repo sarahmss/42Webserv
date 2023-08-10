@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:37:23 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 21:21:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:58:18 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define PARSER_HPP
 
 #include "./ParserUtils.hpp"
-#include "./Server.hpp"
 #include "./ServerParser.hpp"
 #include <vector>
 #include <sstream>
@@ -23,7 +22,7 @@
 #include <fstream>
 
 
-typedef std::vector<FT::Server> ServerVecType;
+typedef std::vector<FT::ServerConf> ConfsVecType;
 
 namespace	FT
 {
@@ -37,10 +36,10 @@ namespace	FT
 			Parser	&operator=(Parser const& rhs);
 
 			void			launch(std::string filename);
-			const			ServerVecType	&getServers(void) const;
+			const			ConfsVecType	&getServers(void) const;
 
 		private:
-			ServerVecType	_servers;
+			ConfsVecType	_servers;
 			std::ifstream	_fileStream;
 			std::string		_line;
 

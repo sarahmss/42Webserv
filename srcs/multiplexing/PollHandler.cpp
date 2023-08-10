@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:03:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/07 16:18:53 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:15:27 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int FT::PollHandler::add(int fd, epoll_data_t data, uint32_t events)
 	}
 	return (0);
 }
+
 int FT::PollHandler::modify(int fd, epoll_data_t data, uint32_t newEvents)
 {
 	epollEventType event;

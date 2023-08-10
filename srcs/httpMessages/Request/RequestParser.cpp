@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 19:00:19 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:24:00 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ FT::RequestParser::RequestParser() { return ;}
 
 FT::RequestParser::RequestParser(int socketFd)
 {
+	_method = "";
+	_uri = "";
+	_protocolVersion = "";
 	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
@@ -57,15 +60,15 @@ std::ostream &FT::operator<<(std::ostream &o, const FT::RequestParser &rhs)
 	FT::HeadersType				headers = rhs.getHeaders();
 	FT::HeadersType::iterator	it = headers.begin();
 
-	std::cout << "Method: " << rhs.getMethod() << std::endl;
-	std::cout << "URI: " << rhs.getUri() << std::endl;
-	std::cout << "ProtocolVersion: " << rhs.getProtocolVersion() << std::endl;
+	o << "Method: " << rhs.getMethod() << std::endl;
+	o << "URI: " << rhs.getUri() << std::endl;
+	o << "ProtocolVersion: " << rhs.getProtocolVersion() << std::endl;
 	while (it != headers.end())
 	{
 		o << it->first << " " << it->second << std::endl;
 		it++;
 	}
-	std::cout << "Body: " << rhs.getBody() << std::endl;
+	o << "Body: " << rhs.getBody() << std::endl;
 	return (o);
 }
 
@@ -97,7 +100,7 @@ void	FT::RequestParser::_parseRequestLine(std::string RequestLine)
 	_method = line;
 	std::getline(RequestLineStream, line, ' ');
 	_uri = line;
-	std::getline(RequestLineStream, line, ' ');
+	std::getline(RequestLineStream, line, '\r');
 	_protocolVersion = line;
 }
 
@@ -127,6 +130,7 @@ void	FT::RequestParser::_parseBody()
 	if (bodyStatus == CHUNKED)
 		_headers["Content-Length:"] = body.getContentLength();
 	_body = body.getBody();
+	_multPart = body.IsMultipartForm();
 }
 
 /*
@@ -167,4 +171,13 @@ std::string	FT::RequestParser::getProtocolVersion() const
 	return (_protocolVersion);
 }
 
+int			FT::RequestParser::getContentLength(void) const
+{
+	return (stoi(_headers.at("Content-Length:")));
+}
+
+bool FT::RequestParser::IsMultipartForm()
+{
+	return(_multPart);
+}
 /* ************************************************************************** */

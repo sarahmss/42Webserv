@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:08:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:58:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fstream>
 # include <string>
 # include "ParserUtils.hpp"
-# include "Server.hpp"
+# include "ServerConf.hpp"
 # include "Directives/LocationParser.hpp"
 # include "Directives/Listen.hpp"
 
@@ -37,12 +37,12 @@ namespace FT
 			ServerParser	&operator=( ServerParser const & rhs );
 
 			void			launch(std::ifstream &ifstream, std::string line );
-			FT::Server		getServer(void) const;
+			FT::ServerConf		getServer(void) const;
 			std::string		getLine(void) const;
 
 
 		private:
-			FT::Server	_server;
+			FT::ServerConf	_server;
 			std::string	_line;
 
 			void	_parseLocationBlock(std::ifstream &ifstream);

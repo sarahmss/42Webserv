@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:29:38 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/09 23:42:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	FT::Parser::_parseServerBlock(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-const ServerVecType	&FT::Parser::getServers(void) const
+const ConfsVecType	&FT::Parser::getServers(void) const
 {
 	return (_servers);
 }

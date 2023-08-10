@@ -12,21 +12,21 @@ static std::string cast_to_string(int num) {
 }
 
 FT::ResponseBuilder::ResponseBuilder() {
-    response = "";
-    _code_description.insert(std::make_pair("200", "OK"));
-    _code_description.insert(std::make_pair("201", "Created"));
-    _code_description.insert(std::make_pair("204", "Not created"));
+	response = "";
+	_code_description.insert(std::make_pair("200", "OK"));
+	_code_description.insert(std::make_pair("201", "Created"));
+	_code_description.insert(std::make_pair("204", "Not created"));
 
-    _code_description.insert(std::make_pair("302", "Found"));
+	_code_description.insert(std::make_pair("302", "Found"));
 
-    _code_description.insert(std::make_pair("400", "Bad Request"));
-    _code_description.insert(std::make_pair("401", "Unauthorized"));
-    _code_description.insert(std::make_pair("403", "Forbidden"));
-    _code_description.insert(std::make_pair("404", "Not found"));
+	_code_description.insert(std::make_pair("400", "Bad Request"));
+	_code_description.insert(std::make_pair("401", "Unauthorized"));
+	_code_description.insert(std::make_pair("403", "Forbidden"));
+	_code_description.insert(std::make_pair("404", "Not found"));
 
-    _code_description.insert(std::make_pair("500", "Internal Error"));
-    _code_description.insert(std::make_pair("503", "Service Unavalaible"));
-}
+	_code_description.insert(std::make_pair("500", "Internal Error"));
+	_code_description.insert(std::make_pair("503", "Service Unavalaible"));
+	}
 
 FT::ResponseBuilder::~ResponseBuilder() { return ; }
 

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_HPP
-# define SERVER_HPP
+#ifndef SERVER_CONF_HPP
+# define SERVER_CONF_HPP
 
 # include <iostream>
 # include <string>
@@ -30,14 +30,14 @@
 
 namespace FT
 {
-	class Server
+	class ServerConf
 	{
 		public:
-			Server();
-			Server( Server const & src );
-			~Server();
+			ServerConf();
+			ServerConf( ServerConf const & src );
+			~ServerConf();
 
-			Server &	operator=( Server const & rhs );
+			ServerConf &	operator=( ServerConf const & rhs );
 
 			ListenType			getListen(void) const;
 			ServerNameType		getServerName(void) const;
@@ -78,6 +78,6 @@ namespace FT
 
 	};
 
-	std::ostream &			operator<<( std::ostream & o, Server const & i );
+	std::ostream &			operator<<( std::ostream & o, ServerConf const & i );
 }
 #endif /* ****************************************************** SERVER_H */

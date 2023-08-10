@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/07 17:03:01 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/10 02:20:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	FT::Body::_ReadMessageBody(void)
 
 void	FT::Body::_getBodyMessage(std::string &Body)
 {
-	if (_IsMultipartForm() == true)
+	if (IsMultipartForm() == true)
 	{
 		_ClearHeader(Body);
 		_ClearFooter(Body);
@@ -115,7 +115,7 @@ void	FT::Body::_getBodyMessage(std::string &Body)
 	_body = Body;
 }
 
-bool FT::Body::_IsMultipartForm(void)
+bool FT::Body::IsMultipartForm(void)
 {
 	std::string	contentType;
 

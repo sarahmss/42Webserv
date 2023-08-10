@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/04 17:42:26 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/09 23:26:21 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/Networking/Sockets/SimpleSocket.cpp				\
 				./srcs/Networking/SimpleServer.cpp						\
 				./srcs/httpMessages/Utils.cpp							\
-				./srcs/httpMessages/Request/Request.cpp					\
+				./srcs/httpMessages/Request/Handler.cpp					\
 				./srcs/httpMessages/Request/RequestParser.cpp			\
 				./srcs/httpMessages/Request/Body.cpp					\
 				./srcs/httpMessages/Response/ResponseBuilder.cpp		\
@@ -62,7 +62,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Networking/Sockets/SimpleSocket.hpp				\
 					./srcs/Networking/SimpleServer.hpp						\
 					./srcs/httpMessages/Utils.hpp							\
-					./srcs/httpMessages/Request/Request.hpp					\
+					./srcs/httpMessages/Request/Handler.hpp					\
 					./srcs/httpMessages/Request/RequestParser.hpp			\
 					./srcs/httpMessages/Request/Body.hpp					\
 					./srcs/httpMessages/Response/ResponseBuilder.hpp		\
