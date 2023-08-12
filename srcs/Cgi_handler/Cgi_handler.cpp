@@ -116,10 +116,12 @@ void FT::Cgi_handler::_handler(
     std::vector<const char *> arg_vector;
 
     char const **envp = _make_list(env_vector);
-    char const **arg = _make_list(arg_vector);
+    const char *arg[2];
+    arg[0] = program.c_str();
+    arg[1] = 0;
 
     dup2(STDOUT_FILENO, _socketpair_fd[0]);
-    execve(program.c_str(), const_cast<char **>(arg), const_cast<char **>(envp)); 
+    execve(arg[0], const_cast<char **>(arg), const_cast<char **>(envp)); 
     close(_socketpair_fd[0]);
     close(_socketpair_fd[1]);
     exit(2);
