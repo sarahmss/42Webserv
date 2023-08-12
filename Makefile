@@ -20,6 +20,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/Settings/Parser.cpp								\
 				./srcs/Settings/ParserUtils.cpp							\
 				./srcs/Settings/Server.cpp								\
+				./srcs/Directory_listing/Dir_listing.cpp				\
 				./srcs/Settings/ServerParser.cpp						\
 				./srcs/Settings/Directives/Cgi.cpp						\
 				./srcs/Settings/Directives/ErrorPages.cpp				\
@@ -52,6 +53,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Settings/ServerParser.hpp						\
 					./srcs/Settings/Directives/Cgi.hpp						\
 					./srcs/Settings/Directives/ErrorPages.hpp				\
+					./srcs/Directory_listing/Dir_listing.hpp				\
 					./srcs/Settings/Directives/Listen.hpp					\
 					./srcs/Settings/Directives/Location.hpp					\
 					./srcs/Settings/Directives/LocationParser.hpp			\
@@ -83,13 +85,14 @@ $(NAME):	$(OBJS) $(HEADERS)
 			$(CC) $(OBJS) $(FLAGS) $(INCLUDES) -o $(NAME)
 
 $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
-			@mkdir -p objects
 			@mkdir -p objects/srcs/Settings/Directives
 			@mkdir -p objects/srcs/Networking/Sockets
 			@mkdir -p objects/srcs/httpMessages/Request
 			@mkdir -p objects/srcs/httpMessages/Response
 			@mkdir -p objects/srcs/httpMessages/Response/File_operation
 			@mkdir -p objects/srcs/Cgi_handler
+			@mkdir -p objects/srcs/Directory_listing
+			
 
 
 			$(CC) $(FLAGS) -c  $< -o $@
