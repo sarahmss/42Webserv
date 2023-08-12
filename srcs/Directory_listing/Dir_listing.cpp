@@ -98,10 +98,3 @@ std::string FT::Dir_listing::generate_listing_page (std::string root_dir, std::s
     closedir(dir);
     return page;
 }
-
-int main () {
-    FT::Dir_listing list_file;
-    std::string k = list_file.generate_listing_page("/home/pewpan");
-    std::cout << k << std::endl;
-    return 0;
-}
