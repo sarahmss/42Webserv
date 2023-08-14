@@ -29,8 +29,7 @@ namespace FT {
             void    _not_found();
             void    _error();
 
-            void    _handler(std::string extension,
-                        std::string body);
+            void    _handler(std::string extension);
 
             std::string _get_extension(std::string req_path);
 

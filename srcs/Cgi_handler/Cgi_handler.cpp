@@ -78,11 +78,12 @@ int FT::Cgi_handler::cgi_handler(std::string body="") {
         std::cerr << "Failure at fork()" << std::endl;
 
     if (child_pid > 0) {
+        write(_socketpair_fd[1], body.c_str(), body.size());
         waitpid(child_pid, &status, 0);
         read(_socketpair_fd[0], buff, 10000);
     }
     else {
-        _handler(extension, body);
+        _handler(extension);
     }
 
     close(_socketpair_fd[0]);
@@ -101,8 +102,7 @@ char const **FT::Cgi_handler::_make_list(std::vector<const char *> &env_vector) 
 
 // Const cast pode ser usado porque o execve so vai lar
 // os arrays de ponteiros char(string)
-void FT::Cgi_handler::_handler( std::string extension,
-        std::string body = "") {
+void FT::Cgi_handler::_handler( std::string extension) {
 
     std::string program = _cgi_program_list.getProgram(extension);
     std::vector<const char *> env_vector;
@@ -113,6 +113,7 @@ void FT::Cgi_handler::_handler( std::string extension,
     arg[0] = program.c_str();
     arg[1] = 0;
 
+    dup2(STDIN_FILENO, _socketpair_fd[1]);
     dup2(STDOUT_FILENO, _socketpair_fd[0]);
     execve(arg[0], const_cast<char **>(arg), const_cast<char **>(envp)); 
     close(_socketpair_fd[0]);
