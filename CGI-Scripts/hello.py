@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
-import os
+# import os
 
-print(os.environ)
+
 print("Content-type:text/html\r\n\r\n")
 print('<html>')
 print('<head>')

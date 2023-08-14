@@ -85,7 +85,6 @@ std::string FT::Dir_listing::generate_listing_page (std::string root_dir, std::s
         throw std::invalid_argument("The path given it's not a directory!");
 
     DIR *dir = opendir(full_path.c_str());
-    struct dirent *file = readdir(dir);
 
     std::string page = "<html>";
     _add_header(page,

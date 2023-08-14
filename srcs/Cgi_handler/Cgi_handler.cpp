@@ -62,15 +62,11 @@ std::string FT::Cgi_handler::_get_extension(std::string req_path) {
 // 1 = no extension specified
 // 0 = Success
 // -1 = Failure at some point
-int FT::Cgi_handler::cgi_handler(
-        std::string root_directory,
-        std::string req_script,
-        std::string body) {
+int FT::Cgi_handler::cgi_handler(std::string body="") {
 
     int status;
     char buff[10000];
-    std::string extension = _get_extension(req_script);
-    std::string full_path = root_directory + "/" + req_script;
+    std::string extension = _get_extension(_env["SCRIPT_FILENAME"]);
 
     if (extension == "")
         return (1);
@@ -86,7 +82,7 @@ int FT::Cgi_handler::cgi_handler(
         read(_socketpair_fd[0], buff, 10000);
     }
     else {
-        _handler(root_directory, req_script, extension, body);
+        _handler(extension, body);
     }
 
     close(_socketpair_fd[0]);
@@ -105,10 +101,7 @@ char const **FT::Cgi_handler::_make_list(std::vector<const char *> &env_vector) 
 
 // Const cast pode ser usado porque o execve so vai lar
 // os arrays de ponteiros char(string)
-void FT::Cgi_handler::_handler(
-        std::string root_directory,
-        std::string req_script,
-        std::string extension,
+void FT::Cgi_handler::_handler( std::string extension,
         std::string body = "") {
 
     std::string program = _cgi_program_list.getProgram(extension);

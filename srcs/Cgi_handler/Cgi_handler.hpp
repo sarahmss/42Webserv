@@ -23,15 +23,13 @@ namespace FT {
 			Cgi_handler (Cgi_handler &other);
 			Cgi_handler& operator=(const Cgi_handler &other);
 
-            int     cgi_handler(std::string root_directory, std::string parsed_req, std::string body);
+            int     cgi_handler(std::string body);
 
         private:
             void    _not_found();
             void    _error();
 
-            void    _handler(std::string root_directory,
-                        std::string req_script,
-                        std::string extension,
+            void    _handler(std::string extension,
                         std::string body);
 
             std::string _get_extension(std::string req_path);
