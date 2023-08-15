@@ -56,13 +56,13 @@ bool	Handler::_checkRedirection(void)
 	return (true);
 }
 
-void	Handler::_checkRequest(void)
+void	Handler::_checkRequest()
 {
 	std::string	method = _requestParsed.getMethod();
 	std::string	uri = _requestParsed.getUri();
 	std::string	protocolVersion = _requestParsed.getProtocolVersion();
 
-	//std::cout << method << " " << uri << " " << protocolVersion << " " << std::endl;
+	std::cout << method << " " << uri << " " << _requestParsed.getProtocolVersion() << " " << std::endl;
 	if ( method == "" || uri == "" || protocolVersion == "")
 		throw (std::invalid_argument("Invalid request [Missing arg in request line]"));
 }

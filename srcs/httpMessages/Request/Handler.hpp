@@ -47,7 +47,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 			std::string			_method;
 
 
-			void				_checkRequest(void);
+			void				_checkRequest();
 			void				_selectLocation(void);
 			LocationQueueType	_checkLocation(void);
 			std::string			_setPrefix(Location location);

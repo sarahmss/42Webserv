@@ -27,12 +27,13 @@
 			bool		IsMultipartForm();
 			std::string	getRequest() const;
 			std::string	getMethod() const;
+			std::string	getProtocolVersion() const;
 			std::string	getUri() const;
 			HeadersType	getHeaders() const;
 			std::string	getHeader(const std::string &HeaderName) const;
 			std::string	getBody() const;
-			std::string	getProtocolVersion() const;
 			std::string	getServerName(void) const;
+			std::string getTeste() const;
 			int			getContentLength(void) const;
 
 		private:
@@ -42,6 +43,7 @@
 			std::string	_method;
 			std::string	_uri;
 			std::string	_protocolVersion;
+			std::string teste;
 			bool		_multPart;
 
 			void		_parseRequest(void);

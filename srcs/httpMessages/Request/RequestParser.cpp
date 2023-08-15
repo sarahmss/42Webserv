@@ -20,12 +20,14 @@ RequestParser::RequestParser() { return ;}
 
 RequestParser::RequestParser(int socketFd)
 {
+	std::cout << "teste:" << socketFd << std::endl;
 	_method = "";
-	_uri = "";
 	_protocolVersion = "";
+	_uri = "";
 	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
+	
 }
 
 RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -44,12 +46,14 @@ RequestParser::~RequestParser() { return ; }
 
 RequestParser &	RequestParser::operator=( RequestParser const & rhs )
 {
+	std::cout << "entrouuu" << std::endl;
 	if ( this != &rhs )
 	{
 		this->_body = rhs.getBody();
 		this->_headers = rhs.getHeaders();
 		this->_method = rhs.getMethod();
 		this->_uri = rhs.getUri();
+		this->_protocolVersion = rhs.getProtocolVersion();
 	}
 	return *this;
 }
@@ -102,6 +106,9 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	_uri = line;
 	std::getline(RequestLineStream, line, '\r');
 	_protocolVersion = line;
+	teste = "oi";
+	//std::cout << _method << " " << _uri << " t" << _protocolVersion << " " << std::endl;
+	
 }
 
 void	RequestParser::_parseHeader(const std::string Headers)
@@ -147,8 +154,15 @@ std::string	RequestParser::getMethod() const
 {
 	return (_method);
 }
+
+std::string	RequestParser::getProtocolVersion() const
+{
+	return (_protocolVersion);
+}
+
 std::string	RequestParser::getUri() const
 {
+	std::cout << "GETURI: "<< _protocolVersion << std::endl;
 	return (_uri);
 }
 HeadersType	RequestParser::getHeaders() const
@@ -166,9 +180,9 @@ std::string	RequestParser::getBody() const
 	return (_body);
 }
 
-std::string	RequestParser::getProtocolVersion() const
+std::string RequestParser::getTeste() const
 {
-	return (_protocolVersion);
+	return (teste);
 }
 
 int			RequestParser::getContentLength(void) const
