@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 03:39:19 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:53:50 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,25 @@
 /*
 	@brief Return true if map contains key
 */
-bool	FT::MapHasKey(FT::HeadersType map, std::string key)
+bool	MapHasKey(HeadersType map, std::string key)
 {
 	return (map.find(key) != map.end());
 }
 
-std::string	FT::getMapItem(FT::HeadersType map, std::string key)
+std::string	getMapItem(HeadersType map, std::string key)
 {
 	if (MapHasKey(map, (key)))
 		return (map[(key)]);
 	return ("");
 }
 
-void FT::checkSlash(std::string &path)
+void checkSlash(std::string &path)
 {
 	if (*path.rbegin() != '/')
 			path.append("/");
 }
 
-bool FT::findIndex(std::string &path, std::vector<std::string> indexes)
+bool findIndex(std::string &path, std::vector<std::string> indexes)
 {
 	if (indexes.size())
 	{
@@ -49,18 +49,25 @@ bool FT::findIndex(std::string &path, std::vector<std::string> indexes)
 	return (false);
 }
 
-bool	FT::isKnownMethod(std::string method)
+std::string intToString(int value)
 {
-	std::vector<std::string>	Methods = {"HEAD", "GET", "POST",
-											"PUT", "DELETE", "PATCH"};
+	std::ostringstream oss;
+	oss << value;
+	return oss.str();
+}
 
-	for (const std::string& knownMethod : Methods)
-		if (method == knownMethod)
+bool	isKnownMethod(std::string method)
+{
+	std::string Methods[7] = {"HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"};
+
+
+	for (int i = 0; i < 7; i++)
+		if (method == Methods[i])
 			return (true);
 	return (false);
 }
 
-bool	FT::isDirectory(std::string path)
+bool	isDirectory(std::string path)
 {
 	struct stat s;
 	if ((stat(path.c_str(), &s) == 0) && (s.st_mode & S_IFDIR))
@@ -68,7 +75,7 @@ bool	FT::isDirectory(std::string path)
 	return (false);
 }
 
-bool FT::isFile(std::string path)
+bool isFile(std::string path)
 {
 	struct stat s;
 	if ((stat(path.c_str(), &s) == 0) && (s.st_mode & S_IFREG))
@@ -76,20 +83,20 @@ bool FT::isFile(std::string path)
 	return (false);
 }
 
-std::string	FT::getFilePath(std::string path, std::string filename)
+std::string	getFilePath(std::string path, std::string filename)
 {
 	if (filename == "")
 		throw (std::invalid_argument("Invalid Request [filename]"));
 	return (path + filename);
 }
 
-std::string	FT::getFileLocation(std::string fileName, std::string fileLocation)
+std::string	getFileLocation(std::string fileName, std::string fileLocation)
 {
 	checkSlash(fileLocation);
 	return (getFilePath(fileLocation, fileName));
 }
 
-FT::strPairType	FT::getFileContent(std::string path)
+strPairType	getFileContent(std::string path)
 {
 	std::stringstream buffer;
 	std::ifstream file(path.c_str());
@@ -100,7 +107,7 @@ FT::strPairType	FT::getFileContent(std::string path)
 	return std::make_pair(buffer.str(), path);
 }
 
-FT::strPairType	FT::getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri)
+strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri)
 {
 	std::string		body(AUTOINDEX_HTML_HEAD);
 	DIR				*dir;
@@ -127,7 +134,7 @@ FT::strPairType	FT::getAutoIndexContent(std::string path, std::string host, std:
 }
 
 
-std::string	FT::getSockStreamLine(int socketFd)
+std::string	getSockStreamLine(int socketFd)
 {
 	ssize_t		bytes = 0;
 	char		buffer[BUFFSIZE]= {0};

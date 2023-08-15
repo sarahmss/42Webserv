@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:27:22 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 23:12:49 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:46:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ std::string	SetConfigurationFile(int argc, char *argv[])
 	return(argv[1]);
 }
 
-void	ParseConfigurationFile(FT::Parser &parser, std::string filename)
+void	ParseConfigurationFile(Parser &parser, std::string filename)
 {
 	try {
 		parser.launch(filename);
@@ -43,11 +43,11 @@ void	ParseConfigurationFile(FT::Parser &parser, std::string filename)
 int main(int argc, char **argv)
 {
 	std::string	filename;
-	FT::Parser	parser;
+	Parser	parser;
 
 	filename = SetConfigurationFile(argc, argv);
 	ParseConfigurationFile(parser, filename);
 
-	FT::WebServ	WebServ(parser.getServers());
+	WebServ	WebServ(parser.getServers());
 	WebServ.launch();
 }

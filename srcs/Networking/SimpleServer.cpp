@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/09 23:57:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::SimpleServer::SimpleServer(ServerConf confs, const int port, int backlog) :
+SimpleServer::SimpleServer(ServerConf confs, const int port, int backlog) :
 								_confs(confs),
 								_port(port),
 								_backlog(backlog)
@@ -29,7 +29,7 @@ FT::SimpleServer::SimpleServer(ServerConf confs, const int port, int backlog) :
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::SimpleServer::~SimpleServer()
+SimpleServer::~SimpleServer()
 {
 	close(getSocket());
 	delete socket;
@@ -44,7 +44,7 @@ FT::SimpleServer::~SimpleServer()
 /*
 	@brief: Creates a new instance of ListeningSocket to create a socket wich is able to accept connections
 */
-void	FT::SimpleServer::init(void)
+void	SimpleServer::init(void)
 {
 	socket = new ListeningSocket(AF_INET, SOCK_STREAM, 0, _port,  INADDR_ANY, _backlog);
 }
@@ -53,37 +53,37 @@ void	FT::SimpleServer::init(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::ListeningSocket	*FT::SimpleServer::getListeningSocket(void)
+ListeningSocket	*SimpleServer::getListeningSocket(void)
 {
 	return (socket);
 }
 
-FT::ServerConf	FT::SimpleServer::getConf(void)
+ServerConf	SimpleServer::getConf(void)
 {
 	return (_confs);
 }
 
-int	FT::SimpleServer::getSocket(void)
+int	SimpleServer::getSocket(void)
 {
 	return (getListeningSocket()->get_sock());
 }
 
-int	FT::SimpleServer::getClientSocket(void)
+int	SimpleServer::getClientSocket(void)
 {
 	return (_clientSocket);
 }
 
-void	FT::SimpleServer::setClientSocket(int clientSocket)
+void	SimpleServer::setClientSocket(int clientSocket)
 {
 	_clientSocket = clientSocket;
 }
 
-int	FT::SimpleServer::getPort(void)
+int	SimpleServer::getPort(void)
 {
 	return (_port);
 }
 
-int	FT::SimpleServer::getBacklog(void)
+int	SimpleServer::getBacklog(void)
 {
 	return (_backlog);
 }

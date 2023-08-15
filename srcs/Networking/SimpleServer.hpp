@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:51 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 00:41:43 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:42:46 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@
 # include "../httpMessages/Request/RequestParser.hpp"
 # include "../httpMessages/Request/Handler.hpp"
 
-namespace FT
-{
-	class SimpleServer
+		class SimpleServer
 	{
 		public:
 			SimpleServer(ServerConf Confs, const int port, int backlog);
@@ -46,6 +44,5 @@ namespace FT
 			int				_port;
 			int				_backlog;
 	};
-}
 
 #endif /* **************************************************** SIMPLESERVER_H */

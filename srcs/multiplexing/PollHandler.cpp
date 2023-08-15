@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:03:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/07 17:15:27 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 	@brief:
 		@param:eventsMax: max number of events to watch
 */
-FT::PollHandler::PollHandler(size_t eventsMax) : _eventsMax(eventsMax)
+PollHandler::PollHandler(size_t eventsMax) : _eventsMax(eventsMax)
 {
 	_epollFd = epoll_create(1);
 	if (_epollFd == -1)
@@ -33,7 +33,7 @@ FT::PollHandler::PollHandler(size_t eventsMax) : _eventsMax(eventsMax)
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::PollHandler::~PollHandler()
+PollHandler::~PollHandler()
 {
 	delete[] _interestList;
 	close(_epollFd);
@@ -43,7 +43,7 @@ FT::PollHandler::~PollHandler()
 ** --------------------------------- METHODS ----------------------------------
 */
 
-int FT::PollHandler::add(int fd, epoll_data_t data, uint32_t events)
+int PollHandler::add(int fd, epoll_data_t data, uint32_t events)
 {
 	epollEventType	event;
 
@@ -57,7 +57,7 @@ int FT::PollHandler::add(int fd, epoll_data_t data, uint32_t events)
 	return (0);
 }
 
-int FT::PollHandler::modify(int fd, epoll_data_t data, uint32_t newEvents)
+int PollHandler::modify(int fd, epoll_data_t data, uint32_t newEvents)
 {
 	epollEventType event;
 
@@ -71,7 +71,7 @@ int FT::PollHandler::modify(int fd, epoll_data_t data, uint32_t newEvents)
 	return (0);
 }
 
-int FT::PollHandler::remove(int fd)
+int PollHandler::remove(int fd)
 {
 	if (epoll_ctl(_epollFd, EPOLL_CTL_DEL, fd, 0) == -1)
 	{
@@ -80,7 +80,7 @@ int FT::PollHandler::remove(int fd)
 	}
 	return (0);
 }
-int FT::PollHandler::wait(int timeout)
+int PollHandler::wait(int timeout)
 {
 	int fd = epoll_wait(_epollFd, _interestList, _eventsMax, timeout);
 	if (fd == -1)
@@ -91,7 +91,7 @@ int FT::PollHandler::wait(int timeout)
 	return (fd);
 }
 
-epoll_data_t	FT::PollHandler::ServerToData(SimpleServer *server)
+epoll_data_t	PollHandler::ServerToData(SimpleServer *server)
 {
 	epoll_data_t	eventData;
 
@@ -103,7 +103,7 @@ epoll_data_t	FT::PollHandler::ServerToData(SimpleServer *server)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-struct epoll_event *FT::PollHandler::getEvents(void)
+struct epoll_event *PollHandler::getEvents(void)
 {
 	return (_interestList);
 }

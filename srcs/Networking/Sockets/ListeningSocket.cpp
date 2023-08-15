@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/04 20:14:19 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::ListeningSocket::ListeningSocket(int domain, int service, int protocol,  int port, unsigned long interface, int bklog):
+ListeningSocket::ListeningSocket(int domain, int service, int protocol,  int port, unsigned long interface, int bklog):
 BindingSocket(domain, service, protocol, port, interface)
 {
 	backlog = bklog;
@@ -25,7 +25,7 @@ BindingSocket(domain, service, protocol, port, interface)
 
 }
 
-FT::ListeningSocket::ListeningSocket( ListeningSocket & src ): FT::BindingSocket(src)
+ListeningSocket::ListeningSocket( ListeningSocket & src ): BindingSocket(src)
 {
 	this->listening = src.listening;
 	this->backlog = src.backlog;
@@ -36,7 +36,7 @@ FT::ListeningSocket::ListeningSocket( ListeningSocket & src ): FT::BindingSocket
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::ListeningSocket::~ListeningSocket()
+ListeningSocket::~ListeningSocket()
 {
 	return ;
 }
@@ -46,11 +46,11 @@ FT::ListeningSocket::~ListeningSocket()
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::ListeningSocket &				FT::ListeningSocket::operator=( ListeningSocket  & rhs )
+ListeningSocket &				ListeningSocket::operator=( ListeningSocket  & rhs )
 {
 	if ( this != &rhs )
 	{
-        FT::BindingSocket::operator=(rhs);
+        BindingSocket::operator=(rhs);
 		this->listening = rhs.getListening();
 		this->backlog = rhs.getBacklog();
 	}
@@ -61,7 +61,7 @@ FT::ListeningSocket &				FT::ListeningSocket::operator=( ListeningSocket  & rhs 
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void FT::ListeningSocket::startListening()
+void ListeningSocket::startListening()
 {
 	listening = listen(get_sock(), backlog);
 }
@@ -70,12 +70,12 @@ void FT::ListeningSocket::startListening()
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-int FT::ListeningSocket::getListening()
+int ListeningSocket::getListening()
 {
 	return (listening);
 }
 
-int FT::ListeningSocket::getBacklog()
+int ListeningSocket::getBacklog()
 {
 	return (backlog);
 }

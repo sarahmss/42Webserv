@@ -22,14 +22,13 @@
 # include "./Directives/ErrorPages.hpp"
 
 # define ServerNameType		std::vector<std::string>
-# define ListenType			FT::Listen
-# define LocationType		FT::Location
-# define LocationVecType	std::vector<FT::Location>
-# define ErrorType			FT::ErrorPages
-# define CgiType			FT::Cgi
+# define ListenType			Listen
+# define LocationType		Location
+# define LocationVecType	std::vector<Location>
+# define ErrorType			ErrorPages
+# define CgiType			Cgi
 
-namespace FT
-{
+
 	class ServerConf
 	{
 		public:
@@ -79,5 +78,4 @@ namespace FT
 	};
 
 	std::ostream &			operator<<( std::ostream & o, ServerConf const & i );
-}
 #endif /* ****************************************************** SERVER_H */

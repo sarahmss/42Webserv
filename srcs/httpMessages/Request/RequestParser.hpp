@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 02:23:04 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:59:02 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 # define REQUESTPARSER_HPP
 
 #include "Body.hpp"
-
-namespace FT
-{
-		class RequestParser
+	class RequestParser
 	{
 		public:
 			RequestParser();
@@ -52,7 +49,6 @@ namespace FT
 			void		_parseRequestLine(std::string RequestLine);
 			void		_parseHeader(const std::string Headers);
 	};
-	std::ostream &operator<<(std::ostream &o, const FT::RequestParser &rhs);
-}
+	std::ostream &operator<<(std::ostream &o, const RequestParser &rhs);
 
 #endif /* *************************************************** REQUESTPARSER_H */

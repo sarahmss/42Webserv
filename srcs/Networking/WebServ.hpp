@@ -14,13 +14,12 @@
 #define WEB_SERV_HPP
 
 # include "../multiplexing/PollHandler.hpp"
+# include "../httpMessages/Response/ResponseBuilder.hpp"
 
 typedef std::map<int, ConfsVecType>	PortServerType;
-typedef std::vector<FT::SimpleServer *>	SimpleServerVecType;
+typedef std::vector<SimpleServer *>	SimpleServerVecType;
 
-namespace FT
-{
-		class WebServ
+	class WebServ
 	{
 		public:
 
@@ -46,6 +45,5 @@ namespace FT
 			void			_handler(SimpleServer* server);
 			void			_responder(SimpleServer* server);
 	};
-}
 
 #endif /* ******************************************************* WebServ_H */

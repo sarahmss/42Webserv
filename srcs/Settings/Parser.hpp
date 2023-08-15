@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:37:23 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 02:58:18 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:40:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@
 #include <fstream>
 
 
-typedef std::vector<FT::ServerConf> ConfsVecType;
-
-namespace	FT
-{
+typedef std::vector<ServerConf> ConfsVecType;
 	class	Parser
 	{
 		public:
@@ -46,8 +43,7 @@ namespace	FT
 			void _parseFile(void);
 			void _parseServerBlock(void);
 	};
+	std::ostream &			operator<<( std::ostream & o, Parser const & i );
 
-std::ostream &			operator<<( std::ostream & o, Parser const & i );
-}
 
 #endif //PARSER_HPP

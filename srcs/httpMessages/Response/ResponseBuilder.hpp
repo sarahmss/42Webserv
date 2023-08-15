@@ -9,7 +9,6 @@
 #ifndef RESPONSE_BUILDER
 #define RESPONSE_BUILDER
 
-namespace FT {
 	class ResponseBuilder {
 		public:
 			ResponseBuilder();
@@ -37,7 +36,4 @@ namespace FT {
 			std::map<std::string, std::string> _code_description;
 			std::string response;
 	};
-
-}
-
 #endif

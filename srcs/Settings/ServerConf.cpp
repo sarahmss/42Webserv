@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
+/*   ServerConf.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 02:11:47 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 02:11:48 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::ServerConf::ServerConf():			_listen(ListenType()),
+ServerConf::ServerConf():			_listen(ListenType()),
 								_serverName(ServerNameType()),
 								_location(LocationVecType()),
 								_errorPages(ErrorType()),
@@ -30,7 +30,7 @@ FT::ServerConf::ServerConf():			_listen(ListenType()),
 	return ;
 }
 
-FT::ServerConf::ServerConf( const ServerConf & src )
+ServerConf::ServerConf( const ServerConf & src )
 {
 	*this = src;
 }
@@ -39,13 +39,13 @@ FT::ServerConf::ServerConf( const ServerConf & src )
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::ServerConf::~ServerConf() { return ; }
+ServerConf::~ServerConf() { return ; }
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::ServerConf	&FT::ServerConf::operator=( FT::ServerConf const & rhs )
+ServerConf	&ServerConf::operator=( ServerConf const & rhs )
 {
 	if ( this != &rhs )
 	{
@@ -61,7 +61,7 @@ FT::ServerConf	&FT::ServerConf::operator=( FT::ServerConf const & rhs )
 	return *this;
 }
 
-std::ostream &	FT::operator<<( std::ostream & o, FT::ServerConf const & i )
+std::ostream &	operator<<( std::ostream & o, ServerConf const & i )
 {
 	o	<< "Listen: "				<< i.getListen()			<< std::endl
 		<< "Server Name: "			<< i.ServerNameToString()	<< std::endl
@@ -81,46 +81,46 @@ std::ostream &	FT::operator<<( std::ostream & o, FT::ServerConf const & i )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	FT::ServerConf::AddServerName(std::string serverName)
+void	ServerConf::AddServerName(std::string serverName)
 {
 	_serverName.push_back(serverName);
 }
 
-void	FT::ServerConf::AddLocation(LocationType locationBlock)
+void	ServerConf::AddLocation(LocationType locationBlock)
 {
 	_location.push_back(locationBlock);
 }
 
-void	FT::ServerConf::AddErrorPage(std::string code, std::string pagePath)
+void	ServerConf::AddErrorPage(std::string code, std::string pagePath)
 {
 	_errorPages.addPage(code, pagePath);
 }
 
-void	FT::ServerConf::AddCgi(std::string extension, std::string programPath)
+void	ServerConf::AddCgi(std::string extension, std::string programPath)
 {
 	_cgi.addProgram(extension, programPath);
 }
 
-bool	FT::ServerConf::IsListenSet(void) const
+bool	ServerConf::IsListenSet(void) const
 {
 	return (_listen.IsSet());
 }
 
-bool	FT::ServerConf::IsServerNameSet(void) const
+bool	ServerConf::IsServerNameSet(void) const
 {
 	return (!_serverName.empty());
 }
 
-bool	FT::ServerConf::IsRootSet(void) const
+bool	ServerConf::IsRootSet(void) const
 {
 	return (!_root.empty());
 }
-bool	FT::ServerConf::IsErrorPageSet(std::string code) const
+bool	ServerConf::IsErrorPageSet(std::string code) const
 {
 	return (_errorPages.hasPage(code));
 }
 
-std::string		FT::ServerConf::ServerNameToString(void) const
+std::string		ServerConf::ServerNameToString(void) const
 {
 	std::string	FinalStr;
 
@@ -132,55 +132,55 @@ std::string		FT::ServerConf::ServerNameToString(void) const
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
-ListenType	FT::ServerConf::getListen(void) const
+ListenType	ServerConf::getListen(void) const
 {
 	return (_listen);
 }
-ServerNameType	FT::ServerConf::getServerName(void) const
+ServerNameType	ServerConf::getServerName(void) const
 {
 	return (_serverName);
 }
-std::string	FT::ServerConf::getRoot(void) const
+std::string	ServerConf::getRoot(void) const
 {
 	return (_root);
 }
-std::string	FT::ServerConf::getErrorPage(std::string code) const
+std::string	ServerConf::getErrorPage(std::string code) const
 {
 	return (_errorPages.getErrorPage(code));
 }
-ErrorType	FT::ServerConf::getDefaultErrorPages(void) const
+ErrorType	ServerConf::getDefaultErrorPages(void) const
 {
 	return (_errorPagesDefault);
 }
-ErrorType	FT::ServerConf::getErrorPages(void) const
+ErrorType	ServerConf::getErrorPages(void) const
 {
 	return (_errorPages);
 }
 
-CgiType		FT::ServerConf::getCgi(void) const
+CgiType		ServerConf::getCgi(void) const
 {
 	return (_cgi);
 }
-int			FT::ServerConf::getBodySize(void) const
+int			ServerConf::getBodySize(void) const
 {
 	return (_bodySize);
 }
-LocationVecType	FT::ServerConf::getLocation(void) const
+LocationVecType	ServerConf::getLocation(void) const
 {
 	return (_location);
 }
 
-void	FT::ServerConf::SetListen(ListenType listen)
+void	ServerConf::SetListen(ListenType listen)
 {
 	_listen = listen;
 }
 
-void	FT::ServerConf::SetRoot(std::string root)
+void	ServerConf::SetRoot(std::string root)
 {
 	_root = root;
 }
 
-void	FT::ServerConf::SetBodySize(int bodySize)
+void	ServerConf::SetBodySize(int bodySize)
 {
 	_bodySize = bodySize;
 }

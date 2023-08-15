@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:35:47 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/07 16:20:55 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:42:37 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 # define MAX_EVENTS 500
 
 typedef struct epoll_event epollEventType;
-namespace FT
-{
 	class PollHandler
 	{
 		public:
@@ -44,7 +42,6 @@ namespace FT
 			int				_epollFd;
 			size_t			_eventsMax;
 	};
-}
 
 
 #endif /* ***************************************************** POLLHANDLER_H */

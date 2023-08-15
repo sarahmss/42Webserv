@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 03:40:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 21:00:21 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::Handler::Handler(int clientSocket, ServerConf conf)
+Handler::Handler(int clientSocket, ServerConf conf)
 {
 	_clientSocket = clientSocket;
 	_conf = conf;
@@ -25,12 +25,12 @@ FT::Handler::Handler(int clientSocket, ServerConf conf)
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::Handler::~Handler() { return ;}
+Handler::~Handler() { return ;}
 
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
-void	FT::Handler::launch(void)
+void	Handler::launch(void)
 {
 	_requestParsed = RequestParser(_clientSocket);
 
@@ -44,7 +44,7 @@ void	FT::Handler::launch(void)
 	_setBody();
 }
 
-bool	FT::Handler::_checkRedirection(void)
+bool	Handler::_checkRedirection(void)
 {
 	std::string	redirection;
 
@@ -53,17 +53,21 @@ bool	FT::Handler::_checkRedirection(void)
 		return (false);
 	headerField = std::make_pair("Location", redirection);
 	codeDescription = std::make_pair("301", "Moved Permanently");
+	return (true);
 }
 
-void	FT::Handler::_checkRequest(void)
+void	Handler::_checkRequest(void)
 {
-	if (_requestParsed.getMethod() == "" ||
-		_requestParsed.getUri() == "" ||
-		_requestParsed.getProtocolVersion() == "")
-		throw(std::invalid_argument("Invalid request"));
+	std::string	method = _requestParsed.getMethod();
+	std::string	uri = _requestParsed.getUri();
+	std::string	protocolVersion = _requestParsed.getProtocolVersion();
+
+	//std::cout << method << " " << uri << " " << protocolVersion << " " << std::endl;
+	if ( method == "" || uri == "" || protocolVersion == "")
+		throw (std::invalid_argument("Invalid request [Missing arg in request line]"));
 }
 
-void	FT::Handler::_selectLocation(void)
+void	Handler::_selectLocation(void)
 {
 	LocationQueueType	locations;
 
@@ -77,7 +81,7 @@ void	FT::Handler::_selectLocation(void)
 /*
 	@brief: checks which configured locations on the server match the URI ​​of the current request.
 */
-LocationQueueType	FT::Handler::_checkLocation(void)
+LocationQueueType	Handler::_checkLocation(void)
 {
 	LocationVecType		locations = _conf.getLocation();
 	LocationQueueType	result;
@@ -88,7 +92,7 @@ LocationQueueType	FT::Handler::_checkLocation(void)
 	return (result);
 }
 
-std::string	FT::Handler::_setPrefix(Location location)
+std::string	Handler::_setPrefix(Location location)
 {
 	std::string prefix = location.getPrefix();
 
@@ -97,7 +101,7 @@ std::string	FT::Handler::_setPrefix(Location location)
 	return (prefix);
 }
 
-void	FT::Handler::_checkMethod(void)
+void	Handler::_checkMethod(void)
 {
 	LocationMethodsType				methods;
 	LocationMethodsType::iterator	found;
@@ -108,12 +112,12 @@ void	FT::Handler::_checkMethod(void)
 	if (found == methods.end())
 	{
 		if (isKnownMethod(_method) == false)
-			throw(std::invalid_argument("Invalid request"));
+			throw(std::invalid_argument("Invalid request [Not Known Method]"));
 		throw(std::invalid_argument("Method not allowed: " + _method));
 	}
 }
 
-void	FT::Handler::_setBody(void)
+void	Handler::_setBody(void)
 {
 	std::string	path;
 
@@ -127,7 +131,7 @@ void	FT::Handler::_setBody(void)
 }
 
 
-std::string	FT::Handler::_setPath(void)
+std::string	Handler::_setPath(void)
 {
 	std::string	path;
 	std::string	prefix;
@@ -144,7 +148,7 @@ std::string	FT::Handler::_setPath(void)
 	return(path);
 }
 
-void	FT::Handler::_launchPost(void)
+void	Handler::_launchPost(void)
 {
 	std::ofstream	newFile;
 	std::string		body;
@@ -174,7 +178,7 @@ void	FT::Handler::_launchPost(void)
 	}
 }
 
-void	FT::Handler::_checkPayload(void)
+void	Handler::_checkPayload(void)
 {
 	int	payloadMaxSize;
 	int	bodyLength;
@@ -189,7 +193,7 @@ void	FT::Handler::_checkPayload(void)
 }
 
 
-void	FT::Handler::_launchGet(std::string path)
+void	Handler::_launchGet(std::string path)
 {
 	if (isDirectory(path))
 	{
@@ -199,7 +203,7 @@ void	FT::Handler::_launchGet(std::string path)
 		else if (_location.getAutoIndex())
 			getResponsePath = getAutoIndexContent(path,
 							_conf.getListen().getHost(),
-							_conf.getListen().getPort(),
+							intToString(_conf.getListen().getPort()),
 							_uri);
 		else
 			codeDescription = std::make_pair("404", "Not Found");
@@ -208,15 +212,16 @@ void	FT::Handler::_launchGet(std::string path)
 		getResponsePath = getFileContent(path);
 }
 
-void	FT::Handler::_launchDelete(std::string path)
+void	Handler::_launchDelete(std::string path)
 {
+	std::cout << path;
 	return ;
 }
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::RequestParser	FT::Handler::getRequestParser(void)
+RequestParser	Handler::getRequestParser(void)
 {
 	return (_requestParsed);
 }

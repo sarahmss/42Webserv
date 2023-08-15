@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 03:39:26 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:53:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@
 #define DIVIDER ":"
 #define DELETE_HTML	"<html><body><h1>Arquivo removido.</h1></body></html>"
 
-
-
-namespace FT
-{
 	typedef std::map<std::string, std::string>	HeadersType;
 	typedef std::pair<std::string, std::string>	RequestPairType;
 	typedef std::pair<std::string, std::string> strPairType;
@@ -56,15 +52,12 @@ namespace FT
 	bool		findIndex(std::string &path, std::vector<std::string> indexes);
 	void		checkSlash(std::string &path);
 
+	std::string intToString(int value);
 	std::string	getMapItem(HeadersType map, std::string key);
 	std::string	getSockStreamLine(int socketFd);
 	std::string	getFilePath(std::string path, std::string filename);
 	std::string	getFileLocation(std::string fileName, std::string fileLocation);
 	strPairType	getFileContent(std::string path);
-	strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri)
-{;
-
-
-}
+	strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri);
 
 #endif // UTILS_HPP

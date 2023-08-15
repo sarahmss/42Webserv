@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:19 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:49:20 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:43:21 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 	This class implements a call to the bind() function of sockets as a deefinition of
 	connect_to_network virtual function from SimpleSocket
 */
-namespace FT
-{
+
 	class BindingSocket: public SimpleSocket
 	{
 		public:
@@ -35,5 +34,4 @@ namespace FT
 
 			BindingSocket &		operator=( BindingSocket & rhs );
 	};
-}
 #endif /* *************************************************** BINDINGSOCKET_H */

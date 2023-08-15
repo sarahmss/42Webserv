@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:38:34 by smodesto          #+#    #+#             */
-/*   Updated: 2023/06/26 21:58:44 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:43:53 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@
 		- sock:
 
 */
-namespace FT
-{
+
 	class SimpleSocket
 	{
 		public:
@@ -48,7 +47,7 @@ namespace FT
 			void				set_address(struct sockaddr_in add);
 
 
-			FT::SimpleSocket &		operator=( FT::SimpleSocket & rhs );
+			SimpleSocket &		operator=( SimpleSocket & rhs );
 
 		private:
 			struct sockaddr_in address;
@@ -56,5 +55,4 @@ namespace FT
 			int sock;
 
 	};
-}
 #endif /* **************************************************** SIMPLESOCKET_HPP */

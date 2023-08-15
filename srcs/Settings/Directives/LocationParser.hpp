@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:06 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:44:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@
 #define ERROR_PAGE "error_page"
 #define CGI "cgi"
 
-namespace FT
-{
+
 	class LocationParser
 	{
 
@@ -43,12 +42,12 @@ namespace FT
 			LocationParser &	operator=( LocationParser const & rhs );
 
 			void				launch(std::ifstream &fs, std::string line);
-			FT::Location		getLocation(void) const;
+			Location		getLocation(void) const;
 			std::string			getLine(void) const;
 
 
 		private:
-			FT::Location	_location;
+			Location	_location;
 			std::string		_line;
 
 			void	_setLocation(void);
@@ -62,6 +61,5 @@ namespace FT
 			void	_setRedirection(void);
 			void	_setCgi(void);
 	};
-}
 
 #endif /* ************************************************** LOCATIONPARSER_H */

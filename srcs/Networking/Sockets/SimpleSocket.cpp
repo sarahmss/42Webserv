@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:50:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/06/26 21:58:44 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 	htonl() converts a long integer (e.g. address) to a network representation
 	htons() converts a short integer (e.g. port) to a network representation
 */
-FT::SimpleSocket::SimpleSocket(int domain, int service, int protocol, int port, unsigned long interface)
+SimpleSocket::SimpleSocket(int domain, int service, int protocol, int port, unsigned long interface)
 {
 	address.sin_family = domain;
 	address.sin_port = htons(port);
@@ -35,7 +35,7 @@ FT::SimpleSocket::SimpleSocket(int domain, int service, int protocol, int port, 
 	test_connection(sock);
 }
 
-FT::SimpleSocket::SimpleSocket( FT::SimpleSocket & src )
+SimpleSocket::SimpleSocket( SimpleSocket & src )
 {
     this->address = src.address;
     this->sock = src.sock;
@@ -47,7 +47,7 @@ FT::SimpleSocket::SimpleSocket( FT::SimpleSocket & src )
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::SimpleSocket::~SimpleSocket()
+SimpleSocket::~SimpleSocket()
 {
 	return ;
 }
@@ -57,7 +57,7 @@ FT::SimpleSocket::~SimpleSocket()
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::SimpleSocket &				FT::SimpleSocket::operator=( FT::SimpleSocket & rhs )
+SimpleSocket &				SimpleSocket::operator=( SimpleSocket & rhs )
 {
 	if ( this != &rhs )
 	{
@@ -78,7 +78,7 @@ FT::SimpleSocket &				FT::SimpleSocket::operator=( FT::SimpleSocket & rhs )
 	@param:
 		item_to_test: the socket or connection
 */
-void FT::SimpleSocket::test_connection(int item_to_test)
+void SimpleSocket::test_connection(int item_to_test)
 {
 	if (item_to_test < 0)
 	{
@@ -91,30 +91,30 @@ void FT::SimpleSocket::test_connection(int item_to_test)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-struct sockaddr_in FT::SimpleSocket::get_address()
+struct sockaddr_in SimpleSocket::get_address()
 {
 	return (address);
 }
 
-int FT::SimpleSocket::get_sock()
+int SimpleSocket::get_sock()
 {
 	return (sock);
 }
 
-int FT::SimpleSocket::get_connection()
+int SimpleSocket::get_connection()
 {
 	return (connection);
 }
 
-void FT::SimpleSocket::set_connection(int con)
+void SimpleSocket::set_connection(int con)
 {
 	connection = con;
 }
-void FT::SimpleSocket::set_address(struct sockaddr_in add)
+void SimpleSocket::set_address(struct sockaddr_in add)
 {
 	address = add;
 }
-void FT::SimpleSocket::set_sock(int sck)
+void SimpleSocket::set_sock(int sck)
 {
 	sock = sck;
 }

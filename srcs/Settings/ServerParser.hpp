@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:08:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 02:58:11 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:44:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@
 #define LISTEN "listen"
 #define SERVER_NAME "server_name"
 
-namespace FT
-{
+
 	class ServerParser
 	{
 		public:
@@ -37,12 +36,12 @@ namespace FT
 			ServerParser	&operator=( ServerParser const & rhs );
 
 			void			launch(std::ifstream &ifstream, std::string line );
-			FT::ServerConf		getServer(void) const;
+			ServerConf		getServer(void) const;
 			std::string		getLine(void) const;
 
 
 		private:
-			FT::ServerConf	_server;
+			ServerConf	_server;
 			std::string	_line;
 
 			void	_parseLocationBlock(std::ifstream &ifstream);
@@ -56,5 +55,4 @@ namespace FT
 			void	_setRoot(void);
 			void	_setBodySize(void);
 	};
-}
 #endif /* **************************************************** SERVERPARSER_H */

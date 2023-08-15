@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 01:07:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::WebServ::WebServ(ConfsVecType confs):
+WebServ::WebServ(ConfsVecType confs):
 									_epoll(MAX_EVENTS * confs.size()),
 									_serversConfs(confs),
 									_backLog(50)
@@ -30,7 +30,7 @@ FT::WebServ::WebServ(ConfsVecType confs):
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::WebServ::~WebServ(void) {
+WebServ::~WebServ(void) {
 	for (size_t i = 0; i < _simpleServers.size(); i++)
 		if (_simpleServers[i])
 			delete _simpleServers[i];
@@ -41,7 +41,7 @@ FT::WebServ::~WebServ(void) {
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	FT::WebServ::launch(void)
+void	WebServ::launch(void)
 {
 	_groupServers();
 	_initServers();
@@ -51,7 +51,7 @@ void	FT::WebServ::launch(void)
 /*
 	@brief: Group Servers defined in conf file by ports number
 */
-void	FT::WebServ::_groupServers(void)
+void	WebServ::_groupServers(void)
 {
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
@@ -63,7 +63,7 @@ void	FT::WebServ::_groupServers(void)
 /*
 	@brief: Init Servers based in port number
 */
-void	FT::WebServ::_initServers(void)
+void	WebServ::_initServers(void)
 {
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
@@ -79,12 +79,12 @@ void	FT::WebServ::_initServers(void)
 /*
 	@brief: add server to PollHandler to manage read/write events
 */
-void	FT::WebServ::_addToPoll(SimpleServer *newServer)
+void	WebServ::_addToPoll(SimpleServer *newServer)
 {
 	_epoll.add(newServer->getSocket(), _epoll.ServerToData(newServer), 	EPOLLIN | EPOLLOUT);
 }
 
-void	FT::WebServ::_removeFromPoll(int fd)
+void	WebServ::_removeFromPoll(int fd)
 {
 	_epoll.remove(fd);
 	close(fd);
@@ -93,7 +93,7 @@ void	FT::WebServ::_removeFromPoll(int fd)
 /*
 	@brief: Waits for I/O events
 */
-void	FT::WebServ::_coreLoop(void)
+void	WebServ::_coreLoop(void)
 {
 	SimpleServer	*server;
 	int				numEvents;
@@ -129,7 +129,7 @@ void	FT::WebServ::_coreLoop(void)
 	@brief: accepts an incoming connection and creates a client socket
 	which represents accepted connection
 */
-void	FT::WebServ::_accepter(SimpleServer* server)
+void	WebServ::_accepter(SimpleServer* server)
 {
 	ListeningSocket *	socket = server->getListeningSocket();
 	struct sockaddr_in	address = socket->get_address();
@@ -143,7 +143,7 @@ void	FT::WebServ::_accepter(SimpleServer* server)
 	server->setClientSocket(clientSocket);
 }
 
-void	FT::WebServ::_handler(SimpleServer* server)
+void	WebServ::_handler(SimpleServer* server)
 {
 	int		clientSocket = server->getClientSocket();
 	Handler	Handler(clientSocket, server->getConf());
@@ -153,7 +153,7 @@ void	FT::WebServ::_handler(SimpleServer* server)
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
 }
 
-void	FT::WebServ::_responder(SimpleServer* server)
+void	WebServ::_responder(SimpleServer* server)
 {
 	int clientSocket = server->getClientSocket();
 

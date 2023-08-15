@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/09 23:40:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::ServerParser::ServerParser(){ return ; }
+ServerParser::ServerParser(){ return ; }
 
-FT::ServerParser::ServerParser( const ServerParser & src ){ *this = src; }
+ServerParser::ServerParser( const ServerParser & src ){ *this = src; }
 
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::ServerParser::~ServerParser(){ return ; }
+ServerParser::~ServerParser(){ return ; }
 
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::ServerParser	&FT::ServerParser::operator=( ServerParser const & rhs )
+ServerParser	&ServerParser::operator=( ServerParser const & rhs )
 {
 	if ( this != &rhs )
 	{
@@ -46,13 +46,13 @@ FT::ServerParser	&FT::ServerParser::operator=( ServerParser const & rhs )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	FT::ServerParser::launch(std::ifstream &ifstream, std::string line )
+void	ServerParser::launch(std::ifstream &ifstream, std::string line )
 {
 	_line = line;
 	while(ifstream.good())
 	{
 		std::getline(ifstream, _line);
-		if (FT::IsValidLine(_line))
+		if (IsValidLine(_line))
 		{
 			if (_line == SERVER_END)
 				return ;
@@ -66,15 +66,15 @@ void	FT::ServerParser::launch(std::ifstream &ifstream, std::string line )
 		throw (std::invalid_argument("Failed setting server block [missing bracket]"));
 }
 
-void	FT::ServerParser::_parseLocationBlock(std::ifstream &ifstream)
+void	ServerParser::_parseLocationBlock(std::ifstream &ifstream)
 {
-	FT::LocationParser	location;
+	LocationParser	location;
 
 	location.launch(ifstream, _line);
 	_server.AddLocation(location.getLocation());
 }
 
-void	FT::ServerParser::_setServer(void)
+void	ServerParser::_setServer(void)
 {
 	if (!_line.find(LISTEN, 0))
 		_checkListen();
@@ -92,11 +92,11 @@ void	FT::ServerParser::_setServer(void)
 		throw (std::invalid_argument("Failed setting server [directives]"));
 }
 
-void	FT::ServerParser::_checkListen(void)
+void	ServerParser::_checkListen(void)
 {
-	FT::Listen	listen;
+	Listen	listen;
 
-	FT::ClearDirective(_line, LISTEN);
+	ClearDirective(_line, LISTEN);
 	if (_server.IsListenSet() || _line.empty() || !OnlyOneArg(_line))
 		throw (std::invalid_argument("Failed setting server [listen]"));
 	if (_line.find(":") == std::string::npos)
@@ -106,7 +106,7 @@ void	FT::ServerParser::_checkListen(void)
 	_server.SetListen(listen);
 }
 
-void	FT::ServerParser::_setListen(Listen &listen)
+void	ServerParser::_setListen(Listen &listen)
 {
 	std::stringstream	lineStream;
 	std::string			host, port;
@@ -117,17 +117,17 @@ void	FT::ServerParser::_setListen(Listen &listen)
 	_setPort(listen, port);
 }
 
-void	FT::ServerParser::_setPort(Listen &listen, std::string port)
+void	ServerParser::_setPort(Listen &listen, std::string port)
 {
-	if (FT::IsValidBodySize(port))
+	if (IsValidBodySize(port))
 		listen.SetPort(atoi(port.c_str()));
 	else
 		throw (std::invalid_argument("Failed setting server [listen:port]"));
 }
 
-void	FT::ServerParser::_setServerName(void)
+void	ServerParser::_setServerName(void)
 {
-	FT::ClearDirective(_line, SERVER_NAME);
+	ClearDirective(_line, SERVER_NAME);
 
 	if (_server.IsServerNameSet() || _line.empty())
 		throw (std::invalid_argument("Failed setting server [server_name]"));
@@ -141,19 +141,19 @@ void	FT::ServerParser::_setServerName(void)
 	}
 }
 
-void	FT::ServerParser::_setBodySize(void)
+void	ServerParser::_setBodySize(void)
 {
-	FT::ClearDirective(_line, BODY_SIZE);
+	ClearDirective(_line, BODY_SIZE);
 
-	if ((!FT::IsValidBodySize(_line)) || (!OnlyOneArg(_line)) || _line.empty())
+	if ((!IsValidBodySize(_line)) || (!OnlyOneArg(_line)) || _line.empty())
 		throw (std::invalid_argument("Failed setting server [body_size] "));
 	else
 		_server.SetBodySize(atoi(_line.c_str()));
 }
 
-void	FT::ServerParser::_setRoot(void)
+void	ServerParser::_setRoot(void)
 {
-	FT::ClearDirective(_line, ROOT);
+	ClearDirective(_line, ROOT);
 
 	if ((_server.IsRootSet()) || (!OnlyOneArg(_line)) || _line.empty())
 		throw (std::invalid_argument("Failed setting server [redirection]"));
@@ -161,9 +161,9 @@ void	FT::ServerParser::_setRoot(void)
 }
 
 
-void	FT::ServerParser::_setErrorPage(void)
+void	ServerParser::_setErrorPage(void)
 {
-	FT::ClearDirective(_line, ERROR_PAGE);
+	ClearDirective(_line, ERROR_PAGE);
 
 	if (OnlyOneArg(_line) || _line.empty())
 		throw(std::invalid_argument("Failed setting server [error_page]"));
@@ -171,7 +171,7 @@ void	FT::ServerParser::_setErrorPage(void)
 	size_t		pos = _line.find_last_of(' ');
 	std::string	pagePath = _line.substr(pos + 1);
 	std::string	codes = _line.substr(0, pos);
-	FT::trim(codes, " \t");
+	trim(codes, " \t");
 
 	std::stringstream	codeStream(codes);
 
@@ -182,9 +182,9 @@ void	FT::ServerParser::_setErrorPage(void)
 	}
 }
 
-void	FT::ServerParser::_setCgi(void)
+void	ServerParser::_setCgi(void)
 {
-	FT::ClearDirective(_line, CGI);
+	ClearDirective(_line, CGI);
 
 	if (_line.empty() || _line.find(":") == std::string::npos)
 		throw(std::invalid_argument("Failed setting server [cgi]"));
@@ -218,12 +218,12 @@ void	FT::ServerParser::_setCgi(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::ServerConf		FT::ServerParser::getServer(void) const
+ServerConf		ServerParser::getServer(void) const
 {
 	return (_server);
 }
 
-std::string		FT::ServerParser::getLine(void) const
+std::string		ServerParser::getLine(void) const
 {
 	return (_line);
 }

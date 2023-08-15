@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:29 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:44:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@
 	- It determines the network interface and port combination that the server should bind to.
 */
 
-namespace FT
-{
+
 	class Listen
 	{
 		public:
@@ -48,7 +47,6 @@ namespace FT
 
 	};
 	std::ostream &			operator<<( std::ostream & o, Listen const & i );
-}
 
 
 #endif /* ********************************************************** LISTEN_H */

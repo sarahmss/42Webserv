@@ -6,12 +6,12 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 03:00:54 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:45:06 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REQUEST_HPP
-# define REQUEST_HPP
+#ifndef HANDLER_HPP
+# define HANDLER_HPP
 
 # include <iostream>
 # include <string>
@@ -21,9 +21,9 @@
 # include "./RequestParser.hpp"
 
 
-typedef std::priority_queue<FT::Location> LocationQueueType;
+typedef std::priority_queue<Location> LocationQueueType;
 
-namespace FT {
+
 	class Handler
 	{
 		public:
@@ -59,9 +59,6 @@ namespace FT {
 			void				_launchGet(std::string path);
 			void				_launchDelete(std::string path);
 			void				_checkPayload(void);
-
-
 	};
-}
 
 #endif /* *************************************************** Request_H */

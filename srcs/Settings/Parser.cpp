@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:29:38 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/09 23:42:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
-FT::Parser::Parser(void)
+Parser::Parser(void)
 {
 	return ;
 }
 
-FT::Parser::Parser(FT::Parser const &src)
+Parser::Parser(Parser const &src)
 {
 	*this = src;
 }
@@ -30,7 +30,7 @@ FT::Parser::Parser(FT::Parser const &src)
 */
 
 
-FT::Parser::~Parser(void)
+Parser::~Parser(void)
 {
 	return ;
 }
@@ -39,13 +39,13 @@ FT::Parser::~Parser(void)
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::Parser &FT::Parser::operator=(FT::Parser const &rhs)
+Parser &Parser::operator=(Parser const &rhs)
 {
 	this->_servers = rhs._servers;
 	return (*this);
 }
 
-std::ostream &FT::operator<<(std::ostream &o, const FT::Parser &i)
+std::ostream &operator<<(std::ostream &o, const Parser &i)
 {
 	for (size_t j = 0; j < i.getServers().size(); j++)
 		o	<< i.getServers()[j] << std::endl;
@@ -59,7 +59,7 @@ std::ostream &FT::operator<<(std::ostream &o, const FT::Parser &i)
 */
 
 
-void	FT::Parser::launch(std::string filename)
+void	Parser::launch(std::string filename)
 {
 	_fileStream.open(filename.c_str(), std::ifstream::in);
 	if (!_fileStream)
@@ -69,14 +69,14 @@ void	FT::Parser::launch(std::string filename)
 
 }
 
-void	FT::Parser::_parseFile(void)
+void	Parser::_parseFile(void)
 {
 	bool	empty = true;
 
 	while (_fileStream.good())
 	{
 		std::getline(_fileStream, _line);
-		if (FT::IsValidLine(_line))
+		if (IsValidLine(_line))
 		{
 			if (_line == "server {")
 				_parseServerBlock();
@@ -89,9 +89,9 @@ void	FT::Parser::_parseFile(void)
 		throw (std::logic_error("Empty file"));
 }
 
-void	FT::Parser::_parseServerBlock(void)
+void	Parser::_parseServerBlock(void)
 {
-	FT::ServerParser	newServer;
+	ServerParser	newServer;
 
 	newServer.launch(_fileStream, _line);
 	_servers.push_back(newServer.getServer());
@@ -101,7 +101,7 @@ void	FT::Parser::_parseServerBlock(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-const ConfsVecType	&FT::Parser::getServers(void) const
+const ConfsVecType	&Parser::getServers(void) const
 {
 	return (_servers);
 }

@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/09 23:26:21 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/14 19:06:51 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS_PATH		= ./objects/
 SRCS_FILES =	./main.cpp												\
 				./srcs/Settings/Parser.cpp								\
 				./srcs/Settings/ParserUtils.cpp							\
-				./srcs/Settings/Server.cpp								\
+				./srcs/Settings/ServerConf.cpp							\
 				./srcs/Settings/ServerParser.cpp						\
 				./srcs/Settings/Directives/Cgi.cpp						\
 				./srcs/Settings/Directives/ErrorPages.cpp				\
@@ -48,7 +48,7 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_FILES))
 
 HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Settings/ParserUtils.hpp							\
-					./srcs/Settings/Server.hpp								\
+					./srcs/Settings/ServerConf.hpp							\
 					./srcs/Settings/ServerParser.hpp						\
 					./srcs/Settings/Directives/Cgi.hpp						\
 					./srcs/Settings/Directives/ErrorPages.hpp				\

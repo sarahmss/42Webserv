@@ -6,45 +6,45 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:54:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/21 15:45:20 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ParserUtils.hpp"
 
-void	FT::trim(std::string &line, const std::string Trim)
+void	trim(std::string &line, const std::string Trim)
 {
 	line.erase(0, line.find_first_not_of(Trim));
 	line.erase(line.find_last_not_of(Trim) + 1);
 }
 
-bool	FT::IsComment(std::string &line)
+bool	IsComment(std::string &line)
 {
-	FT::trim(line, " \t");
-	FT::trim(line, " ");
+	trim(line, " \t");
+	trim(line, " ");
 
 	if (line.find('#') == 0)
 		return true;
 	return false;
 }
 
-bool	FT::IsEmpty(std::string &line)
+bool	IsEmpty(std::string &line)
 {
-	FT::trim(line, " \t");
-	FT::trim(line, " ");
+	trim(line, " \t");
+	trim(line, " ");
 	return (line == "");
 }
 
-bool	FT::IsValidLine(std::string &line)
+bool	IsValidLine(std::string &line)
 {
-	if (FT::IsEmpty(line))
+	if (IsEmpty(line))
 		return false;
-	if (FT::IsComment(line))
+	if (IsComment(line))
 		return false;
 	return (true);
 }
 
-void	FT::ClearDirective(std::string &line, std::string directive)
+void	ClearDirective(std::string &line, std::string directive)
 {
 	line.erase(0, strlen(directive.c_str()));
 	trim(line, " \t");
@@ -53,7 +53,7 @@ void	FT::ClearDirective(std::string &line, std::string directive)
 /*
 	@brief: returns true if line contains only one argument
 */
-bool	FT::OnlyOneArg(std::string &line)
+bool	OnlyOneArg(std::string &line)
 {
 	if ((line.find(' ') == std::string::npos) &&
 		(line.find('\t') == std::string::npos))
@@ -61,7 +61,7 @@ bool	FT::OnlyOneArg(std::string &line)
 	return (false);
 }
 
-bool	FT::IsValidBodySize(std::string &line)
+bool	IsValidBodySize(std::string &line)
 {
 	return (line.find_first_not_of("0123456789mM") == std::string::npos);
 }
