@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:24:41 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,11 @@ void	WebServ::_coreLoop(void)
 			epollEventType	&currentEvent = _epoll.getEvents()[i];
 			server = static_cast<SimpleServer *>(currentEvent.data.ptr);
 
-			_accepter(server);
+			_launchAccepter(server);
 			if (currentEvent.events & EPOLLIN)
-				_handler(server);
+				_launchHandler(server);
 			if (currentEvent.events & EPOLLOUT)
-			{
-				std::cout << "Prestes a responder\n";
-				_responder(server);
-			}
+				_launchResponder(server);
 			if (currentEvent.events & EPOLLERR)
 			{
 				_removeFromPoll(server->getClientSocket());
@@ -129,7 +126,7 @@ void	WebServ::_coreLoop(void)
 	@brief: accepts an incoming connection and creates a client socket
 	which represents accepted connection
 */
-void	WebServ::_accepter(SimpleServer* server)
+void	WebServ::_launchAccepter(SimpleServer* server)
 {
 	ListeningSocket *	socket = server->getListeningSocket();
 	struct sockaddr_in	address = socket->get_address();
@@ -143,29 +140,26 @@ void	WebServ::_accepter(SimpleServer* server)
 	server->setClientSocket(clientSocket);
 }
 
-void	WebServ::_handler(SimpleServer* server)
+void	WebServ::_launchHandler(SimpleServer* server)
 {
-	int		clientSocket = server->getClientSocket();
-	Handler	Handler(clientSocket, server->getConf());
+	int			clientSocket = server->getClientSocket();
+	_handler = Handler(clientSocket, server->getConf());
 
-	Handler.launch();
-	std::cout << Handler.getRequestParser();
+	_handler.launch();
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
 }
 
-void	WebServ::_responder(SimpleServer* server)
+void	WebServ::_launchResponder(SimpleServer* server)
 {
-	int clientSocket = server->getClientSocket();
+	int	clientSocket = server->getClientSocket();
+	_responder = Responder(clientSocket,
+			server->getConf().ServerNameToString(),
+			_handler.codeDescription.first,
+			_handler.getResponsePath.first,
+			_handler.headerField);
 
-	resp_build.add_protocol_status("HTTP/1.1", "200");
-	resp_build.add_value_pair("Content_Type", "text/html");
-	resp_build.add_body_with_file("pages/index.html");
-
-	if (send(clientSocket, resp_build.get_cresponse(), resp_build.get_response_size(), 0) < 0)
-		throw std::runtime_error("Error sending response");
-	std::cout << "Resposta enviada\n";
+	_responder.launch();
 	_removeFromPoll(clientSocket);
-	resp_build.reset();
 }
 
 

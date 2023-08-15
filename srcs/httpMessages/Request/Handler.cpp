@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 21:00:21 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:32:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
+Handler::Handler(void) { return ; }
 
 Handler::Handler(int clientSocket, ServerConf conf)
 {
+	codeDescription = std::make_pair("200", "Ok");
+	headerField = std::make_pair("", "");
+	getResponsePath = std::make_pair("", ""); // body -> path
 	_clientSocket = clientSocket;
 	_conf = conf;
 }
@@ -61,8 +65,7 @@ void	Handler::_checkRequest(void)
 	std::string	method = _requestParsed.getMethod();
 	std::string	uri = _requestParsed.getUri();
 	std::string	protocolVersion = _requestParsed.getProtocolVersion();
-
-	//std::cout << method << " " << uri << " " << protocolVersion << " " << std::endl;
+	
 	if ( method == "" || uri == "" || protocolVersion == "")
 		throw (std::invalid_argument("Invalid request [Missing arg in request line]"));
 }

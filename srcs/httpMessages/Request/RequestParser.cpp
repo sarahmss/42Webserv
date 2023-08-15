@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 20:58:40 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:32:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ RequestParser &	RequestParser::operator=( RequestParser const & rhs )
 		this->_headers = rhs.getHeaders();
 		this->_method = rhs.getMethod();
 		this->_uri = rhs.getUri();
+		this->_protocolVersion = rhs.getProtocolVersion();
 	}
 	return *this;
 }

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:56:00 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/10 00:59:27 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:21:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,24 @@
 # include <iostream>
 # include <string>
 #include "./ResponseBuilder.hpp"
+#include "../Utils.hpp"
 
 class Responder
 {
 	public:
-
-		Responder();
-		Responder( Responder const & src );
+		Responder(void);
+		Responder(int clientSocket, std::string serverName, std::string sttsCode, std::string body, strPairType headerField);
 		~Responder();
 
-		Responder &		operator=( Responder const & rhs );
+		void	launch(void);
 
 	private:
-		std::string	_protocolVersion;
-		std::string	_sttsCode;
-
+		ResponseBuilder		_respBuilder;
+		std::string			_sttsCode;
+		std::string			_reasonPhrase;
+		std::string			_body;
+		HeadersType			_header;
+		int					_clientSocket;
 };
 
 std::ostream &			operator<<( std::ostream & o, Responder const & i );
