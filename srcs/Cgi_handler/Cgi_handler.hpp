@@ -5,7 +5,7 @@
 
 
 # include <map>
-#include <cstdlib>
+# include <cstdlib>
 # include <vector>
 # include <sys/socket.h>
 # include <sys/wait.h>
@@ -37,7 +37,7 @@ namespace FT {
             char const**_make_list(std::vector<const char *> &env_vec);
 
             int         _socketpair_fd[2];
-            FT::Cgi     _cgi_program_list;
+            Cgi         _cgi_program_list;
             std::string _response;
             env_var_t   _env;
 	};
