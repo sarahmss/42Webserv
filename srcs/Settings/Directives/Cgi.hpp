@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 22:13:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:44:23 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 
 #define CgiProgramType std::map<std::string, std::string>
 
-namespace FT
-{
+
 	class Cgi
 	{
 		public:
@@ -45,6 +44,5 @@ namespace FT
 
 	std::ostream &			operator<<( std::ostream & o, Cgi const & i );
 
-}
 
 #endif /* ************************************************************* CGI_H */

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:15 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:44:31 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 # define ErrorPagesType std::map<std::string, std::string>
 # define DEFAULTPATH "./www/error/"
 
-namespace FT
-{
+
 	class ErrorPages
 	{
 		public:
@@ -45,6 +44,5 @@ namespace FT
 	};
 
 	std::ostream &			operator<<( std::ostream & o, ErrorPages const & i );
-}
 
 #endif /* ****************************************************** ERRORPAGES_H */

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 22:13:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:44:47 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 # include "Cgi.hpp"
 # include "ErrorPages.hpp"
 
-# define LocationMethodsType std::set<std::string>
-# define LocationIndexType std::vector<std::string>
+typedef std::set<std::string> LocationMethodsType;
+typedef std::vector<std::string> LocationIndexType;
 
-namespace FT
-{
+
 	class Location
 	{
 		public:
@@ -80,10 +79,7 @@ namespace FT
 			ErrorPages			_errorPages;
 			bool				_autoIndex;
 			int					_bodySize;
-
-
 	};
 
 	std::ostream &			operator<<( std::ostream & o, Location const & i );
-}
 #endif /* ******************************************************** LOCATION_H */

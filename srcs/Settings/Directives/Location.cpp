@@ -16,34 +16,34 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::Location::Location():	_allowedMethod(LocationMethodsType()),
+Location::Location():	_allowedMethod(LocationMethodsType()),
 							_index(LocationIndexType()),
 							_redirection(""),
 							_root(""),
 							_prefix(""),
-							_cgi(FT::Cgi()),
-							_errorPages(FT::ErrorPages()),
+							_cgi(Cgi()),
+							_errorPages(ErrorPages()),
 							_autoIndex(false),
 							_bodySize(0)
 {
 	_allowedMethod.insert("GET");
 }
 
-FT::Location::Location( const Location & src ) {*this = src; }
+Location::Location( const Location & src ) {*this = src; }
 
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::Location::~Location() { return ;}
+Location::~Location() { return ;}
 
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::Location &	FT::Location::operator=( Location const & rhs )
+Location &	Location::operator=( Location const & rhs )
 {
 	if ( this != &rhs )
 	{
@@ -60,7 +60,7 @@ FT::Location &	FT::Location::operator=( Location const & rhs )
 	return *this;
 }
 
-std::ostream &	FT::operator<<( std::ostream & o, Location const & i )
+std::ostream &	operator<<( std::ostream & o, Location const & i )
 {
 	o 		<< "allowedMethod: "	<<	i.AllowedMethodsToStr() << std::endl
 			<< "index: "			<<	i.IndexToStr() << std::endl
@@ -74,27 +74,27 @@ std::ostream &	FT::operator<<( std::ostream & o, Location const & i )
 	return o;
 }
 
-bool	FT::Location::operator>(Location const &rhs) const
+bool	Location::operator>(Location const &rhs) const
 {
 	return (this->_prefix > rhs._prefix);
 }
-bool	FT::Location::operator>=(Location const &rhs) const
+bool	Location::operator>=(Location const &rhs) const
 {
 	return (this->_prefix >= rhs._prefix);
 }
-bool	FT::Location::operator<(Location const &rhs) const
+bool	Location::operator<(Location const &rhs) const
 {
 	return (this->_prefix < rhs._prefix);
 }
-bool	FT::Location::operator<=(Location const &rhs) const
+bool	Location::operator<=(Location const &rhs) const
 {
 	return (this->_prefix <= rhs._prefix);
 }
-bool	FT::Location::operator==(Location const &rhs) const
+bool	Location::operator==(Location const &rhs) const
 {
 	return (this->_prefix == rhs._prefix);
 }
-bool	FT::Location::operator!=(Location const &rhs) const
+bool	Location::operator!=(Location const &rhs) const
 {
 	return (this->_prefix != rhs._prefix);
 }
@@ -103,7 +103,7 @@ bool	FT::Location::operator!=(Location const &rhs) const
 ** --------------------------------- METHODS ----------------------------------
 */
 
-std::string	FT::Location::AllowedMethodsToStr(void) const
+std::string	Location::AllowedMethodsToStr(void) const
 {
 	std::string			str;
 	LocationMethodsType	methods = getAllowedMethods();
@@ -114,7 +114,7 @@ std::string	FT::Location::AllowedMethodsToStr(void) const
 	return (str);
 }
 
-std::string	FT::Location::IndexToStr(void) const
+std::string	Location::IndexToStr(void) const
 {
 	std::string	str;
 
@@ -123,15 +123,15 @@ std::string	FT::Location::IndexToStr(void) const
 	return (str);
 }
 
-bool	FT::Location::hasErrorPage(std::string code) const
+bool	Location::hasErrorPage(std::string code) const
 {
 	return(_errorPages.hasPage(code));
 }
-bool	FT::Location::hasRedirectionSet(void) const
+bool	Location::hasRedirectionSet(void) const
 {
 	return (!_redirection.empty());
 }
-bool	FT::Location::hasRootSet(void) const
+bool	Location::hasRootSet(void) const
 {
 	return(!_root.empty());
 }
@@ -140,84 +140,84 @@ bool	FT::Location::hasRootSet(void) const
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-LocationMethodsType	FT::Location::getAllowedMethods(void) const
+LocationMethodsType	Location::getAllowedMethods(void) const
 {
 	return (_allowedMethod);
 }
-LocationIndexType	FT::Location::getIndex(void) const
+LocationIndexType	Location::getIndex(void) const
 {
 	return (_index);
 }
-std::string	FT::Location::getRedirection(void) const
+std::string	Location::getRedirection(void) const
 {
 	return (_redirection);
 }
-std::string	FT::Location::getRoot(void) const
+std::string	Location::getRoot(void) const
 {
 	return (_root);
 }
-std::string	FT::Location::getPrefix(void) const
+std::string	Location::getPrefix(void) const
 {
 	return (_prefix);
 }
-FT::Cgi			FT::Location::getCgi(void) const
+Cgi			Location::getCgi(void) const
 {
 	return (_cgi);
 }
-FT::ErrorPages	FT::Location::getErrorPages(void) const
+ErrorPages	Location::getErrorPages(void) const
 {
 	return (_errorPages);
 }
-std::string	FT::Location::getErrorPage(std::string code) const
+std::string	Location::getErrorPage(std::string code) const
 {
 	return (_errorPages.getErrorPage(code));
 }
-bool		FT::Location::getAutoIndex(void) const
+bool		Location::getAutoIndex(void) const
 {
 	return (_autoIndex);
 }
-int			FT::Location::getBodySize(void) const
+int			Location::getBodySize(void) const
 {
 	return (_bodySize);
 }
 
-void	FT::Location::AddAllowedMethods(std::string allowedMethods)
+void	Location::AddAllowedMethods(std::string allowedMethods)
 {
 	_allowedMethod.insert(allowedMethods);
 }
-void	FT::Location::AddIndex(std::string index)
+void	Location::AddIndex(std::string index)
 {
 	_index.push_back(index);
 }
-void	FT::Location::AddCgi(std::string extension, std::string programPath)
+void	Location::AddCgi(std::string extension, std::string programPath)
 {
 	_cgi.addProgram(extension, programPath);
 }
-void	FT::Location::AddErrorPage(std::string code, std::string PagePath)
+void	Location::AddErrorPage(std::string code, std::string PagePath)
 {
 	_errorPages.addPage(code, PagePath);
 }
-void	FT::Location::SetRedirection(std::string redirection)
+void	Location::SetRedirection(std::string redirection)
 {
 	_redirection = redirection;
 }
 
-void	FT::Location::SetRoot(std::string root)
+void	Location::SetRoot(std::string root)
 {
 	_root = root;
 }
 
-void	FT::Location::SetPrefix(std::string prefix)
+void	Location::SetPrefix(std::string prefix)
 {
 	_prefix = prefix;
 }
 
-void	FT::Location::SetAutoIndex(bool autoindex)
+void	Location::SetAutoIndex(bool autoindex)
 {
 	_autoIndex = autoindex;
 }
 
-void	FT::Location::SetBodySize(int bodySize)
+void	Location::SetBodySize(int bodySize)
 {
 	_bodySize = bodySize;
 }

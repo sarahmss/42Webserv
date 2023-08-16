@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:23 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:49:24 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::ConnectingSocket::ConnectingSocket(int domain, int service, int protocol, int port, unsigned long interface):
+ConnectingSocket::ConnectingSocket(int domain, int service, int protocol, int port, unsigned long interface):
 	SimpleSocket(domain, service, protocol, port, interface)
 {
 	set_connection(connect_to_network(get_sock(), get_address()));
 	test_connection(get_connection());
 }
 
-FT::ConnectingSocket::ConnectingSocket( ConnectingSocket & src ): FT::SimpleSocket(src)
+ConnectingSocket::ConnectingSocket( ConnectingSocket & src ): SimpleSocket(src)
 {
 	return ;
 }
@@ -33,7 +33,7 @@ FT::ConnectingSocket::ConnectingSocket( ConnectingSocket & src ): FT::SimpleSock
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::ConnectingSocket::~ConnectingSocket()
+ConnectingSocket::~ConnectingSocket()
 {
 	return ;
 }
@@ -43,10 +43,10 @@ FT::ConnectingSocket::~ConnectingSocket()
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::ConnectingSocket &				FT::ConnectingSocket::operator=( ConnectingSocket & rhs )
+ConnectingSocket &				ConnectingSocket::operator=( ConnectingSocket & rhs )
 {
 	if ( this != &rhs )
-        FT::SimpleSocket::operator=(rhs);
+        SimpleSocket::operator=(rhs);
 	return *this;
 }
 
@@ -54,7 +54,7 @@ FT::ConnectingSocket &				FT::ConnectingSocket::operator=( ConnectingSocket & rh
 ** --------------------------------- METHODS ----------------------------------
 */
 
-int FT::ConnectingSocket::connect_to_network(int sock, struct sockaddr_in address)
+int ConnectingSocket::connect_to_network(int sock, struct sockaddr_in address)
 {
 	return (connect(sock, (struct sockaddr *)&address, sizeof(address)));
 }

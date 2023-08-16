@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/03 21:56:40 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/15 19:02:24 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJS_PATH		= ./objects/
 SRCS_FILES =	./main.cpp												\
 				./srcs/Settings/Parser.cpp								\
 				./srcs/Settings/ParserUtils.cpp							\
-				./srcs/Settings/Server.cpp								\
+				./srcs/Settings/ServerConf.cpp							\
 				./srcs/Settings/ServerParser.cpp						\
 				./srcs/Settings/Directives/Cgi.cpp						\
 				./srcs/Settings/Directives/ErrorPages.cpp				\
@@ -32,11 +32,13 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/Networking/Sockets/SimpleSocket.cpp				\
 				./srcs/Networking/SimpleServer.cpp						\
 				./srcs/httpMessages/Utils.cpp							\
-				./srcs/httpMessages/Request/Request.cpp					\
+				./srcs/httpMessages/Request/Handler.cpp					\
 				./srcs/httpMessages/Request/RequestParser.cpp			\
 				./srcs/httpMessages/Request/Body.cpp					\
 				./srcs/httpMessages/Response/ResponseBuilder.cpp		\
+				./srcs/httpMessages/Response/Responder.cpp				\
 				./srcs/httpMessages/Response/File_operation/File_op.cpp	\
+				./srcs/multiplexing/PollHandler.cpp						\
 				./srcs/Networking/WebServ.cpp
 
 
@@ -47,7 +49,7 @@ OBJS = $(addprefix $(OBJS_PATH), $(OBJS_FILES))
 
 HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Settings/ParserUtils.hpp							\
-					./srcs/Settings/Server.hpp								\
+					./srcs/Settings/ServerConf.hpp							\
 					./srcs/Settings/ServerParser.hpp						\
 					./srcs/Settings/Directives/Cgi.hpp						\
 					./srcs/Settings/Directives/ErrorPages.hpp				\
@@ -61,17 +63,19 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Networking/Sockets/SimpleSocket.hpp				\
 					./srcs/Networking/SimpleServer.hpp						\
 					./srcs/httpMessages/Utils.hpp							\
-					./srcs/httpMessages/Request/Request.hpp					\
+					./srcs/httpMessages/Request/Handler.hpp					\
 					./srcs/httpMessages/Request/RequestParser.hpp			\
 					./srcs/httpMessages/Request/Body.hpp					\
 					./srcs/httpMessages/Response/ResponseBuilder.hpp		\
+					./srcs/httpMessages/Response/Responder.hpp				\
 					./srcs/httpMessages/Response/File_operation/File_op.hpp	\
+					./srcs/multiplexing/PollHandler.hpp						\
 					./srcs/Networking/WebServ.hpp
 
 
 HEADERS = $(addprefix $(INCLUDES_PATH), $(HEADER_FILES))
 
-CC			= c++
+CC			= g++
 FLAGS		= -Wall -Wextra -Werror -g -std=c++98
 INCLUDES	= -I $(INCLUDES_PATH)
 
@@ -87,7 +91,7 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/httpMessages/Request
 			@mkdir -p objects/srcs/httpMessages/Response
 			@mkdir -p objects/srcs/httpMessages/Response/File_operation
-
+			@mkdir -p objects/srcs/multiplexing
 
 			$(CC) $(FLAGS) -c  $< -o $@
 

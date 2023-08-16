@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 23:18:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::SimpleServer::SimpleServer(const int port, int backlog) : _port(port), _backlog(backlog)
+SimpleServer::SimpleServer(ServerConf confs, const int port, int backlog) :
+								_confs(confs),
+								_port(port),
+								_backlog(backlog)
 {
 	init();
-	launch();
 	return ;
 }
 
@@ -27,8 +29,9 @@ FT::SimpleServer::SimpleServer(const int port, int backlog) : _port(port), _back
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::SimpleServer::~SimpleServer()
+SimpleServer::~SimpleServer()
 {
+	close(getSocket());
 	delete socket;
 	return ;
 }
@@ -38,62 +41,51 @@ FT::SimpleServer::~SimpleServer()
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void	FT::SimpleServer::init(void)
+/*
+	@brief: Creates a new instance of ListeningSocket to create a socket wich is able to accept connections
+*/
+void	SimpleServer::init(void)
 {
 	socket = new ListeningSocket(AF_INET, SOCK_STREAM, 0, _port,  INADDR_ANY, _backlog);
-}
-
-
-void	FT::SimpleServer::launch()
-{
-	while (true)
-	{
-		std::cout << "===== WAITING =====" << std::endl;
-		accepter();
-		handler();
-		responder();
-		std::cout << "===== DONE =====" << std::endl;
-	}
-}
-
-void	FT::SimpleServer::accepter(void)
-{
-	ListeningSocket *	socket = get_socket();
-	struct sockaddr_in	address = socket->get_address();
-	int					address_len = sizeof(address);
-
-	_newSocket = accept(socket->get_sock(), // client fd
-						(struct sockaddr *)&address,
-						(socklen_t *)&address_len);
-}
-
-void	FT::SimpleServer::handler(void)
-{
-	Request	Request(_newSocket);
-
-	Request.launch();
-}
-
-void	FT::SimpleServer::responder(void)
-{
-	//std::string response = "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 12\n\nHello World";
-    //std::string response = resp_build.add_protocol_status("HTTP/1.1", "200");
-    //response += resp_build.add_value_pair("Content_Type", "text/html");
-    //response += resp_build.add_body_with_file("pages/index.html");
-    resp_build.add_protocol_status("HTTP/1.1", "200");
-    resp_build.add_value_pair("Content_Type", "text/html");
-    resp_build.add_body_with_file("pages/index.html");
-	write(_newSocket, resp_build.get_cresponse(), resp_build.get_response_size());
-	close(_newSocket);
-    resp_build.reset();
 }
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::ListeningSocket * FT::SimpleServer::get_socket()
+ListeningSocket	*SimpleServer::getListeningSocket(void)
 {
 	return (socket);
 }
+
+ServerConf	SimpleServer::getConf(void)
+{
+	return (_confs);
+}
+
+int	SimpleServer::getSocket(void)
+{
+	return (getListeningSocket()->get_sock());
+}
+
+int	SimpleServer::getClientSocket(void)
+{
+	return (_clientSocket);
+}
+
+void	SimpleServer::setClientSocket(int clientSocket)
+{
+	_clientSocket = clientSocket;
+}
+
+int	SimpleServer::getPort(void)
+{
+	return (_port);
+}
+
+int	SimpleServer::getBacklog(void)
+{
+	return (_backlog);
+}
+
 /* ************************************************************************** */

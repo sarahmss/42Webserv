@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:24 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::Listen::Listen(): _host(std::string()), _port(int()) { return ; }
+Listen::Listen(): _host(std::string()), _port(int()) { return ; }
 
-FT::Listen::Listen( const Listen & src ) { *this = src; }
+Listen::Listen( const Listen & src ) { *this = src; }
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::Listen::~Listen() { return ; }
+Listen::~Listen() { return ; }
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::Listen	&FT::Listen::operator=( FT::Listen const & rhs )
+Listen	&Listen::operator=( Listen const & rhs )
 {
 	if ( this != &rhs )
 	{
@@ -40,7 +40,7 @@ FT::Listen	&FT::Listen::operator=( FT::Listen const & rhs )
 	return *this;
 }
 
-std::ostream	&FT::operator<<( std::ostream & o, FT::Listen const & i )
+std::ostream	&operator<<( std::ostream & o, Listen const & i )
 {
 	o	<< "Host = " << i.getHost() << std::endl
 		<< "Port =" << i.getPort() << std::endl;
@@ -53,7 +53,7 @@ std::ostream	&FT::operator<<( std::ostream & o, FT::Listen const & i )
 ** --------------------------------- METHODS ----------------------------------
 */
 
-bool	FT::Listen::IsSet(void) const
+bool	Listen::IsSet(void) const
 {
 	if (_port == int())
 		return false;
@@ -64,22 +64,22 @@ bool	FT::Listen::IsSet(void) const
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string	FT::Listen::getHost(void) const
+std::string	Listen::getHost(void) const
 {
 	return _host;
 }
 
-int	FT::Listen::getPort(void) const
+int	Listen::getPort(void) const
 {
 	return _port;
 }
 
-void	FT::Listen::SetHost(std::string host)
+void	Listen::SetHost(std::string host)
 {
 	_host = host;
 }
 
-void	FT::Listen::SetPort(int port)
+void	Listen::SetPort(int port)
 {
 	_port = port;
 }

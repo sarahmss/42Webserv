@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:58:42 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:41:33 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define CHUNKED 1
 # define UNCHUNKED 2
 
-namespace FT {
 	class Body
 	{
 		public:
@@ -31,6 +30,7 @@ namespace FT {
 			std::string	getFileName(void);
 			int			getContentLength(void);
 
+			bool		IsMultipartForm();
 		private:
 			int			_socketFd;
 			HeadersType	_headers;
@@ -43,11 +43,9 @@ namespace FT {
 			size_t		_convertChunkSize(std::string chunkSize);
 			int			_ReadMessageBody();
 			void		_getBodyMessage(std::string &Body);
-			bool		_IsMultipartFormData();
 			void		_ClearFooter(std::string &Body);
 			void		_ClearHeader(std::string &Body);
 			void		_getFileName(std::string header);
 
 	};
-}
 #endif /* ************************************************************ BODY_H */

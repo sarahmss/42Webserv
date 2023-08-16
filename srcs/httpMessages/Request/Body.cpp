@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:09:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::Body::Body(int socketFd, HeadersType headers)
+Body::Body(int socketFd, HeadersType headers)
  {
 	_socketFd = socketFd;
 	_headers = headers;
@@ -26,14 +26,14 @@ FT::Body::Body(int socketFd, HeadersType headers)
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::Body::~Body() { return ; }
+Body::~Body() { return ; }
 
 
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
 
-int	FT::Body::parseBody(void)
+int	Body::parseBody(void)
 {
 	if (MapHasKey(_headers, "Content-Length:" ) == false
 		|| MapHasKey(_headers, "Transfer-Encoding: ") == false)
@@ -45,7 +45,7 @@ int	FT::Body::parseBody(void)
 	return (0);
 }
 
-int	FT::Body::_HandleChunkedBody(void)
+int	Body::_HandleChunkedBody(void)
 {
 	int			length = 0;
 	size_t		chunkSize = _getChunkSize();
@@ -63,7 +63,7 @@ int	FT::Body::_HandleChunkedBody(void)
 }
 
 
-size_t	FT::Body::_getChunkSize(void)
+size_t	Body::_getChunkSize(void)
 {
 	std::string	chunkSizeLine = getSockStreamLine(_socketFd);
 	size_t		pos;
@@ -74,7 +74,7 @@ size_t	FT::Body::_getChunkSize(void)
 	return (_convertChunkSize(chunkSizeLine.substr(0, pos)));
 }
 
-size_t	FT::Body::_convertChunkSize(std::string chunkSize)
+size_t	Body::_convertChunkSize(std::string chunkSize)
 {
 	std::size_t			size;
 	std::stringstream	chunkStream(chunkSize);
@@ -83,7 +83,7 @@ size_t	FT::Body::_convertChunkSize(std::string chunkSize)
 	return (size);
 }
 
-int	FT::Body::_ReadMessageBody(void)
+int	Body::_ReadMessageBody(void)
 {
 	int			length = atoi(getMapItem(_headers, "Content-Length:").c_str());
 	ssize_t		bytes = 0;
@@ -105,9 +105,9 @@ int	FT::Body::_ReadMessageBody(void)
 	return (UNCHUNKED);
 }
 
-void	FT::Body::_getBodyMessage(std::string &Body)
+void	Body::_getBodyMessage(std::string &Body)
 {
-	if (_IsMultipartFormData() == true)
+	if (IsMultipartForm() == true)
 	{
 		_ClearHeader(Body);
 		_ClearFooter(Body);
@@ -115,7 +115,7 @@ void	FT::Body::_getBodyMessage(std::string &Body)
 	_body = Body;
 }
 
-bool FT::Body::_IsMultipartFormData(void)
+bool Body::IsMultipartForm(void)
 {
 	std::string	contentType;
 
@@ -124,7 +124,7 @@ bool FT::Body::_IsMultipartFormData(void)
 }
 
 
-void	FT::Body::_ClearFooter(std::string &Body)
+void	Body::_ClearFooter(std::string &Body)
 {
 	std::string	footer;
 
@@ -132,7 +132,7 @@ void	FT::Body::_ClearFooter(std::string &Body)
 	Body.erase(Body.length() - footer.length(), Body.npos);
 }
 
-void	FT::Body::_ClearHeader(std::string &Body)
+void	Body::_ClearHeader(std::string &Body)
 {
 	std::string	header;
 
@@ -141,7 +141,7 @@ void	FT::Body::_ClearHeader(std::string &Body)
 	Body.erase(0, header.length() + 4);
 }
 
-void	FT::Body::_getFileName(std::string header)
+void	Body::_getFileName(std::string header)
 {
 	std::string	filename;
 	size_t	begin;
@@ -157,17 +157,17 @@ void	FT::Body::_getFileName(std::string header)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-std::string	FT::Body::getBody(void)
+std::string	Body::getBody(void)
 {
 	return (_body);
 }
 
-std::string	FT::Body::getFileName(void)
+std::string	Body::getFileName(void)
 {
 	return (_body);
 }
 
-int	FT::Body::getContentLength(void)
+int	Body::getContentLength(void)
 {
 	return (_ContentLenght);
 }
