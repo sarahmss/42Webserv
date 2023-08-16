@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:49:33 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:43:35 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@
 	as a definition to the connect_to_network() virtual function from SimpleSocket.
 */
 
-namespace FT
-{
+
 	class ConnectingSocket: public SimpleSocket
 	{
 		public:
@@ -37,6 +36,5 @@ namespace FT
 
 			ConnectingSocket &		operator=( ConnectingSocket & rhs );
 	};
-}
 
 #endif /* ************************************************ CONNECTINGSOCKET_H */

@@ -1,57 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Request.cpp                                        :+:      :+:    :+:   */
+/*   Responder.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/03 22:19:53 by smodesto         ###   ########.fr       */
+/*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
+/*   Updated: 2023/08/10 00:55:56 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Request.hpp"
+#include "Responder.hpp"
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::Request::Request(int socketFd)
+Responder::Responder()
 {
-	_socketFd = socketFd;
 }
+
+Responder::Responder( const Responder & src )
+{
+}
+
 
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::Request::~Request() { return ;}
+Responder::~Responder()
+{
+}
+
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
+Responder &				Responder::operator=( Responder const & rhs )
+{
+	//if ( this != &rhs )
+	//{
+		//this->_value = rhs.getValue();
+	//}
+	return *this;
+}
+
+std::ostream &			operator<<( std::ostream & o, Responder const & i )
+{
+	//o << "Value = " << i.getValue();
+	return o;
+}
+
+
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
-void	FT::Request::launch(void)
-{
-	RequestParser	Request(_socketFd);
 
-	_serverName = Request.getServerName();
-	_uri = Request.getUri();
-	_runRequest();
-}
-
-void	FT::Request::_runRequest(void)
-{
-	return ;
-}
-
-void	FT::Request::_chooseServer(void)
-{
-	return ;
-}
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:44 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:49:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:43:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <stdio.h>
 #include "BindingSocket.hpp"
 
-namespace FT
-{
+
 	class ListeningSocket: public BindingSocket
 	{
 
@@ -28,9 +27,9 @@ namespace FT
 			ListeningSocket( ListeningSocket & src );
 			virtual ~ListeningSocket();
 
-			void start_listening();
-			int	get_listening();
-			int	get_backlog();
+			void	startListening();
+			int		getListening();
+			int		getBacklog();
 
 			ListeningSocket &		operator=( ListeningSocket  & rhs );
 
@@ -38,6 +37,5 @@ namespace FT
 			int backlog;
 			int listening;
 	};
-}
 
 #endif /* ************************************************* LISTENINGSOCKET_H */

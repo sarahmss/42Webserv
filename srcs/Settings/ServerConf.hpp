@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERVER_HPP
-# define SERVER_HPP
+#ifndef SERVER_CONF_HPP
+# define SERVER_CONF_HPP
 
 # include <iostream>
 # include <string>
@@ -22,22 +22,21 @@
 # include "./Directives/ErrorPages.hpp"
 
 # define ServerNameType		std::vector<std::string>
-# define ListenType			FT::Listen
-# define LocationType		FT::Location
-# define LocationVecType	std::vector<FT::Location>
-# define ErrorType			FT::ErrorPages
-# define CgiType			FT::Cgi
+# define ListenType			Listen
+# define LocationType		Location
+# define LocationVecType	std::vector<Location>
+# define ErrorType			ErrorPages
+# define CgiType			Cgi
 
-namespace FT
-{
-	class Server
+
+	class ServerConf
 	{
 		public:
-			Server();
-			Server( Server const & src );
-			~Server();
+			ServerConf();
+			ServerConf( ServerConf const & src );
+			~ServerConf();
 
-			Server &	operator=( Server const & rhs );
+			ServerConf &	operator=( ServerConf const & rhs );
 
 			ListenType			getListen(void) const;
 			ServerNameType		getServerName(void) const;
@@ -78,6 +77,5 @@ namespace FT
 
 	};
 
-	std::ostream &			operator<<( std::ostream & o, Server const & i );
-}
+	std::ostream &			operator<<( std::ostream & o, ServerConf const & i );
 #endif /* ****************************************************** SERVER_H */

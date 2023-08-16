@@ -21,10 +21,10 @@ FT::Cgi_handler::Cgi_handler () {
     _env["REMOTE_URI"] = "";
     _env["SCRIPT_FILENAME"] = "";
     _env["SCRIPT_NAME"] = "";
-    _env["SERVER_ADMIN"] = "";
+    _env["SERVER_ADMIN"] = "I'm only a human after all";
     _env["SERVER_NAME"] = "";
     _env["SERVER_PORT"] = "";
-    _env["SERVER_SOFTWARE"] = "";
+    _env["SERVER_SOFTWARE"] = "webserv";
 }
 
 FT::Cgi_handler::~Cgi_handler () {

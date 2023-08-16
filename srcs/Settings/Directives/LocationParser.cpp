@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:01 by smodesto          #+#    #+#             */
-/*   Updated: 2023/07/22 19:33:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
 
-FT::LocationParser::LocationParser() { return; }
+LocationParser::LocationParser() { return; }
 
-FT::LocationParser::LocationParser( const LocationParser & src )
+LocationParser::LocationParser( const LocationParser & src )
 {
 	*this = src;
 }
@@ -27,14 +27,14 @@ FT::LocationParser::LocationParser( const LocationParser & src )
 ** -------------------------------- DESTRUCTOR --------------------------------
 */
 
-FT::LocationParser::~LocationParser() { return; }
+LocationParser::~LocationParser() { return; }
 
 
 /*
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-FT::LocationParser	&FT::LocationParser::operator=(FT::LocationParser const &rhs)
+LocationParser	&LocationParser::operator=(LocationParser const &rhs)
 {
 	if ( this != &rhs )
 	{
@@ -48,14 +48,14 @@ FT::LocationParser	&FT::LocationParser::operator=(FT::LocationParser const &rhs)
 ** --------------------------------- METHODS ----------------------------------
 */
 
-void		FT::LocationParser::launch(std::ifstream &fs, std::string line)
+void		LocationParser::launch(std::ifstream &fs, std::string line)
 {
 	_line = line;
 	_setPrefix();
 	while (fs.good())
 	{
 		std::getline(fs, _line);
-		if (FT::IsValidLine(_line))
+		if (IsValidLine(_line))
 		{
 			if (_line == LOCATION_END)
 				return;
@@ -64,9 +64,9 @@ void		FT::LocationParser::launch(std::ifstream &fs, std::string line)
 	}
 }
 
-void	FT::LocationParser::_setPrefix(void)
+void	LocationParser::_setPrefix(void)
 {
-	FT::ClearDirective(_line, LOCATION_BEGIN);
+	ClearDirective(_line, LOCATION_BEGIN);
 
 	std::stringstream	lineStream(_line);
 	std::string			prefix;
@@ -74,12 +74,12 @@ void	FT::LocationParser::_setPrefix(void)
 	std::getline(lineStream, prefix, ' ');
 	_location.SetPrefix(prefix);
 	std::getline(lineStream, prefix, ' ');
-	FT::trim(prefix, " \t");
+	trim(prefix, " \t");
 	if (prefix != "{")
 		throw (std::invalid_argument("Failed setting location [prefix]"));
 }
 
-void	FT::LocationParser::_setLocation(void)
+void	LocationParser::_setLocation(void)
 {
 	if (!_line.find(ALLOWED_METHODS, 0))
 		_setAllowedMethods();
@@ -101,9 +101,9 @@ void	FT::LocationParser::_setLocation(void)
 		throw (std::invalid_argument("Failed setting location [directives]"));
 }
 
-void	FT::LocationParser::_setAllowedMethods(void)
+void	LocationParser::_setAllowedMethods(void)
 {
-	FT::ClearDirective(_line, ALLOWED_METHODS);
+	ClearDirective(_line, ALLOWED_METHODS);
 	std::stringstream	lineStream(this->_line);
 	std::string			allowedMethod;
 
@@ -114,9 +114,9 @@ void	FT::LocationParser::_setAllowedMethods(void)
 	}
 }
 
-void	FT::LocationParser::_setIndex(void)
+void	LocationParser::_setIndex(void)
 {
-	FT::ClearDirective(_line, INDEX);
+	ClearDirective(_line, INDEX);
 	std::stringstream	lineStream(this->_line);
 	std::string			index;
 
@@ -127,9 +127,9 @@ void	FT::LocationParser::_setIndex(void)
 	}
 }
 
-void	FT::LocationParser::_setAutoindex(void)
+void	LocationParser::_setAutoindex(void)
 {
-	FT::ClearDirective(_line, AUTOINDEX);
+	ClearDirective(_line, AUTOINDEX);
 
 	if (_line == "on")
 		_location.SetAutoIndex(true);
@@ -139,37 +139,37 @@ void	FT::LocationParser::_setAutoindex(void)
 		throw (std::invalid_argument("Failed setting location [autoindex]. "));
 }
 
-void	FT::LocationParser::_setBodySize(void)
+void	LocationParser::_setBodySize(void)
 {
-	FT::ClearDirective(_line, BODY_SIZE);
+	ClearDirective(_line, BODY_SIZE);
 
-	if ((!FT::IsValidBodySize(_line)) || (!OnlyOneArg(_line)))
+	if ((!IsValidBodySize(_line)) || (!OnlyOneArg(_line)))
 		throw (std::invalid_argument("Failed setting location [body_size] "));
 	else
 		_location.SetBodySize(atoi(_line.c_str()));
 }
 
-void	FT::LocationParser::_setRoot(void)
+void	LocationParser::_setRoot(void)
 {
-	FT::ClearDirective(_line, ROOT);
+	ClearDirective(_line, ROOT);
 
 	if ((_location.hasRootSet()) || (!OnlyOneArg(_line)) || _line.empty())
 		throw (std::invalid_argument("Failed setting location [root]"));
 	_location.SetRoot(_line);
 }
 
-void	FT::LocationParser::_setRedirection(void)
+void	LocationParser::_setRedirection(void)
 {
-	FT::ClearDirective(_line, ROOT);
+	ClearDirective(_line, ROOT);
 
 	if ((_location.hasRedirectionSet()) || !OnlyOneArg(_line) || _line.empty())
 		throw (std::invalid_argument("Failed setting location [redirection]"));
 	_location.SetRedirection(_line);
 }
 
-void	FT::LocationParser::_setErrorPage(void)
+void	LocationParser::_setErrorPage(void)
 {
-	FT::ClearDirective(_line, ERROR_PAGE);
+	ClearDirective(_line, ERROR_PAGE);
 
 	if (OnlyOneArg(_line))
 		throw(std::invalid_argument("Failed setting location [error_page]"));
@@ -177,7 +177,7 @@ void	FT::LocationParser::_setErrorPage(void)
 	size_t		pos = _line.find_last_of(' ');
 	std::string	pagePath = _line.substr(pos + 1);
 	std::string	codes = _line.substr(0, pos);
-	FT::trim(codes, " \t");
+	trim(codes, " \t");
 
 	std::stringstream	codeStream(codes);
 
@@ -188,9 +188,9 @@ void	FT::LocationParser::_setErrorPage(void)
 	}
 }
 
-void	FT::LocationParser::_setCgi(void)
+void	LocationParser::_setCgi(void)
 {
-	FT::ClearDirective(_line, CGI);
+	ClearDirective(_line, CGI);
 
 	if (OnlyOneArg(_line))
 		throw(std::invalid_argument("Failed setting location [cgi]"));
@@ -224,12 +224,12 @@ void	FT::LocationParser::_setCgi(void)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
-FT::Location		FT::LocationParser::getLocation(void) const
+Location		LocationParser::getLocation(void) const
 {
 	return (_location);
 }
 
-std::string			FT::LocationParser::getLine(void) const
+std::string			LocationParser::getLine(void) const
 {
 	return (_line);
 }
