@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 21:40:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:41:04 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ std::string intToString(int value)
 bool	isKnownMethod(std::string method)
 {
 	std::string Methods[7] = {"HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"};
-
 
 	for (int i = 0; i < 7; i++)
 		if (method == Methods[i])
