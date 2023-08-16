@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:45:06 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/14 21:58:48 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 	class Handler
 	{
 		public:
+			Handler(void);
 			Handler(int clientSocket, ServerConf conf);
 			~Handler();
 
@@ -47,7 +48,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 			std::string			_method;
 
 
-			void				_checkRequest(void);
+			void				_checkRequest();
 			void				_selectLocation(void);
 			LocationQueueType	_checkLocation(void);
 			std::string			_setPrefix(Location location);

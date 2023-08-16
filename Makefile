@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/14 19:06:51 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/15 19:02:24 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/httpMessages/Request/RequestParser.cpp			\
 				./srcs/httpMessages/Request/Body.cpp					\
 				./srcs/httpMessages/Response/ResponseBuilder.cpp		\
+				./srcs/httpMessages/Response/Responder.cpp				\
 				./srcs/httpMessages/Response/File_operation/File_op.cpp	\
 				./srcs/Cgi_handler/Cgi_handler.cpp						\
 				./srcs/multiplexing/PollHandler.cpp						\
@@ -69,6 +70,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/httpMessages/Request/RequestParser.hpp			\
 					./srcs/httpMessages/Request/Body.hpp					\
 					./srcs/httpMessages/Response/ResponseBuilder.hpp		\
+					./srcs/httpMessages/Response/Responder.hpp				\
 					./srcs/httpMessages/Response/File_operation/File_op.hpp	\
 					./srcs/Cgi_handler/Cgi_handler.hpp						\
 					./srcs/multiplexing/PollHandler.hpp						\

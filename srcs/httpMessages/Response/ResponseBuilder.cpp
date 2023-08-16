@@ -17,6 +17,7 @@ ResponseBuilder::ResponseBuilder() {
 	_code_description.insert(std::make_pair("201", "Created"));
 	_code_description.insert(std::make_pair("204", "Not created"));
 
+	_code_description.insert(std::make_pair("301", "Moved Permanently"));
 	_code_description.insert(std::make_pair("302", "Found"));
 
 	_code_description.insert(std::make_pair("400", "Bad Request"));

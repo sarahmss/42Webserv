@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 20:58:40 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:58:23 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ RequestParser::RequestParser() { return ;}
 RequestParser::RequestParser(int socketFd)
 {
 	_method = "";
-	_uri = "";
 	_protocolVersion = "";
+	_uri = "";
 	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
+
 }
 
 RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -50,6 +51,7 @@ RequestParser &	RequestParser::operator=( RequestParser const & rhs )
 		this->_headers = rhs.getHeaders();
 		this->_method = rhs.getMethod();
 		this->_uri = rhs.getUri();
+		this->_protocolVersion = rhs.getProtocolVersion();
 	}
 	return *this;
 }
@@ -147,6 +149,12 @@ std::string	RequestParser::getMethod() const
 {
 	return (_method);
 }
+
+std::string	RequestParser::getProtocolVersion() const
+{
+	return (_protocolVersion);
+}
+
 std::string	RequestParser::getUri() const
 {
 	return (_uri);
@@ -164,11 +172,6 @@ std::string	RequestParser::getHeader(const std::string &HeaderName) const
 std::string	RequestParser::getBody() const
 {
 	return (_body);
-}
-
-std::string	RequestParser::getProtocolVersion() const
-{
-	return (_protocolVersion);
 }
 
 int			RequestParser::getContentLength(void) const

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 20:59:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/15 20:58:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@
 			bool		IsMultipartForm();
 			std::string	getRequest() const;
 			std::string	getMethod() const;
+			std::string	getProtocolVersion() const;
 			std::string	getUri() const;
 			HeadersType	getHeaders() const;
 			std::string	getHeader(const std::string &HeaderName) const;
 			std::string	getBody() const;
-			std::string	getProtocolVersion() const;
 			std::string	getServerName(void) const;
 			int			getContentLength(void) const;
 

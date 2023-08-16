@@ -14,7 +14,7 @@
 #define WEB_SERV_HPP
 
 # include "../multiplexing/PollHandler.hpp"
-# include "../httpMessages/Response/ResponseBuilder.hpp"
+# include "../httpMessages/Response/Responder.hpp"
 
 typedef std::map<int, ConfsVecType>	PortServerType;
 typedef std::vector<SimpleServer *>	SimpleServerVecType;
@@ -34,16 +34,17 @@ typedef std::vector<SimpleServer *>	SimpleServerVecType;
 			ConfsVecType		_serversConfs;
 			PortServerType		_portServer;
 			size_t				_backLog;
-			ResponseBuilder		resp_build;
+			Handler				_handler;
+			Responder			_responder;
 
 			void			_groupServers(void);
 			void			_initServers(void);
 			void			_addToPoll(SimpleServer *newServer);
 			void			_removeFromPoll(int fd);
 			void			_coreLoop(void);
-			void			_accepter(SimpleServer *server);
-			void			_handler(SimpleServer* server);
-			void			_responder(SimpleServer* server);
+			void			_launchAccepter(SimpleServer *server);
+			void			_launchHandler(SimpleServer* server);
+			void			_launchResponder(SimpleServer* server);
 	};
 
 #endif /* ******************************************************* WebServ_H */
