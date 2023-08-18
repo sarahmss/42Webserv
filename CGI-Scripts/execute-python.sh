@@ -1,3 +1,3 @@
 #!/bin/bash
 
-[ ! -z $SCRIPT_FILENAME ] && python $SCRIPT_FILENAME
+[ ! -z $SCRIPT_FILENAME ] && $SCRIPT_FILENAME

@@ -49,24 +49,24 @@ std::string ResponseBuilder::build_body_with_file(std::string path) {
 
 std::string ResponseBuilder::build_content_len(std::string &body) {
     std::string len_section = "Content-Length: ";
-    return len_section + cast_to_string(body.size()) + "\n";
+    return len_section + cast_to_string(body.size()) + CRLF;
 }
 
 std::string ResponseBuilder::build_body(std::string body) {
     std::string content_body_section = build_content_len(body);
-    content_body_section = "\n" + body;
+    content_body_section = CRLF + body;
     return (content_body_section);
 }
 
 std::string ResponseBuilder::build_value_pair(std::string header, std::string value) {
-    std::string value_pair = header + ": " + value + "\n";
+    std::string value_pair = header + ": " + value + CRLF;
     return value_pair;
 }
 
 std::string ResponseBuilder::build_protocol_status(std::string protocol_and_version, std::string code) {
     std::string header_section = protocol_and_version +
         " " + code + " " +
-        _code_description[code] + "\n";
+        _code_description[code] + CRLF;
 
     return header_section;
 }
@@ -76,22 +76,22 @@ void ResponseBuilder::add_body_with_file(std::string path) {
 }
 
 void ResponseBuilder::add_content_len(std::string &body) {
-    response += "Content-Length: " + cast_to_string(body.size()) + "\n";
+    response += "Content-Length: " + cast_to_string(body.size()) + CRLF;
 }
 
 void ResponseBuilder::add_body(std::string body) {
     add_content_len(body);
-    response += "\n" + body;
+    response += CRLF + body;
 }
 
 void ResponseBuilder::add_value_pair(std::string header, std::string value) {
-    response += header + ": " + value + "\n";
+    response += header + ": " + value + CRLF;
 }
 
 void ResponseBuilder::add_protocol_status(std::string protocol_and_version, std::string code) {
     response += protocol_and_version +
         " " + code + " " +
-        _code_description[code] + "\n";
+        _code_description[code] + CRLF;
 }
 
 void ResponseBuilder::reset() {
