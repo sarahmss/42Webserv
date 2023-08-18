@@ -22,6 +22,14 @@ namespace FT {
         private:
             int _check_is_dir(std::string full_path);
 
+			void _add_simple_bullet(std::string &buff,
+					std::string bullet_name,
+					std::string symbol);
+
+			void _add_img_bullet(std::string &buff,
+					std::string bullet_name,
+					std::string url_path);
+
             void _add_header(std::string &buff,
                     std::string page_title,
                     std::string font_family,

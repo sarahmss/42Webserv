@@ -24,6 +24,19 @@ int FT::Dir_listing::_check_is_dir(std::string full_path) {
 	return (S_ISDIR(path_stat.st_mode));
 }
 
+void FT::Dir_listing::_add_simple_bullet(std::string &buff,
+		std::string bullet_name,
+		std::string symbol) {
+	buff += "." + bullet_name + "::before { content: \"" + symbol + "\"; margin-right: 0.5em }\n";
+}
+
+void FT::Dir_listing::_add_img_bullet(std::string &buff,
+		std::string bullet_name,
+		std::string url_path) {
+	buff += "." + bullet_name + "::before {content: \'\'; display: inline-block; width: 20px; height: 20px;";
+	buff += "background-image: url(\'" + url_path + "\');background-size: cover; margin-right: 0.5em;}\n";
+}
+
 void FT::Dir_listing::_add_style(std::string &buff,
 		std::string &font_family,
 		std::string &dir_img) {
@@ -35,20 +48,18 @@ void FT::Dir_listing::_add_style(std::string &buff,
 
 	// Directory bullet
 	if (dir_img == "")
-		buff += ".dir-bullet::before { content: \"-D\"; margin-right: 0.5em }\n";
-	else {
-		buff += ".dir-bullet::before {content: \'\'; display: inline-block; width: 20px; height: 20px;";
-		buff += "background-image: url(\'" + dir_img + "\');background-size: cover; margin-right: 0.5em;}";
-	}
+		_add_simple_bullet(buff, "dir-bullet", "-D");
+	else
+		_add_img_bullet(buff, "dir-bullet", dir_img);
 
 	// file bullet
-	buff += ".file-bullet::before { content: \"-F\"; margin-right: 0.5em }\n";
+	_add_simple_bullet(buff, "file-bullet", "-F");
 
 	// Link bullet
-	buff += ".link-bullet::before { content: \"-L\"; margin-right: 0.5em }\n";
+	_add_simple_bullet(buff, "link-bullet", "-L");
 
 	// Generic bullet
-	buff += ".generic-bullet::before { content: \"-\\2022\"; margin-right: 0.5em }\n";
+	_add_simple_bullet(buff, "generic-bullet", "-\\2022");
 
 	buff += "</style>";
 }
