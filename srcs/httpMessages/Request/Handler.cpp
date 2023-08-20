@@ -19,7 +19,7 @@ Handler::Handler(void) { return ; }
 
 Handler::Handler(int clientSocket, ServerConf conf)
 {
-	codeDescription = std::make_pair("200", "Ok");
+	response_code = "200";
 	headerField = std::make_pair("", "");
 	getResponsePath = std::make_pair("", ""); // body -> path
 	_clientSocket = clientSocket;
@@ -56,7 +56,7 @@ bool	Handler::_checkRedirection(void)
 	if (redirection == "")
 		return (false);
 	headerField = std::make_pair("Location", redirection);
-	codeDescription = std::make_pair("301", "Moved Permanently");
+	response_code = "301";
 	return (true);
 }
 
@@ -65,8 +65,10 @@ void	Handler::_checkRequest()
 	std::string	method = _requestParsed.getMethod();
 	std::string	uri = _requestParsed.getUri();
 	std::string	protocolVersion = _requestParsed.getProtocolVersion();
-	if ( method == "" || uri == "" || protocolVersion == "")
+	if ( method == "" || uri == "" || protocolVersion == "") {
+		response_code = "400";
 		throw (std::invalid_argument("Invalid request [Missing arg in request line]"));
+	}
 }
 
 void	Handler::_selectLocation(void)
@@ -74,8 +76,10 @@ void	Handler::_selectLocation(void)
 	LocationQueueType	locations;
 
 	locations = _checkLocation();
-	if (locations.empty())
+	if (locations.empty()) {
+		response_code = "404";
 		throw (std::invalid_argument("Location not found"));
+	}
 	_location = locations.top();
 }
 
@@ -113,8 +117,11 @@ void	Handler::_checkMethod(void)
 	found = methods.find(_method);
 	if (found == methods.end())
 	{
-		if (isKnownMethod(_method) == false)
+		if (isKnownMethod(_method) == false) {
+			response_code = "501";
 			throw(std::invalid_argument("Invalid request [Not Known Method]"));
+		}
+		response_code = "405";
 		throw(std::invalid_argument("Method not allowed: " + _method));
 	}
 }
@@ -168,15 +175,17 @@ void	Handler::_launchPost(void)
 		newFile.open(filePath.c_str(), std::ios::binary);
 		if (!newFile.is_open())
 		{
+			response_code = "500";
 			throw (std::runtime_error("Failed to open file for writing"));
-			return ;
 		}
 		newFile.write(body.c_str(), body.length());
-		if (newFile.fail())
+		if (newFile.fail()) {
+			response_code = "500";
 			throw std::runtime_error("Failed to write [POST]");
+		}
 		newFile.close();
 		headerField = std::make_pair("Location", fileLocation);
-		codeDescription = std::make_pair("201", "Created");
+		response_code = "201";
 	}
 }
 
@@ -190,8 +199,10 @@ void	Handler::_checkPayload(void)
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
 
-	if (bodyLength > payloadMaxSize)
+	if (bodyLength > payloadMaxSize) {
+		response_code = "413";
 		throw (std::invalid_argument("Payload Too Large"));
+	}
 }
 
 
@@ -208,7 +219,7 @@ void	Handler::_launchGet(std::string path)
 							intToString(_conf.getListen().getPort()),
 							_uri);
 		else
-			codeDescription = std::make_pair("404", "Not Found");
+			response_code = "404";
 	}
 	else if (isFile(path))
 		getResponsePath = getFileContent(path);

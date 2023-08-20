@@ -34,7 +34,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 			void				launch(void);
 			RequestParser		getRequestParser(void);
 
-			strPairType			codeDescription;
+			std::string			response_code;
 			strPairType			headerField;
 			strPairType			getResponsePath;
 

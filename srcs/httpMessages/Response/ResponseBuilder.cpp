@@ -24,8 +24,11 @@ ResponseBuilder::ResponseBuilder() {
 	_code_description.insert(std::make_pair("401", "Unauthorized"));
 	_code_description.insert(std::make_pair("403", "Forbidden"));
 	_code_description.insert(std::make_pair("404", "Not found"));
+	_code_description.insert(std::make_pair("405", "Method not allowed"));
+	_code_description.insert(std::make_pair("413", "Payload too large"));
 
 	_code_description.insert(std::make_pair("500", "Internal Error"));
+	_code_description.insert(std::make_pair("501", "Not Implemented"));
 	_code_description.insert(std::make_pair("503", "Service Unavalaible"));
 	}
 

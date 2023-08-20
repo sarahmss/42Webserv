@@ -154,7 +154,7 @@ void	WebServ::_launchResponder(SimpleServer* server)
 	int	clientSocket = server->getClientSocket();
 	_responder = Responder(clientSocket,
 			server->getConf().ServerNameToString(),
-			_handler.codeDescription.first,
+			_handler.response_code,
 			_handler.getResponsePath.first,
 			_handler.headerField);
 

@@ -2,14 +2,13 @@
 #include <map>
 #include <vector>
 #include <string>
+#include "../Utils.hpp"
 
 // This class will only build the sections for the http response
 // No security checks will be done here
 
 #ifndef RESPONSE_BUILDER
 #define RESPONSE_BUILDER
-
-#define CRLF "\r\n"
 
 class ResponseBuilder {
     public:
