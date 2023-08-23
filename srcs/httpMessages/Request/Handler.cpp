@@ -40,16 +40,12 @@ void	Handler::launch(void)
 
 	_serverName = _requestParsed.getServerName();
 	_uri = _requestParsed.getUri();
-	try {
-		_checkRequest();
-		_selectLocation();
-		if (_checkRedirection())
-			return ;
-		_checkMethod();
-		_setBody();
-	}
-	catch (std::exception) {
-	}
+	_checkRequest();
+	_selectLocation();
+	if (_checkRedirection())
+		return ;
+	_checkMethod();
+	_setBody();
 }
 
 bool	Handler::_checkRedirection(void)
