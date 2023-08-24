@@ -181,8 +181,10 @@ bool	Handler::_checkCgi(std::string path)
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()))
 			return (false);
-	} else if (!isFile(path)) // [LOGGING]
+	} else if (!isFile(path)) { // [LOGGING] 
+		response_code = "404";
 		throw (std::runtime_error("file not found [cgi]"));
+	}
 	extension = getExtension(path);
 	if (_location.getCgi().size() != 0)
 		cgi = _location.getCgi();
@@ -269,9 +271,10 @@ void	Handler::_launchDelete(std::string path)
 
 void	Handler::_launchCGI(std::string path) {
 	std::map<std::string, std::string> env;
+	_prepare_env_map(env, path);
 }
 
-void	Handler::prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
+void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
     env_map["DOCUMENT_ROOT"] = _conf.getRoot();
     env_map["HTTP_HOST"] = "";
     env_map["HTTP_REFERER"] = "";
@@ -299,10 +302,3 @@ RequestParser	Handler::getRequestParser(void)
 	return (_requestParsed);
 }
 /* ************************************************************************** */
-
-static std::string _get_extension(std::string req_path) {
-    int index = req_path.find_last_of(".") + 1;
-    if (index == -1 || index == req_path.size())
-        return "";
-    return req_path.substr(index);
-}

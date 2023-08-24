@@ -23,15 +23,13 @@ namespace FT {
 			Cgi_handler (Cgi_handler &other);
 			Cgi_handler& operator=(const Cgi_handler &other);
 
-            int     cgi_handler(std::string body);
+			std::string	cgi_handler(std::string extension, std::string body);
 
         private:
             void    _not_found();
             void    _error();
 
             void    _handler(std::string extension);
-
-            std::string _get_extension(std::string req_path);
 
             int         _open_socketpair();
             char const**_make_list(std::vector<const char *> &env_vec);

@@ -70,8 +70,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 
 			bool				_checkCgi(std::string path);
 			void				_checkPayload(void);
-
-			std::string			_get_extension(std::string req_path);
+			void				_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path);
 	};
 
 #endif /* *************************************************** Request_H */

@@ -1,5 +1,3 @@
-
-
 #include "Cgi_handler.hpp"
 #include <unistd.h>
 
@@ -8,23 +6,6 @@
 FT::Cgi_handler::Cgi_handler () {
     _cgi_program_list.addProgram("php", "/usr/bin/php-cgi");
     _cgi_program_list.addProgram("py", "CGI-Scripts/execute-python.sh");
-    _env["DOCUMENT_ROOT"] = "";
-    _env["HTTP_HOST"] = "";
-    _env["HTTP_REFERER"] = "";
-    _env["HTTP_USER_AGENT"] = "";
-    _env["PATH"] = "";
-    _env["QUERY_STRING"] = "";
-    _env["REMOTE_ADDR"] = "";
-    _env["REMOTE_HOST"] = "";
-    _env["REMOTE_PORT"] = "";
-    _env["REMOTE_USER"] = "";
-    _env["REMOTE_URI"] = "";
-    _env["SCRIPT_FILENAME"] = "";
-    _env["SCRIPT_NAME"] = "";
-    _env["SERVER_ADMIN"] = "I'm only a human after all";
-    _env["SERVER_NAME"] = "";
-    _env["SERVER_PORT"] = "";
-    _env["SERVER_SOFTWARE"] = "webserv";
 }
 
 FT::Cgi_handler::~Cgi_handler () {
@@ -51,27 +32,17 @@ int FT::Cgi_handler::_open_socketpair() {
     return 0;
 }
 
-std::string FT::Cgi_handler::_get_extension(std::string req_path) {
-    int index = req_path.find_last_of(".") + 1;
-    if (index == -1 || index == req_path.size())
-        return "";
-    return req_path.substr(index);
-}
-
 // Return value meaning
 // 1 = no extension specified
 // 0 = Success
 // -1 = Failure at some point
-int FT::Cgi_handler::cgi_handler(std::string body="") {
+std::string FT::Cgi_handler::cgi_handler(std::string extension, std::string body="") {
 
     int status;
     char buff[10000];
-    std::string extension = _get_extension(_env["SCRIPT_FILENAME"]);
 
-    if (extension == "")
-        return (1);
     if (this->_open_socketpair() == -1)
-        return (-1);
+		return "";
 
     int child_pid = fork();
     if (child_pid == -1)
@@ -88,7 +59,7 @@ int FT::Cgi_handler::cgi_handler(std::string body="") {
 
     close(_socketpair_fd[0]);
     close(_socketpair_fd[1]);
-    return 0;
+    return std::string(buff);
 }
 
 char const **FT::Cgi_handler::_make_list(std::vector<const char *> &env_vector) {
