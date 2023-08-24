@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/24 00:40:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:58:51 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ WebServ::~WebServ(void) {
 			delete _simpleServers[i];
 }
 
-
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
@@ -47,16 +46,18 @@ void	WebServ::launch(void)
 	_coreLoop();
 }
 
-
-
 /*
 	@brief: Init Servers based in port number
 */
 void	WebServ::_initServers(void)
 {
+	// [LOGGING]
+	std::cout << "++ Initing Servers" << std::endl;
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
 		int port = _serversConfs[i].getListen().getPort();
+		// [LOGGING]
+		std::cout << "++ Starting listen() in port " << port << std::endl;
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
@@ -95,9 +96,11 @@ void	WebServ::_coreLoop(void)
 			epollEventType	&currentEvent = _epoll.getEvents()[i];
 			server = static_cast<SimpleServer *>(currentEvent.data.ptr);
 
-			_launchAccepter(server);
 			if (currentEvent.events & EPOLLIN)
+			{
+				_launchAccepter(server);
 				_launchHandler(server);
+			}
 			if (currentEvent.events & EPOLLOUT)
 				_launchResponder(server);
 			if (currentEvent.events & EPOLLERR)
@@ -122,6 +125,10 @@ void	WebServ::_launchAccepter(SimpleServer* server)
 	int					address_len = sizeof(address);
 	int					clientSocket;
 
+	// [LOGGING]
+	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+	std::cout << "++ Accepting conections in " << server->getPort() << std::endl;
+
 	clientSocket = accept(socket->get_sock(),
 						(struct sockaddr *)&address,
 						(socklen_t *)&address_len);
@@ -134,6 +141,8 @@ void	WebServ::_launchHandler(SimpleServer* server)
 	int			clientSocket = server->getClientSocket();
 	_handler = Handler(clientSocket, server->getConf());
 
+	// [LOGGING]
+	std::cout << "++ Request Received " << std::endl;
 	_handler.launch();
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
 }
@@ -142,6 +151,8 @@ void	WebServ::_launchResponder(SimpleServer* server)
 {
 	int	clientSocket = server->getClientSocket();
 
+	// [LOGGING]
+	std::cout << " ++ launching responder" << std::endl;
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.codeDescription.first,
