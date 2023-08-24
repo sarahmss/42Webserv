@@ -1,4 +1,34 @@
 import requests
+import subprocess
+import signal
+import time
+import os
+
+def get_log_file(infile):
+	log_file_name = os.path.splitext(infile)[0] + ".log"
+	log_file_path = os.path.join("logs", log_file_name)
+	os.makedirs("logs", exist_ok=True)
+	return (log_file_path)
+
+def start_webserv(infile):
+	global web_server_process
+	log_file_path = get_log_file(infile)
+	os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+	with open(log_file_path, 'w') as log_file:
+		web_server_process = subprocess.Popen(["sudo", "./webserv", infile],
+												stdout=log_file,
+												stderr=log_file)
+
+def test(test_name, infile, test_func):
+	print (test_name, end="")
+	start_webserv(infile)
+	time.sleep(2)
+	if (test_func() == True):
+		print(" -> ✔️")
+	else:
+		print("-> ❌ Error [stts code]")
+	web_server_process.send_signal(signal.SIGINT)
+
 
 """"
 	@brief: Makes a GET request and returns response

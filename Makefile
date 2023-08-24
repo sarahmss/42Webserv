@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/24 00:27:01 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/24 01:35:41 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,15 +102,18 @@ clean:
 
 fclean:		clean
 			@rm -f $(NAME)
+			@rm -rf logs
+			rm -rf tests/__pycache__
+
 
 re: fclean all
 
 test_misconfig:
-	python3 ./tests/misconfig/misconfig.py
+	sudo python3 ./tests/misconfig/misconfig.py
 
 test_get:
-	python3 tests/methods/GET/get.py
+	sudo python3 tests/methods/GET/get.py
 
 test_post:
-	python3 tests/methods/POST/post.py
+	sudo python3 tests/methods/POST/post.py
 .PHONY: all clean fclean re

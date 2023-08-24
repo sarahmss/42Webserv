@@ -1,7 +1,7 @@
 import sys
 import time
 sys.path.append('./tests')
-import methods
+import tests.methods as methods
 import subprocess
 
 def start_webserv(infile):
