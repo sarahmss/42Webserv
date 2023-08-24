@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/15 20:24:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:35:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,23 @@ void	WebServ::_launchHandler(SimpleServer* server)
 void	WebServ::_launchResponder(SimpleServer* server)
 {
 	int	clientSocket = server->getClientSocket();
-	_responder = Responder(clientSocket,
+
+	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.response_code,
 			_handler.getResponsePath.first,
 			_handler.headerField);
-
-	_responder.launch();
+	try
+	{
+		_responder.sendResponse();
+		// [LOGGING]
+		std::cout << "++ Response sent " << std::endl;
+	}
+	catch (const std::exception & e)
+	{
+		return ;
+		// [LOGGING] response failed
+	}
 	_removeFromPoll(clientSocket);
 }
 

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:53:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:06:13 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@
 	std::string	getFileLocation(std::string fileName, std::string fileLocation);
 	strPairType	getFileContent(std::string path);
 	strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri);
+	std::string	getExtension(std::string path);
 
 #endif // UTILS_HPP

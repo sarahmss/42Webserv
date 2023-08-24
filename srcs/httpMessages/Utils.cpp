@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/15 20:41:04 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:05:37 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ bool findIndex(std::string &path, std::vector<std::string> indexes)
 		}
 	}
 	return (false);
+}
+
+std::string	getExtension(std::string path)
+{
+	size_t pos;
+	size_t size;
+
+	pos = path.rfind(".");
+	if (pos == std::string::npos)
+		return ("");
+	size = path.size();
+	return (path.substr(pos, size));
 }
 
 std::string intToString(int value)

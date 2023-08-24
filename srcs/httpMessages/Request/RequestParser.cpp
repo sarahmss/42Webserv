@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/15 20:58:23 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:45:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ RequestParser::RequestParser(int socketFd)
 	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
+	// [LOGGING]
+	std::cout << " ++ Request Parsed" << std::endl;
 }
 
 RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -81,6 +83,8 @@ void	RequestParser::_parseRequest(void)
 {
 	std::string	requestLine;
 
+	// [LOGGING]
+	std::cout << "++Parsing request..." << std::endl;
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
 		requestLine = getSockStreamLine(_socketFd);
@@ -97,6 +101,8 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	std::stringstream	RequestLineStream(RequestLine);
 	std::string			line;
 
+	// [LOGGING]
+	std::cout << " ++ Parsing RequestLine" << std::endl;
 	std::getline(RequestLineStream, line, ' ');
 	_method = line;
 	std::getline(RequestLineStream, line, ' ');
@@ -110,6 +116,8 @@ void	RequestParser::_parseHeader(const std::string Headers)
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
 
+	// [LOGGING]
+//	std::cout << " ++ Parsing headers" << std::endl;
 	while (getline(HeadersStream, line))
 	{
 		std::size_t pos = line.find(' ');
@@ -124,11 +132,13 @@ void	RequestParser::_parseBody()
 	Body	body(_socketFd, _headers);
 	int		bodyStatus = body.parseBody();
 
-	if (bodyStatus == EMPTYBODY)
+	// [LOGGING]
+	std::cout << " ++ Parsing body" << std::endl;
+	if (bodyStatus == EMPTYBODY)	// [LOGGING] body stts
 		return ;
-	if (bodyStatus == UNCHUNKED)
+	if (bodyStatus == UNCHUNKED)	// [LOGGING] body stts
 		_headers["filename:"] = body.getFileName();
-	if (bodyStatus == CHUNKED)
+	if (bodyStatus == CHUNKED)		// [LOGGING] body stts
 		_headers["Content-Length:"] = body.getContentLength();
 	_body = body.getBody();
 	_multPart = body.IsMultipartForm();
