@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/23 23:43:15 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:10:48 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,9 @@ void	Handler::_setBody(void)
 	std::string	path;
 
 	path = _setPath();
-	if (_method == "POST")
+	if (_checkCgi(path) == true)
+		return ; // Handle CGI
+	else if (_method == "POST")
 		_launchPost();
 	else if (_method == "GET")
 		_launchGet(path);
@@ -156,6 +158,30 @@ std::string	Handler::_setPath(void)
 	} else
 		path = _conf.getRoot() + _uri;
 	return(path);
+}
+
+bool	Handler::_checkCgi(std::string path)
+{
+	std::string	extension;
+	Cgi			cgi;
+
+	if (_conf.getCgi().size() == 0 || _location.getCgi().size() == 0)
+		return(false);
+	if (isDirectory(path))
+	{
+		checkSlash(path);
+		if (findIndex(path, _location.getIndex()))
+			return (false);
+	} else if (!isFile(path)) // [LOGGING]
+		throw (std::runtime_error("file not found [cgi]"));
+	extension = getExtension(path);
+	if (_location.getCgi().size() != 0)
+		cgi = _location.getCgi();
+	else
+		cgi = _conf.getCgi();
+	if (!cgi.hasExtension(extension))
+		return (false);
+	return (true);
 }
 
 void	Handler::_launchPost(void)

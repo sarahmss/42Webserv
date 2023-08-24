@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 21:58:48 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:55:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 			void				_launchPost(void);
 			void				_launchGet(std::string path);
 			void				_launchDelete(std::string path);
+			bool				_checkCgi(std::string path);
 			void				_checkPayload(void);
 	};
 
