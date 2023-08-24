@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/15 19:02:24 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/23 21:50:57 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,6 +106,8 @@ fclean:		clean
 re: fclean all
 
 test_misconfig:
-	python3 ./tests/misconfig.py
+	python3 ./tests/misconfig/misconfig.py
 
+test_listen:
+	python3 ./tests/directives/listen/listen.py
 .PHONY: all clean fclean re

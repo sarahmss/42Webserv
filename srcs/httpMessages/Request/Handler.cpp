@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/15 20:59:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:43:15 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,20 @@ void	Handler::launch(void)
 
 	_serverName = _requestParsed.getServerName();
 	_uri = _requestParsed.getUri();
-	_checkRequest();
-	_selectLocation();
-	if (_checkRedirection())
+	try
+	{
+		_checkRequest();
+		_selectLocation();
+		if (_checkRedirection())
+			return ;
+		_checkMethod();
+		_setBody();
+	}
+	catch (const std::exception & e)
+	{
 		return ;
-	_checkMethod();
-	_setBody();
+		// [LOGGING] e
+	}
 }
 
 bool	Handler::_checkRedirection(void)
