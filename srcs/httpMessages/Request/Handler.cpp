@@ -34,6 +34,7 @@ Handler::~Handler() { return ;}
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
+
 void	Handler::launch(void)
 {
 	_requestParsed = RequestParser(_clientSocket);
@@ -126,12 +127,16 @@ void	Handler::_checkMethod(void)
 	}
 }
 
+
 void	Handler::_setBody(void)
 {
 	std::string	path;
 
 	path = _setPath();
-	if (_method == "POST")
+
+	if (_conf.getCgi().getProgram(_get_extension(_uri)) != "")
+		_launchCGI(path);
+	else if (_method == "POST")
 		_launchPost();
 	else if (_method == "GET")
 		_launchGet(path);
@@ -230,6 +235,30 @@ void	Handler::_launchDelete(std::string path)
 	std::cout << path;
 	return ;
 }
+
+void	Handler::_launchCGI(std::string path) {
+	std::map<std::string, std::string> env;
+}
+
+void	Handler::prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
+    env_map["DOCUMENT_ROOT"] = _conf.getRoot();
+    env_map["HTTP_HOST"] = "";
+    env_map["HTTP_REFERER"] = "";
+    env_map["HTTP_USER_AGENT"] = "";
+    env_map["PATH"] = "";
+    env_map["QUERY_STRING"] = _uri.find_first_of("?");
+    env_map["REMOTE_ADDR"] = "";
+    env_map["REMOTE_HOST"] = "";
+    env_map["REMOTE_PORT"] = "";
+    env_map["REMOTE_USER"] = "";
+    env_map["REMOTE_URI"] = _uri;
+    env_map["SCRIPT_FILENAME"] = path;
+    env_map["SCRIPT_NAME"] = "";
+    env_map["SERVER_ADMIN"] = "I'm only a human after all";
+    env_map["SERVER_NAME"] = _conf.getServerName()[0];
+    env_map["SERVER_PORT"] = "";
+    env_map["SERVER_SOFTWARE"] = "webserv";
+}
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
@@ -239,3 +268,10 @@ RequestParser	Handler::getRequestParser(void)
 	return (_requestParsed);
 }
 /* ************************************************************************** */
+
+static std::string _get_extension(std::string req_path) {
+    int index = req_path.find_last_of(".") + 1;
+    if (index == -1 || index == req_path.size())
+        return "";
+    return req_path.substr(index);
+}

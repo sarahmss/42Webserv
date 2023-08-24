@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include <queue>
+# include "../../Cgi_handler/Cgi_handler.hpp"
 # include "../../Settings/Parser.hpp"
 #include "../Response/Responder.hpp"
 # include "./RequestParser.hpp"
@@ -49,17 +50,27 @@ typedef std::priority_queue<Location> LocationQueueType;
 
 
 			void				_checkRequest();
+			void				_checkCGI(void);
+
 			void				_selectLocation(void);
-			LocationQueueType	_checkLocation(void);
+
 			std::string			_setPrefix(Location location);
+
+			LocationQueueType	_checkLocation(void);
 			bool				_checkRedirection(void);
 			void				_checkMethod(void);
+
 			void				_setBody(void);
 			std::string			_setPath(void);
+
 			void				_launchPost(void);
 			void				_launchGet(std::string path);
 			void				_launchDelete(std::string path);
+			void				_launchCGI(std::string path);
+
 			void				_checkPayload(void);
+
+			std::string			_get_extension(std::string req_path);
 	};
 
 #endif /* *************************************************** Request_H */

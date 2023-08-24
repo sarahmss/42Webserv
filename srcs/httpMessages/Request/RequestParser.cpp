@@ -26,7 +26,6 @@ RequestParser::RequestParser(int socketFd)
 	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
-
 }
 
 RequestParser::RequestParser( const RequestParser & src ) { *this = src; }

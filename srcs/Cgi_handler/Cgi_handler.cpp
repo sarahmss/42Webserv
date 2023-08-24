@@ -53,7 +53,7 @@ int FT::Cgi_handler::_open_socketpair() {
 
 std::string FT::Cgi_handler::_get_extension(std::string req_path) {
     int index = req_path.find_last_of(".") + 1;
-    if (index == -1)
+    if (index == -1 || index == req_path.size())
         return "";
     return req_path.substr(index);
 }
