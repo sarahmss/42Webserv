@@ -142,7 +142,7 @@ void	Handler::_setBody(void)
 
 	path = _setPath();
 	if (_checkCgi(path) == true)
-		return ; // Handle CGI
+		_launchCGI(path);
 	else if (_method == "POST")
 		_launchPost();
 	else if (_method == "GET")
@@ -289,7 +289,7 @@ void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std:
     env_map["SCRIPT_FILENAME"] = path;
     env_map["SCRIPT_NAME"] = "";
     env_map["SERVER_ADMIN"] = "I'm only a human after all";
-    env_map["SERVER_NAME"] = _conf.getServerName()[0];
+    env_map["SERVER_NAME"] = _serverName;
     env_map["SERVER_PORT"] = "";
     env_map["SERVER_SOFTWARE"] = "webserv";
 }
