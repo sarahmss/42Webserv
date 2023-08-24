@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/23 23:35:03 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:40:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,11 @@ WebServ::~WebServ(void) {
 
 void	WebServ::launch(void)
 {
-	_groupServers();
 	_initServers();
 	_coreLoop();
 }
 
-/*
-	@brief: Group Servers defined in conf file by ports number
-*/
-void	WebServ::_groupServers(void)
-{
-	for (size_t i = 0; i < _serversConfs.size(); i++)
-	{
-		int port = _serversConfs[i].getListen().getPort();
-		_portServer[port].push_back(_serversConfs[i]);
-	}
-}
+
 
 /*
 	@brief: Init Servers based in port number
