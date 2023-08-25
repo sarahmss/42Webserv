@@ -41,20 +41,20 @@ void	Handler::launch(void)
 
 	_serverName = _requestParsed.getServerName();
 	_uri = _requestParsed.getUri();
-//	try
-//	{
+	try
+	{
 		_checkRequest();
 		_selectLocation();
 		if (_checkRedirection())
 			return ;
 		_checkMethod();
 		_setBody();
-//	}
-//	catch (const std::exception & e)
-//	{
-//		return ;
-//		// [LOGGING] e
-//	}
+	}
+	catch (const std::exception & e)
+	{
+		return ;
+		// [LOGGING] e
+	}
 }
 
 bool	Handler::_checkRedirection(void)
@@ -174,7 +174,6 @@ bool	Handler::_checkCgi(std::string path)
 	std::string	extension;
 	Cgi			cgi;
 
-	return true;
 	if (_conf.getCgi().size() == 0 || _location.getCgi().size() == 0)
 		return(false);
 	if (isDirectory(path))

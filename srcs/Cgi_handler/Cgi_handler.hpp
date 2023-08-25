@@ -3,15 +3,16 @@
 #ifndef CGI_HANDLER
 #define CGI_HANDLER
 
+# include <sys/socket.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
 # include <map>
 # include <cstdlib>
 # include <vector>
-# include <sys/socket.h>
-# include <sys/wait.h>
-# include <unistd.h>
+# include <cstdlib>
+#include <stdexcept>
 # include <string>
-# include "../Settings/Directives/Cgi.hpp"
 
 typedef std::map<std::string, std::string> env_var_t;
 
@@ -41,7 +42,6 @@ namespace FT {
 					std::vector<const char *> &env_vector);
 
             int         _socketpair_fd[2];
-            Cgi         _cgi_program_list;
             std::string _response;
             env_var_t   _env;
 	};
