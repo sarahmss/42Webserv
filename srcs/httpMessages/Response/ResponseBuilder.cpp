@@ -5,12 +5,6 @@
 #include <fstream>
 #include <string>
 
-static std::string cast_to_string(int num) {
-    std::ostringstream out_stream;
-    out_stream << num;
-    return (out_stream.str());
-}
-
 ResponseBuilder::ResponseBuilder() {
 	response = "";
 	_code_description.insert(std::make_pair("200", "OK"));

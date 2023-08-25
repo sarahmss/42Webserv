@@ -16,6 +16,7 @@
 # include <iostream>
 # include <string>
 # include <queue>
+# include "../Utils.hpp"
 # include "../../Cgi_handler/Cgi_handler.hpp"
 # include "../../Settings/Parser.hpp"
 #include "../Response/Responder.hpp"

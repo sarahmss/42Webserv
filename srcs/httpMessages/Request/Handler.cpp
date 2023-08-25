@@ -41,20 +41,20 @@ void	Handler::launch(void)
 
 	_serverName = _requestParsed.getServerName();
 	_uri = _requestParsed.getUri();
-	try
-	{
+//	try
+//	{
 		_checkRequest();
 		_selectLocation();
 		if (_checkRedirection())
 			return ;
 		_checkMethod();
 		_setBody();
-	}
-	catch (const std::exception & e)
-	{
-		return ;
-		// [LOGGING] e
-	}
+//	}
+//	catch (const std::exception & e)
+//	{
+//		return ;
+//		// [LOGGING] e
+//	}
 }
 
 bool	Handler::_checkRedirection(void)
@@ -174,6 +174,7 @@ bool	Handler::_checkCgi(std::string path)
 	std::string	extension;
 	Cgi			cgi;
 
+	return true;
 	if (_conf.getCgi().size() == 0 || _location.getCgi().size() == 0)
 		return(false);
 	if (isDirectory(path))
@@ -270,15 +271,21 @@ void	Handler::_launchDelete(std::string path)
 }
 
 void	Handler::_launchCGI(std::string path) {
+	FT::Cgi_handler cgi;
 	std::map<std::string, std::string> env;
+
+	response_code = "200";
 	_prepare_env_map(env, path);
+	getResponsePath = std::make_pair(
+			cgi.cgi_handler(response_code, env, _requestParsed.getBody()),
+			path);
 }
 
 void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
     env_map["DOCUMENT_ROOT"] = _conf.getRoot();
     env_map["HTTP_HOST"] = "";
-    env_map["HTTP_REFERER"] = "";
-    env_map["HTTP_USER_AGENT"] = "";
+    env_map["HTTP_REFERER"] = _requestParsed.getUri();
+    env_map["HTTP_USER_AGENT"] = _requestParsed.getHeader("User-Agent:");
     env_map["PATH"] = "";
     env_map["QUERY_STRING"] = _uri.find_first_of("?");
     env_map["REMOTE_ADDR"] = "";
@@ -287,10 +294,10 @@ void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std:
     env_map["REMOTE_USER"] = "";
     env_map["REMOTE_URI"] = _uri;
     env_map["SCRIPT_FILENAME"] = path;
-    env_map["SCRIPT_NAME"] = "";
+    env_map["SCRIPT_NAME"] = _uri.substr(_uri.find_last_of("/"));
     env_map["SERVER_ADMIN"] = "I'm only a human after all";
     env_map["SERVER_NAME"] = _serverName;
-    env_map["SERVER_PORT"] = "";
+    env_map["SERVER_PORT"] = cast_to_string(_conf.getListen().getPort());
     env_map["SERVER_SOFTWARE"] = "webserv";
 }
 /*

@@ -52,6 +52,7 @@
 	bool		findIndex(std::string &path, std::vector<std::string> indexes);
 	void		checkSlash(std::string &path);
 
+	std::string cast_to_string(int num);
 	std::string intToString(int value);
 	std::string	getMapItem(HeadersType map, std::string key);
 	std::string	getSockStreamLine(int socketFd);

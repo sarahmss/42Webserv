@@ -165,3 +165,9 @@ std::string	getSockStreamLine(int socketFd)
 	}
 	return (Line);
 }
+
+std::string cast_to_string(int num) {
+    std::ostringstream out_stream;
+    out_stream << num;
+    return (out_stream.str());
+}
