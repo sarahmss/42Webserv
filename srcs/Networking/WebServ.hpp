@@ -42,8 +42,8 @@ typedef std::vector<SimpleServer *>	SimpleServerVecType;
 			void			_addToPoll(SimpleServer *newServer);
 			void			_removeFromPoll(int fd);
 			void			_coreLoop(void);
-			void			_launchAccepter(SimpleServer *server);
-			void			_launchHandler(SimpleServer* server);
+			void			_launchAccepter(SimpleServer *server, struct sockaddr_in &client_addr);
+			void			_launchHandler(SimpleServer* server,  struct sockaddr_in &client_addr);
 			void			_launchResponder(SimpleServer* server);
 	};
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Utils.hpp"
+#include <sys/socket.h>
 
 /*
 	@brief Return true if map contains key

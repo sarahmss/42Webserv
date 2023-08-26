@@ -14,7 +14,9 @@
 # define HANDLER_HPP
 
 # include <iostream>
+#include <netinet/in.h>
 # include <string>
+# include <sys/socket.h>
 # include <queue>
 # include "../Utils.hpp"
 # include "../../Cgi_handler/Cgi_handler.hpp"
@@ -30,7 +32,7 @@ typedef std::priority_queue<Location> LocationQueueType;
 	{
 		public:
 			Handler(void);
-			Handler(int clientSocket, ServerConf conf);
+			Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address);
 			~Handler();
 
 			void				launch(void);
@@ -48,6 +50,8 @@ typedef std::priority_queue<Location> LocationQueueType;
 			std::string			_serverName;
 			std::string			_uri;
 			std::string			_method;
+			unsigned int		_client_port;
+			char 				_client_ip_address[INET_ADDRSTRLEN];
 
 
 			void				_checkRequest();

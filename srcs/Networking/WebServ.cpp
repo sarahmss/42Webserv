@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "WebServ.hpp"
+#include <netinet/in.h>
 #include <sys/epoll.h>
 
 /*
@@ -85,8 +86,9 @@ void	WebServ::_removeFromPoll(int fd)
 */
 void	WebServ::_coreLoop(void)
 {
-	SimpleServer	*server;
-	int				numEvents;
+	SimpleServer		*server;
+	int					numEvents;
+	struct sockaddr_in	client_addr;
 
 	while (true)
 	{
@@ -98,8 +100,8 @@ void	WebServ::_coreLoop(void)
 
 			if (currentEvent.events & EPOLLIN)
 			{
-				_launchAccepter(server);
-				_launchHandler(server);
+				_launchAccepter(server, client_addr);
+				_launchHandler(server, client_addr);
 			}
 			if (currentEvent.events & EPOLLOUT)
 				_launchResponder(server);
@@ -118,12 +120,13 @@ void	WebServ::_coreLoop(void)
 	@brief: accepts an incoming connection and creates a client socket
 	which represents accepted connection
 */
-void	WebServ::_launchAccepter(SimpleServer* server)
+void	WebServ::_launchAccepter(SimpleServer *server, struct sockaddr_in &address)
 {
 	ListeningSocket *	socket = server->getListeningSocket();
-	struct sockaddr_in	address = socket->get_address();
 	int					address_len = sizeof(address);
 	int					clientSocket;
+
+	address = socket->get_address();
 
 	// [LOGGING]
 	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
@@ -132,14 +135,15 @@ void	WebServ::_launchAccepter(SimpleServer* server)
 	clientSocket = accept(socket->get_sock(),
 						(struct sockaddr *)&address,
 						(socklen_t *)&address_len);
+
 	_epoll.add(clientSocket, _epoll.ServerToData(server), EPOLLIN | EPOLLOUT);
 	server->setClientSocket(clientSocket);
 }
 
-void	WebServ::_launchHandler(SimpleServer* server)
+void	WebServ::_launchHandler(SimpleServer *server, struct sockaddr_in &address)
 {
 	int			clientSocket = server->getClientSocket();
-	_handler = Handler(clientSocket, server->getConf());
+	_handler = Handler(clientSocket, server->getConf(), address);
 
 	// [LOGGING]
 	std::cout << "++ Request Received " << std::endl;

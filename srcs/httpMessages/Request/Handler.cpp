@@ -17,13 +17,16 @@
 */
 Handler::Handler(void) { return ; }
 
-Handler::Handler(int clientSocket, ServerConf conf)
+Handler::Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address)
 {
 	response_code = "200";
 	headerField = std::make_pair("", "");
 	getResponsePath = std::make_pair("", ""); // body -> path
 	_clientSocket = clientSocket;
 	_conf = conf;
+	_client_port = ntohs(address.sin_port);
+	const unsigned char *ip = reinterpret_cast<const unsigned char *>(&(address.sin_addr));
+	std::sprintf(_client_ip_address, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
 }
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
@@ -282,21 +285,23 @@ void	Handler::_launchCGI(std::string path) {
 
 void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
     env_map["DOCUMENT_ROOT"] = _conf.getRoot();
-    env_map["HTTP_HOST"] = "";
     env_map["HTTP_REFERER"] = _requestParsed.getUri();
     env_map["HTTP_USER_AGENT"] = _requestParsed.getHeader("User-Agent:");
-    env_map["PATH"] = "";
+
     env_map["QUERY_STRING"] = _uri.find_first_of("?");
-    env_map["REMOTE_ADDR"] = "";
-    env_map["REMOTE_HOST"] = "";
-    env_map["REMOTE_PORT"] = "";
-    env_map["REMOTE_USER"] = "";
+
+    env_map["REMOTE_ADDR"] = _client_ip_address;
+    env_map["REMOTE_PORT"] = cast_to_string(_client_port);
     env_map["REMOTE_URI"] = _uri;
+
     env_map["SCRIPT_FILENAME"] = path;
     env_map["SCRIPT_NAME"] = _uri.substr(_uri.find_last_of("/"));
-    env_map["SERVER_ADMIN"] = "I'm only a human after all";
+
     env_map["SERVER_NAME"] = _serverName;
+    env_map["SERVER_ADMIN"] = "I'm only a human after all, btw admin here";
     env_map["SERVER_PORT"] = cast_to_string(_conf.getListen().getPort());
+
+	env_map["REQUEST_METHOD"] = _method;
     env_map["SERVER_SOFTWARE"] = "webserv";
 }
 /*
