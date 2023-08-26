@@ -59,7 +59,7 @@ std::string	getExtension(std::string path)
 	if (pos == std::string::npos)
 		return ("");
 	size = path.size();
-	return (path.substr(pos, size));
+	return (path.substr(pos + 1, size));
 }
 
 std::string intToString(int value)

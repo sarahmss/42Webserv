@@ -174,10 +174,13 @@ std::string	Handler::_setPath(void)
 
 bool	Handler::_checkCgi(std::string path)
 {
-	//std::string	extension;
-	//Cgi			cgi;
-	if (_location.getCgi().size() == 0)
+	std::string	extension;
+	Cgi			cgi;
+
+	if (_conf.getCgi().size() == 0
+			&& _location.getCgi().size() == 0)
 		return(false);
+
 	if (isDirectory(path))
 	{
 		checkSlash(path);
@@ -187,16 +190,15 @@ bool	Handler::_checkCgi(std::string path)
 		response_code = "404";
 		throw (std::runtime_error("file not found [cgi]"));
 	}
-	//extension = getExtension(path);
+	extension = getExtension(path);
 
-	/*
 	if (_location.getCgi().size() != 0)
 		cgi = _location.getCgi();
 	else
 		cgi = _conf.getCgi();
 	if (!cgi.hasExtension(extension))
 		return (false);
-	*/
+
 	return (true);
 }
 
