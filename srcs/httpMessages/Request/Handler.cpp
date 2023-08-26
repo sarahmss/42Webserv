@@ -174,10 +174,9 @@ std::string	Handler::_setPath(void)
 
 bool	Handler::_checkCgi(std::string path)
 {
-	std::string	extension;
-	Cgi			cgi;
-
-	if (_conf.getCgi().size() == 0 || _location.getCgi().size() == 0)
+	//std::string	extension;
+	//Cgi			cgi;
+	if (_location.getCgi().size() == 0)
 		return(false);
 	if (isDirectory(path))
 	{
@@ -188,13 +187,16 @@ bool	Handler::_checkCgi(std::string path)
 		response_code = "404";
 		throw (std::runtime_error("file not found [cgi]"));
 	}
-	extension = getExtension(path);
+	//extension = getExtension(path);
+
+	/*
 	if (_location.getCgi().size() != 0)
 		cgi = _location.getCgi();
 	else
 		cgi = _conf.getCgi();
 	if (!cgi.hasExtension(extension))
 		return (false);
+	*/
 	return (true);
 }
 
@@ -295,7 +297,7 @@ void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std:
     env_map["REMOTE_URI"] = _uri;
 
     env_map["SCRIPT_FILENAME"] = path;
-    env_map["SCRIPT_NAME"] = _uri.substr(_uri.find_last_of("/"));
+    env_map["SCRIPT_NAME"] = _uri.substr(_uri.find_last_of("/") + 1);
 
     env_map["SERVER_NAME"] = _serverName;
     env_map["SERVER_ADMIN"] = "I'm only a human after all, btw admin here";

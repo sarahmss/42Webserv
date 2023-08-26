@@ -1,5 +1,8 @@
 
 #include "Cgi_handler.hpp"
+#include <cstdlib>
+#include <iostream>
+#include <sys/types.h>
 
 // php program handler
 // python program handler
@@ -67,16 +70,25 @@ std::string FT::Cgi_handler::cgi_handler(
 	}
 	else {
 		int status;
-
 		close(_socketpair_fd[1]);
+
 		write(_socketpair_fd[0], body.c_str(), body.size() + 1);
 		waitpid(child_pid, &status, 0);
 
-		if (WIFEXITED(status)) {
+		if (WIFEXITED(status) == 0) {
+			close(_socketpair_fd[0]);
 			responseCode = "500";
 			throw std::runtime_error("CGI: Error in the child process");
 		}
-		read(_socketpair_fd[0], buff, 100000);
+
+		ssize_t read_quant_bytes = read(_socketpair_fd[0], buff, 100000);
+
+		if (read_quant_bytes >= 100000) {
+			close(_socketpair_fd[0]);
+			responseCode = "413";
+			throw std::runtime_error("CGI: Response too large");
+		}
+		buff[read_quant_bytes] = 0;
 	}
 
 	close(_socketpair_fd[0]);
