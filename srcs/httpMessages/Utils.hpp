@@ -17,12 +17,16 @@
 # include <string>
 # include <sstream>
 # include <fstream>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/socket.h>
-#include <sys/stat.h>
 #include <map>
 #include <vector>
+
+#include <netdb.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+# include <stdlib.h>
+# include <string.h>
+#include <sys/stat.h>
 #include <dirent.h>
 
 
@@ -52,6 +56,7 @@
 	bool		findIndex(std::string &path, std::vector<std::string> indexes);
 	void		checkSlash(std::string &path);
 
+	std::string cast_to_string(int num);
 	std::string intToString(int value);
 	std::string	getMapItem(HeadersType map, std::string key);
 	std::string	getSockStreamLine(int socketFd);

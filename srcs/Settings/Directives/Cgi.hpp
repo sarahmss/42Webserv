@@ -21,28 +21,28 @@
 #define CgiProgramType std::map<std::string, std::string>
 
 
-	class Cgi
-	{
-		public:
+class Cgi
+{
+	public:
 
-			Cgi();
-			Cgi( Cgi const & src );
-			~Cgi();
+		Cgi();
+		Cgi( Cgi const & src );
+		~Cgi();
 
-			Cgi &		operator=( Cgi const & rhs );
+		Cgi &		operator=( Cgi const & rhs );
 
-			CgiProgramType	getPrograms() const;
-			std::string		getProgram(std::string extension) const;
+		CgiProgramType	getPrograms() const;
+		std::string		getProgram(std::string extension) const;
 
-			size_t			size(void) const;
-			void			addProgram(std::string extension, std::string path);
-			bool			hasExtension(std::string extension) const;
+		size_t			size(void) const;
+		void			addProgram(std::string extension, std::string path);
+		bool			hasExtension(std::string extension) const;
 
-		private:
-			CgiProgramType	_programs;
-	};
+	private:
+		CgiProgramType	_programs;
+};
 
-	std::ostream &			operator<<( std::ostream & o, Cgi const & i );
+std::ostream &			operator<<( std::ostream & o, Cgi const & i );
 
 
 #endif /* ************************************************************* CGI_H */

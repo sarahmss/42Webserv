@@ -19,6 +19,7 @@ OBJS_PATH		= ./objects/
 SRCS_FILES =	./main.cpp												\
 				./srcs/Settings/Parser.cpp								\
 				./srcs/Settings/ParserUtils.cpp							\
+				./srcs/Directory_listing/Dir_listing.cpp				\
 				./srcs/Settings/ServerConf.cpp							\
 				./srcs/Settings/ServerParser.cpp						\
 				./srcs/Settings/Directives/Cgi.cpp						\
@@ -38,6 +39,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/httpMessages/Response/ResponseBuilder.cpp		\
 				./srcs/httpMessages/Response/Responder.cpp				\
 				./srcs/httpMessages/Response/File_operation/File_op.cpp	\
+				./srcs/Cgi_handler/Cgi_handler.cpp						\
 				./srcs/multiplexing/PollHandler.cpp						\
 				./srcs/Networking/WebServ.cpp
 
@@ -53,6 +55,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Settings/ServerParser.hpp						\
 					./srcs/Settings/Directives/Cgi.hpp						\
 					./srcs/Settings/Directives/ErrorPages.hpp				\
+					./srcs/Directory_listing/Dir_listing.hpp				\
 					./srcs/Settings/Directives/Listen.hpp					\
 					./srcs/Settings/Directives/Location.hpp					\
 					./srcs/Settings/Directives/LocationParser.hpp			\
@@ -69,6 +72,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/httpMessages/Response/ResponseBuilder.hpp		\
 					./srcs/httpMessages/Response/Responder.hpp				\
 					./srcs/httpMessages/Response/File_operation/File_op.hpp	\
+					./srcs/Cgi_handler/Cgi_handler.hpp						\
 					./srcs/multiplexing/PollHandler.hpp						\
 					./srcs/Networking/WebServ.hpp
 
@@ -85,12 +89,13 @@ $(NAME):	$(OBJS) $(HEADERS)
 			$(CC) $(OBJS) $(FLAGS) $(INCLUDES) -o $(NAME)
 
 $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
-			@mkdir -p objects
 			@mkdir -p objects/srcs/Settings/Directives
 			@mkdir -p objects/srcs/Networking/Sockets
 			@mkdir -p objects/srcs/httpMessages/Request
 			@mkdir -p objects/srcs/httpMessages/Response
 			@mkdir -p objects/srcs/httpMessages/Response/File_operation
+			@mkdir -p objects/srcs/Cgi_handler
+			@mkdir -p objects/srcs/Directory_listing
 			@mkdir -p objects/srcs/multiplexing
 
 			$(CC) $(FLAGS) -c  $< -o $@

@@ -1,0 +1,17 @@
+DOCUMENT_ROOT       diretorio raiz do server
+HTTP_HOST           hostname da pagina a ser acessada
+HTTP_REFERER        url que chamou o programa
+HTTP_USER_AGENT     nome do browser
+PATH                o path no sistema que o server esta sendo executado
+QUERY_STRING        string de query (GET)
+REMOTE_ADDR         IP do visitante
+REMOTE_HOST         hostname do visitante
+REMOTE_PORT         a porta que o visitante esta usando
+REMOTE_USER         username do visitante
+REMOTE_URI          o recurso que esta sendo acesssado (ex: www.a.com/script.py&a=32 => /script.py&a32)
+SCRIPT_FILENAME     path do script completo
+SCRIPT_NAME         path do script relativo a raiz (ex: www.a.com/k.py => /k.py)
+SERVER_ADMIN        email do admin
+SERVER_NAME         nome do dominio do server
+SERVER_PORT         port number of the server
+SERVER_SOFTWARE     nome do programa = webserv

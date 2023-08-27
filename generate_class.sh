@@ -28,4 +28,4 @@ nspace="$3"
             echo "implementation generated";
             echo -e $impl > $1/$2.cpp;
         }
-) || echo "Usage ./generate_class.sh directory class_name namespace_name(optional)"
+) || echo "Usage ./generate_class.sh <directory> <class_name> <namespace_name(optional)>"

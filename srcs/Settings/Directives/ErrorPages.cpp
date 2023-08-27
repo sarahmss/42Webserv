@@ -62,6 +62,8 @@ void	ErrorPages::SetDefaultPages(void)
 	_addDefaultPage("405");
 	_addDefaultPage("413");
 	_addDefaultPage("500");
+	_addDefaultPage("501");
+	_addDefaultPage("503");
 }
 
 void	ErrorPages::addPage(std::string code, std::string path)

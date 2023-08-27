@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "Utils.hpp"
+#include <sys/socket.h>
 
 /*
 	@brief Return true if map contains key
@@ -58,7 +59,7 @@ std::string	getExtension(std::string path)
 	if (pos == std::string::npos)
 		return ("");
 	size = path.size();
-	return (path.substr(pos, size));
+	return (path.substr(pos + 1, size));
 }
 
 std::string intToString(int value)
@@ -164,4 +165,10 @@ std::string	getSockStreamLine(int socketFd)
 			break;
 	}
 	return (Line);
+}
+
+std::string cast_to_string(int num) {
+    std::ostringstream out_stream;
+    out_stream << num;
+    return (out_stream.str());
 }
