@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/24 00:25:20 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/28 01:21:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	Handler::launch(void)
 {
 	_requestParsed = RequestParser(_clientSocket);
 
+	// [LOGGING] DEBUG_LEVEL
+	//std::cout <<  _requestParsed << std::endl;
 	_serverName = _requestParsed.getServerName();
 	_uri = _requestParsed.getUri();
 	try
@@ -55,8 +57,8 @@ void	Handler::launch(void)
 	}
 	catch (const std::exception & e)
 	{
+		std::cout << e.what() << std::endl;
 		return ;
-		// [LOGGING] e
 	}
 }
 
@@ -186,7 +188,7 @@ bool	Handler::_checkCgi(std::string path)
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()))
 			return (false);
-	} else if (!isFile(path)) { // [LOGGING] 
+	} else if (!isFile(path)) { // [LOGGING]
 		response_code = "404";
 		throw (std::runtime_error("file not found [cgi]"));
 	}
@@ -209,14 +211,19 @@ void	Handler::_launchPost(void)
 	std::string		filePath;
 	std::string		fileLocation;
 
+	// [LOGGING]
+	std::cout << "++ Launching POST..." << std::endl;
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
 		filePath = getFilePath(_setPath(),
 						_requestParsed.getHeader("filename"));
+		std::cout << "\t++File path set:" << filePath << std::endl; // [LOGGING]
 		fileLocation = getFileLocation(_requestParsed.getHeader("filename"),
 						(_conf.getRoot() + _uri));
+		std::cout << "\t++File Location set:" << fileLocation << std::endl; //[LOGGING]
 		body = _requestParsed.getBody();
+		std::cout << "\t++File body set:" << body << std::endl; // [LOGGING]
 		newFile.open(filePath.c_str(), std::ios::binary);
 		if (!newFile.is_open())
 		{
@@ -230,6 +237,8 @@ void	Handler::_launchPost(void)
 		}
 		newFile.close();
 		headerField = std::make_pair("Location", fileLocation);
+		// [LOGGING] file created at: {filelocation}
+		std::cout << fileLocation << std::endl;
 		response_code = "201";
 	}
 }
@@ -239,11 +248,17 @@ void	Handler::_checkPayload(void)
 	int	payloadMaxSize;
 	int	bodyLength;
 
+	// [LOGGING]
+	std::cout << "++ Checking payload..." << std::endl;
 	bodyLength = _requestParsed.getContentLength();
+	// [LOGGING]
+	std::cout << "++ content lenght:" << bodyLength << std::endl;
 	payloadMaxSize = _conf.getBodySize();
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
-
+	// [LOGGING]
+	std::cout << "++ payloadMaxSize:" << payloadMaxSize << std::endl;
+	// [LOGGING]
 	if (bodyLength > payloadMaxSize) {
 		response_code = "413";
 		throw (std::invalid_argument("Payload Too Large"));

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Methods Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1f1f1f;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container h2 {
+            font-size: 24px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #000;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        article {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <nav>
+            <ul>
+                <h2>
+                    <p> HTTP Methods </p>
+                </h2>
+            </ul>
+        </nav>
+
+        <div class="grid">
+            <button class="button" onclick="send('GET')">GET</button>
+            <button class="button" onclick="send('POST')">POST</button>
+            <button class="button" onclick="send('DELETE')">DELETE</button>
+            <button class="button" onclick="send('PATCH')">PATCH</button>
+        </div>
+        <article></article>
+    </main>
+
+    <script>
+        function send(method) {
+            var article = document.querySelector('article');
+            article.setAttribute('aria-busy', true);
+            article.innerHTML = "";
+
+            fetch(window.location.origin, { method: method })
+                .then(response => {
+                    article.setAttribute('aria-busy', false);
+
+                    var hgroup = document.createElement('hgroup');
+                    var h3Status = document.createElement('h3');
+                    h3Status.textContent = response.status;
+
+                    if (response.ok) {
+                        hgroup.innerHTML = `
+                            <h3>👍</h3>
+                        `;
+                    } else {
+                        hgroup.innerHTML = `
+                            <h3>👎</h3>
+                        `;
+                    }
+
+                    hgroup.appendChild(h3Status);
+                    article.appendChild(hgroup);
+                });
+        }
+    </script>
+</body>
+
+</html>
