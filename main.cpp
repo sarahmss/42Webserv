@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:27:22 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:46:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:30:17 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ std::string	SetConfigurationFile(int argc, char *argv[])
 
 void	ParseConfigurationFile(Parser &parser, std::string filename)
 {
-	try {
+	try 
+	{
 		parser.launch(filename);
 	}
 	catch (const std::exception &e)
 	{
 		std::cout << "Error: " << e.what() << std::endl;
+		parser.sendALog_parser(e.what());
 		exit(EBADF);
 	}
 }
@@ -44,10 +46,13 @@ int main(int argc, char **argv)
 {
 	std::string	filename;
 	Parser	parser;
+	parser.start_logging_parser();
+	
 
 	filename = SetConfigurationFile(argc, argv);
 	ParseConfigurationFile(parser, filename);
-
 	WebServ	WebServ(parser.getServers());
+	WebServ.start_logging_webserv();
 	WebServ.launch();
+
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:37:23 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:40:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:29:51 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <ctime>
+#include <unistd.h>
 
 
 typedef std::vector<ServerConf> ConfsVecType;
@@ -34,11 +36,17 @@ typedef std::vector<ServerConf> ConfsVecType;
 
 			void			launch(std::string filename);
 			const			ConfsVecType	&getServers(void) const;
+			void			start_logging_parser( void );
+			void 			sendALog_parser( std::string throw_message );
+			void			closeALog_parser( void );
 
 		private:
 			ConfsVecType	_servers;
 			std::ifstream	_fileStream;
+			std::ofstream	_logFile;
 			std::string		_line;
+			time_t now;
+			char *dt;
 
 			void _parseFile(void);
 			void _parseServerBlock(void);

@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Test page</title>
+        <title>Upload page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <h1 style="text-align: center">Is there something better?!</h1>
-        <h2 style="text-align: center"><a href="https://shattereddisk.github.io/rickroll/rickroll.mp4">Hm? What is this?</a></h2>
+
+    <!-- Get request -->
+        <form action="/action_page.php">
+            <input type="file" id="myFile" name="filename">
+            <input type="submit">
+        </form>
+        <form action="." enctype="multipart/form-data" method="post">
+
     </body>
 </html>

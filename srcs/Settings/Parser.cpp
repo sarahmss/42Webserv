@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:29:38 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:30:30 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	Parser::launch(std::string filename)
 	_fileStream.open(filename.c_str(), std::ifstream::in);
 	if (!_fileStream)
 		throw (std::runtime_error("Failed to open Configuration file"));
+
+	sendALog_parser("File was successfully opened | Parser->launch");
 	_parseFile();
 	_fileStream.close();
 
@@ -97,9 +99,35 @@ void	Parser::_parseServerBlock(void)
 	_servers.push_back(newServer.getServer());
 }
 
+void Parser::start_logging_parser( void )
+{
+
+    this->_logFile.open("log.txt", std::ios::app);
+	this->now = time(0);
+	this->dt = ctime(&now);
+	if (this->_logFile.is_open())
+		this->_logFile << "Log starts"  << " | "<< this->dt << std::endl;
+
+
+}
+
+void Parser::sendALog_parser( std::string throw_message)
+{
+	this->now = time(0);
+	this->dt = ctime(&now);
+	_logFile << throw_message << " | " << this->dt << std::endl;
+}
+
+
+void Parser::closeALog_parser( void )
+{
+	_logFile.close();
+}
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
+
+
 
 const ConfsVecType	&Parser::getServers(void) const
 {

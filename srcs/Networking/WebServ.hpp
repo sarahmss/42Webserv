@@ -27,8 +27,14 @@ typedef std::vector<SimpleServer *>	SimpleServerVecType;
 			~WebServ();
 
 			void	launch(void);
+			void	start_logging_webserv( void );
+			void	sendALog_webserv( std::string throw_message);
+			void	closeALog_webserv( void );
+
 
 		private:
+			time_t now;
+			char *dt;
 			PollHandler			_epoll;
 			SimpleServerVecType	_simpleServers;
 			ConfsVecType		_serversConfs;
@@ -36,6 +42,7 @@ typedef std::vector<SimpleServer *>	SimpleServerVecType;
 			size_t				_backLog;
 			Handler				_handler;
 			Responder			_responder;
+			std::ofstream		_logFile_webserv;
 
 			void			_groupServers(void);
 			void			_initServers(void);

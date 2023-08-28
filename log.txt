@@ -1,0 +1,37 @@
+
+Log starts | Sun Aug 27 19:32:26 2023
+
+File was successfully opened | Parser->launch | Sun Aug 27 19:32:26 2023
+
+Log starts | Sun Aug 27 20:50:04 2023
+
+File was successfully opened | Parser->launch | Sun Aug 27 20:50:04 2023
+
+Log starts | Sun Aug 27 20:50:04 2023
+
+Launching webserv... | Sun Aug 27 20:50:04 2023
+
+Log starts | Sun Aug 27 20:51:17 2023
+
+File was successfully opened | Parser->launch | Sun Aug 27 20:51:17 2023
+
+Log starts | Sun Aug 27 20:51:17 2023
+
+Launching webserv... | Sun Aug 27 20:51:17 2023
+
+Log starts | Sun Aug 27 20:51:18 2023
+
+File was successfully opened | Parser->launch | Sun Aug 27 20:51:18 2023
+
+Log starts | Sun Aug 27 20:51:18 2023
+
+Launching webserv... | Sun Aug 27 20:51:18 2023
+
+Log starts | Sun Aug 27 20:51:25 2023
+
+File was successfully opened | Parser->launch | Sun Aug 27 20:51:25 2023
+
+Log starts | Sun Aug 27 20:51:25 2023
+
+Launching webserv... | Sun Aug 27 20:51:25 2023
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/15 20:24:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:35:02 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ WebServ::~WebServ(void) {
 
 void	WebServ::launch(void)
 {
+	sendALog_webserv("Launching webserv...");
 	_groupServers();
 	_initServers();
 	_coreLoop();
@@ -160,6 +161,31 @@ void	WebServ::_launchResponder(SimpleServer* server)
 
 	_responder.launch();
 	_removeFromPoll(clientSocket);
+}
+
+void WebServ::start_logging_webserv( void )
+{
+
+    this->_logFile_webserv.open("log.txt", std::ios::app);
+	this->now = time(0);
+	this->dt = ctime(&now);
+	if (this->_logFile_webserv.is_open())
+		this->_logFile_webserv << "Log starts"  << " | "<< this->dt << std::endl;
+
+
+}
+
+void WebServ::sendALog_webserv( std::string throw_message)
+{
+	this->now = time(0);
+	this->dt = ctime(&now);
+	_logFile_webserv << throw_message << " | " << this->dt << std::endl;
+}
+
+
+void WebServ::closeALog_webserv( void )
+{
+	_logFile_webserv.close();
 }
 
 
