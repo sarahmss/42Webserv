@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 18:48:08 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:58:43 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	WebServ::_initServers(void)
 	{
 		int port = _serversConfs[i].getListen().getPort();
 		// [LOGGING]
-		std::cout << "++ Starting listen() in port " << port << std::endl;
+		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl;
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
@@ -123,11 +123,14 @@ void	WebServ::_coreLoop(void)
 	ConnectionType		*connection;
 	int					numEvents;
 
-	while (true)
+	std::signal(SIGINT, sigHandler);
+	std::signal(SIGQUIT, sigHandler);
+
+	while (live(true))
 	{
 		numEvents = _epoll.wait(0);
 		if (numEvents == -1)
-			return ; // errno
+			live(false);
 		for (int i = 0; i < numEvents; i++)
 		{
 			epollEventType	&currentEvent = _epoll.getEvents()[i];

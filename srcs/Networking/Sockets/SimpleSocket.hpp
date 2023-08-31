@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:38:34 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 11:07:44 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:30:36 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <sys/socket.h>
 #include <netinet/in.h>
+# include "../../httpMessages/Utils.hpp"
 
 /*
 	@Attributtes
@@ -29,7 +30,6 @@
 		- sock:
 
 */
-
 class SimpleSocket
 {
 	public:

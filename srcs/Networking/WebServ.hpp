@@ -17,6 +17,7 @@
 # include "../httpMessages/Response/Responder.hpp"
 # include "./SimpleServer.hpp"
 
+
 typedef std::vector<SimpleServer *>	SimpleServerVecType;
 typedef std::pair<AcceptingSocket *, SimpleServer *> ConnectionType;
 typedef std::vector<t_channel *> ChannelsVecType;

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/24 00:05:37 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:59:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,19 @@ strPairType	getAutoIndexContent(std::string path, std::string host, std::string 
 	return (std::make_pair(body, path));
 }
 
+bool live(bool status)
+{
+	static bool mode = true;
+	if (!status)
+		mode = false;
+	return mode;
+}
+
+void	sigHandler(int signal)
+{
+	if (signal == SIGINT || signal == SIGQUIT)
+		live(false);
+}
 
 std::string	getSockStreamLine(int socketFd)
 {
