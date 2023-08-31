@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:11:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ SimpleServer::SimpleServer(ServerConf confs, const int port, int backlog) :
 SimpleServer::~SimpleServer()
 {
 	close(getSocket());
-	delete socket;
+	delete _socket;
 	return ;
 }
 
@@ -46,7 +46,7 @@ SimpleServer::~SimpleServer()
 */
 void	SimpleServer::init(void)
 {
-	socket = new ListeningSocket(AF_INET, SOCK_STREAM, 0, _port,  INADDR_ANY, _backlog);
+	_socket = new ListeningSocket(AF_INET, SOCK_STREAM, 0, _port,  INADDR_ANY, _backlog);
 }
 
 /*
@@ -55,7 +55,7 @@ void	SimpleServer::init(void)
 
 ListeningSocket	*SimpleServer::getListeningSocket(void)
 {
-	return (socket);
+	return (_socket);
 }
 
 ServerConf	SimpleServer::getConf(void)
@@ -68,14 +68,9 @@ int	SimpleServer::getSocket(void)
 	return (getListeningSocket()->get_sock());
 }
 
-int	SimpleServer::getClientSocket(void)
+sockaddr_in	SimpleServer::getAddress(void)
 {
-	return (_clientSocket);
-}
-
-void	SimpleServer::setClientSocket(int clientSocket)
-{
-	_clientSocket = clientSocket;
+	return (getListeningSocket()->get_address());
 }
 
 int	SimpleServer::getPort(void)
