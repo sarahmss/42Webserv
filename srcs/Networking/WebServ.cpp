@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/24 00:58:51 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:37:50 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,42 @@ void	WebServ::launch(void)
 /*
 	@brief: Init Servers based in port number
 */
+
+std::string		WebServ::concatenate_string(std::string s1, std::string s2)
+{
+	std::string ret = s1 + s2;
+	return ret;
+}
+
+std::string		WebServ::concatenate_int(std::string s1, int n2)
+{
+	std::ostringstream oss;
+    oss << n2;
+    
+    std::string resultado = s1 + oss.str();
+    return resultado;
+}
+
 void	WebServ::_initServers(void)
 {
-	// [LOGGING]
+	
+	sendMessageToLogFile("Initing Server...", true, 0);
+	clock_t start = clock();
+	clock_t end = clock();
 	std::cout << "++ Initing Servers" << std::endl;
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
+		start = clock();
 		int port = _serversConfs[i].getListen().getPort();
-		// [LOGGING]
+		sendMessageToLogFile(concatenate_int("Starting listen() int port ", port), true, 
+										static_cast<double>(end - start) / CLOCKS_PER_SEC);
 		std::cout << "++ Starting listen() in port " << port << std::endl;
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
 		_addToPoll(newServer);
 		_simpleServers.push_back(newServer);
+		end = clock();
 	}
 }
 
@@ -128,9 +150,9 @@ void	WebServ::_launchAccepter(SimpleServer *server, struct sockaddr_in &address)
 
 	address = socket->get_address();
 
-	// [LOGGING]
 	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-	std::cout << "++ Accepting conections in " << server->getPort() << std::endl;
+	std::cout << "++ Accepting connections in " << server->getPort() << std::endl;
+	sendMessageToLogFile(concatenate_int("Accepting connections in ", server->getPort()), true, 0);
 
 	clientSocket = accept(socket->get_sock(),
 						(struct sockaddr *)&address,
@@ -145,7 +167,7 @@ void	WebServ::_launchHandler(SimpleServer *server, struct sockaddr_in &address)
 	int			clientSocket = server->getClientSocket();
 	_handler = Handler(clientSocket, server->getConf(), address);
 
-	// [LOGGING]
+	sendMessageToLogFile("Request Received", true, 0);
 	std::cout << "++ Request Received " << std::endl;
 	_handler.launch();
 	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
@@ -155,7 +177,7 @@ void	WebServ::_launchResponder(SimpleServer* server)
 {
 	int	clientSocket = server->getClientSocket();
 
-	// [LOGGING]
+	sendMessageToLogFile("Launching responder", true, 0);
 	std::cout << " ++ launching responder" << std::endl;
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
@@ -165,13 +187,13 @@ void	WebServ::_launchResponder(SimpleServer* server)
 	try
 	{
 		_responder.sendResponse();
-		// [LOGGING]
+		sendMessageToLogFile("Response sent ", true, 0);
 		std::cout << "++ Response sent " << std::endl;
 	}
 	catch (const std::exception & e)
 	{
+		sendMessageToLogFile(e.what(), false, 0);
 		return ;
-		// [LOGGING] response failed
 	}
 	_removeFromPoll(clientSocket);
 }

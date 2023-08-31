@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/23 23:55:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:41:20 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "../../Settings/Parser.hpp"
 #include "../Response/Responder.hpp"
 # include "./RequestParser.hpp"
+# include "./../../global.hpp"
 
 
 typedef std::priority_queue<Location> LocationQueueType;

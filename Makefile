@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/24 01:35:41 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/28 19:45:34 by jinacio-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,9 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/httpMessages/Response/File_operation/File_op.cpp	\
 				./srcs/Cgi_handler/Cgi_handler.cpp						\
 				./srcs/multiplexing/PollHandler.cpp						\
-				./srcs/Networking/WebServ.cpp
+				./srcs/Networking/WebServ.cpp							\
+				./srcs/global.cpp
+
 
 
 SRCS = $(addprefix $(SRC_PATH), $(SRCS_FILES))
@@ -74,8 +76,8 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/httpMessages/Response/File_operation/File_op.hpp	\
 					./srcs/Cgi_handler/Cgi_handler.hpp						\
 					./srcs/multiplexing/PollHandler.hpp						\
-					./srcs/Networking/WebServ.hpp
-
+					./srcs/Networking/WebServ.hpp							\
+					./srcs/global.hpp
 
 HEADERS = $(addprefix $(INCLUDES_PATH), $(HEADER_FILES))
 

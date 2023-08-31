@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerParser.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:08:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:44:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:25:27 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "ServerConf.hpp"
 # include "Directives/LocationParser.hpp"
 # include "Directives/Listen.hpp"
+# include "./../global.hpp"
 
 #define SERVER_END "};"
 #define LISTEN "listen"

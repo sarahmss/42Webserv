@@ -26,9 +26,11 @@ typedef std::vector<SimpleServer *>	SimpleServerVecType;
 			WebServ(ConfsVecType confs);
 			~WebServ();
 
-			void	launch(void);
+			void		launch(void);
+			std::string	concatenate_string(std::string s1, std::string s2);
+			std::string	concatenate_int(std::string s1, int n2);
 
-		private:
+			private:
 			PollHandler			_epoll;
 			SimpleServerVecType	_simpleServers;
 			ConfsVecType		_serversConfs;
