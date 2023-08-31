@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/28 00:09:46 by smodesto         ###   ########.fr        #
+#    Updated: 2023/08/31 19:05:32 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/Settings/Directives/Location.cpp					\
 				./srcs/Settings/Directives/LocationParser.cpp			\
 				./srcs/Networking/Sockets/BindingSocket.cpp				\
-				./srcs/Networking/Sockets/ConnectingSocket.cpp			\
+				./srcs/Networking/Sockets/AcceptingSocket.cpp			\
 				./srcs/Networking/Sockets/ListeningSocket.cpp			\
 				./srcs/Networking/Sockets/SimpleSocket.cpp				\
 				./srcs/Networking/SimpleServer.cpp						\
@@ -61,7 +61,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Settings/Directives/LocationParser.hpp			\
 					./srcs/Networking/Sockets/BindingSocket.hpp				\
 					./srcs/Networking/Sockets/Sockets.hpp					\
-					./srcs/Networking/Sockets/ConnectingSocket.hpp			\
+					./srcs/Networking/Sockets/AcceptingSocket.hpp			\
 					./srcs/Networking/Sockets/ListeningSocket.hpp			\
 					./srcs/Networking/Sockets/SimpleSocket.hpp				\
 					./srcs/Networking/SimpleServer.hpp						\
