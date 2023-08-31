@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 19:58:43 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:37:50 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,45 @@ void	WebServ::launch(void)
 /*
 	@brief: Init Servers based in port number
 */
+
+std::string		WebServ::concatenate_string(std::string s1, std::string s2)
+{
+	std::string ret = s1 + s2;
+	return ret;
+}
+
+std::string		WebServ::concatenate_int(std::string s1, int n2)
+{
+	std::ostringstream oss;
+    oss << n2;
+    
+    std::string resultado = s1 + oss.str();
+    return resultado;
+}
+
 void	WebServ::_initServers(void)
 {
-	// [LOGGING]
+	
+	sendMessageToLogFile("Initing Server...", true, 0);
+	clock_t start = clock();
+	clock_t end = clock();
 	std::cout << "++ Initing Servers" << std::endl;
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
+		start = clock();
 		int port = _serversConfs[i].getListen().getPort();
-		// [LOGGING]
-		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl;
+
+		sendMessageToLogFile(concatenate_int("Starting listen() int port ", port), true, 
+										static_cast<double>(end - start) / CLOCKS_PER_SEC);
+		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level 
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
 		_simpleServers.push_back(newServer);
 		_addServerToPoll(newServer);
+    end = clock();
 	}
 }
-
 /*
 	@brief: add server to PollHandler to manage read/write events
 */
@@ -179,9 +201,12 @@ void	WebServ::_launchAccepter(SimpleServer *server)
 	int				serverSocket = server->getSocket();
 	int				connectionSocket;
 
+
 	connectionSocket = accepter->startAccepting(serverSocket);
-	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl;
+	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl; // debug level
+  sendMessageToLogFile(concatenate_int("Connection opened in socket: ", connectionSocket), true, 0);
 	_addConnectionsToPoll(accepter, server);
+
 }
 
 void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
@@ -190,9 +215,7 @@ void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 	sockaddr_in	address = accept->getClientAddress();
 
 	_handler = Handler(clientSocket, server->getConf(), address);
-
-	// [LOGGING]
-	std::cout << "++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+	sendMessageToLogFile("Request Received", true, 0);
 	std::cout << "++ Request Received " << std::endl;
 	_handler.launch();
 }
@@ -201,7 +224,7 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 {
 	int	clientSocket = accept->getClientSocket();
 
-	// [LOGGING]
+	sendMessageToLogFile("Launching responder", true, 0);
 	std::cout << " ++ launching responder" << std::endl;
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
@@ -211,13 +234,13 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 	try
 	{
 		_responder.sendResponse();
-		// [LOGGING]
+		sendMessageToLogFile("Response sent ", true, 0);
 		std::cout << "++ Response sent " << std::endl;
 	}
 	catch (const std::exception & e)
 	{
+		sendMessageToLogFile(e.what(), false, 0);
 		return ;
-		// [LOGGING] response failed
 	}
 }
 

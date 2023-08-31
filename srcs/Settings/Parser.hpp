@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Parser.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:37:23 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:40:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:04:38 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 #include "./ParserUtils.hpp"
 #include "./ServerParser.hpp"
+#include "./../global.hpp"
 #include <vector>
 #include <sstream>
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <ctime>
 
 
 typedef std::vector<ServerConf> ConfsVecType;

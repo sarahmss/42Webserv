@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/24 00:25:20 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:45:41 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	Handler::launch(void)
 	catch (const std::exception & e)
 	{
 		return ;
-		// [LOGGING] e
+		sendMessageToLogFile(e.what(), false, 0);
 	}
 }
 
@@ -186,7 +186,9 @@ bool	Handler::_checkCgi(std::string path)
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()))
 			return (false);
-	} else if (!isFile(path)) { // [LOGGING] 
+	} else if (!isFile(path)) 
+	{
+		sendMessageToLogFile("404 | checkCGI->Handler", false, 0);
 		response_code = "404";
 		throw (std::runtime_error("file not found [cgi]"));
 	}

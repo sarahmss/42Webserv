@@ -17,16 +17,18 @@
 # include "../httpMessages/Response/Responder.hpp"
 # include "./SimpleServer.hpp"
 
-
 typedef std::vector<SimpleServer *>	SimpleServerVecType;
 typedef std::pair<AcceptingSocket *, SimpleServer *> ConnectionType;
 typedef std::vector<t_channel *> ChannelsVecType;
+
 class WebServ
 {
 	public:
 
 		WebServ(ConfsVecType confs);
 		~WebServ();
+  	std::string	concatenate_string(std::string s1, std::string s2);
+		std::string	concatenate_int(std::string s1, int n2);
 
 		void	launch(void);
 
