@@ -40,12 +40,12 @@ Handler::~Handler() { return ;}
 
 void	Handler::launch(void)
 {
-	_requestParsed = RequestParser(_clientSocket);
-
-	_serverName = _requestParsed.getServerName();
-	_uri = _requestParsed.getUri();
 	try
 	{
+		_requestParsed = RequestParser(_clientSocket);
+
+		_serverName = _requestParsed.getServerName();
+		_uri = _requestParsed.getUri();
 		_checkRequest();
 		_selectLocation();
 		if (_checkRedirection())

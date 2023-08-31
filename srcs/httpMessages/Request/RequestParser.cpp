@@ -121,7 +121,7 @@ void	RequestParser::_parseHeader(const std::string Headers)
 	std::string			line;
 
 	// [LOGGING]
-	std::cout << " ++ Parsing headers" << std::endl;
+	// std::cout << " ++ Parsing headers" << std::endl;
 	if (!getline(HeadersStream, line))
 		throw std::runtime_error("Empty request header field");
 	else
