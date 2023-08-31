@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 16:03:40 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 12:47:47 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ int PollHandler::wait(int timeout)
 	return (fd);
 }
 
-epoll_data_t	PollHandler::ServerToData(SimpleServer *server)
+epoll_data_t	PollHandler::ChannelToData(t_channel *channel)
 {
 	epoll_data_t	eventData;
 
-	eventData.ptr = server;
+	eventData.ptr = channel;
 	return(eventData);
 }
 

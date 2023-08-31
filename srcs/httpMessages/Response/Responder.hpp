@@ -15,9 +15,10 @@
 
 # include <iostream>
 # include <string>
-#include "./ResponseBuilder.hpp"
-#include "../Utils.hpp"
 #include "./../../global.hpp"
+# include <unistd.h>
+# include "./ResponseBuilder.hpp"
+# include "../Utils.hpp"
 
 class Responder
 {

@@ -32,9 +32,13 @@ WebServ::WebServ(ConfsVecType confs):
 */
 
 WebServ::~WebServ(void) {
-	for (size_t i = 0; i < _simpleServers.size(); i++)
+	for (size_t i = 0; i < _serversConfs.size(); i++)
+	{
 		if (_simpleServers[i])
 			delete _simpleServers[i];
+		if (_serverChannels[i])
+			delete _serverChannels[i];
+	}
 }
 
 /*
@@ -77,30 +81,57 @@ void	WebServ::_initServers(void)
 	{
 		start = clock();
 		int port = _serversConfs[i].getListen().getPort();
+
 		sendMessageToLogFile(concatenate_int("Starting listen() int port ", port), true, 
 										static_cast<double>(end - start) / CLOCKS_PER_SEC);
-		std::cout << "++ Starting listen() in port " << port << std::endl;
+		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level 
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
-		_addToPoll(newServer);
 		_simpleServers.push_back(newServer);
-		end = clock();
+		_addServerToPoll(newServer);
+    end = clock();
 	}
 }
-
 /*
 	@brief: add server to PollHandler to manage read/write events
 */
-void	WebServ::_addToPoll(SimpleServer *newServer)
+void	WebServ::_addServerToPoll(SimpleServer *newServer)
 {
-	_epoll.add(newServer->getSocket(), _epoll.ServerToData(newServer), 	EPOLLIN | EPOLLOUT);
+	t_channel	*channel = new t_channel;
+
+	channel->type = t_channel::CHANNEL_SOCKET;
+	channel->ptr = newServer;
+
+	_epoll.add(newServer->getSocket(),
+				_epoll.ChannelToData(channel),
+				EPOLLIN | EPOLLOUT);
+	_serverChannels.push_back(channel);
 }
 
-void	WebServ::_removeFromPoll(int fd)
+void	WebServ::_addConnectionsToPoll(AcceptingSocket *acc, SimpleServer *serv)
 {
-	_epoll.remove(fd);
-	close(fd);
+	t_channel		*channel = new t_channel;
+	ConnectionType	*data;
+
+	data = new ConnectionType(acc, serv);
+	channel->type = t_channel::CHANNEL_CONNECTION;
+	channel->ptr = data;
+
+	_epoll.add(acc->getClientSocket(),
+				_epoll.ChannelToData(channel),
+				EPOLLIN);
+}
+
+void	WebServ::_removeConnectionFromPoll(ConnectionType *cnc, t_channel *chnl)
+{
+	AcceptingSocket		*accepter = cnc->first;
+
+	_epoll.remove(accepter->getClientSocket());
+	accepter->disconnect();
+	delete accepter;
+	delete cnc;
+	delete chnl;
 }
 
 /*
@@ -108,32 +139,54 @@ void	WebServ::_removeFromPoll(int fd)
 */
 void	WebServ::_coreLoop(void)
 {
+	t_channel			*channel;
 	SimpleServer		*server;
+	AcceptingSocket		*accepter;
+	ConnectionType		*connection;
 	int					numEvents;
-	struct sockaddr_in	client_addr;
 
-	while (true)
+	std::signal(SIGINT, sigHandler);
+	std::signal(SIGQUIT, sigHandler);
+
+	while (live(true))
 	{
 		numEvents = _epoll.wait(0);
+		if (numEvents == -1)
+			live(false);
 		for (int i = 0; i < numEvents; i++)
 		{
 			epollEventType	&currentEvent = _epoll.getEvents()[i];
-			server = static_cast<SimpleServer *>(currentEvent.data.ptr);
+			channel = reinterpret_cast<t_channel *>(currentEvent.data.ptr);
 
-			if (currentEvent.events & EPOLLIN)
+			if (channel->type == t_channel::CHANNEL_SOCKET)
 			{
-				_launchAccepter(server, client_addr);
-				_launchHandler(server, client_addr);
+				server = reinterpret_cast<SimpleServer *>(channel->ptr);
+				_launchAccepter(server);
 			}
-			if (currentEvent.events & EPOLLOUT)
-				_launchResponder(server);
-			if (currentEvent.events & EPOLLERR)
+			else if (channel->type == t_channel::CHANNEL_CONNECTION)
 			{
-				_removeFromPoll(server->getClientSocket());
-				throw (std::runtime_error("Epoll error"));
+				connection = reinterpret_cast<ConnectionType *>(channel->ptr);
+				if (currentEvent.events & EPOLLERR)
+					_removeConnectionFromPoll(connection, channel); // [LOGGING]
+				if (currentEvent.events & (EPOLLRDHUP | EPOLLHUP))
+					_removeConnectionFromPoll(connection, channel);
+
+				accepter = connection->first;
+				server = connection->second;
+
+				if (currentEvent.events & EPOLLIN)
+				{
+					_launchHandler(server, accepter);
+					_epoll.modify(accepter->getClientSocket(),
+									_epoll.ChannelToData(channel),
+									EPOLLOUT);
+				}
+				if (currentEvent.events & EPOLLOUT)
+				{
+					_launchResponder(server, accepter);
+					_removeConnectionFromPoll(connection, channel);
+				}
 			}
-			if (currentEvent.events & (EPOLLRDHUP | EPOLLHUP))
-				_removeFromPoll(server->getClientSocket());
 		}
 	}
 }
@@ -142,40 +195,34 @@ void	WebServ::_coreLoop(void)
 	@brief: accepts an incoming connection and creates a client socket
 	which represents accepted connection
 */
-void	WebServ::_launchAccepter(SimpleServer *server, struct sockaddr_in &address)
+void	WebServ::_launchAccepter(SimpleServer *server)
 {
-	ListeningSocket *	socket = server->getListeningSocket();
-	int					address_len = sizeof(address);
-	int					clientSocket;
+	AcceptingSocket	*accepter =  new AcceptingSocket();
+	int				serverSocket = server->getSocket();
+	int				connectionSocket;
 
-	address = socket->get_address();
 
-	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-	std::cout << "++ Accepting connections in " << server->getPort() << std::endl;
-	sendMessageToLogFile(concatenate_int("Accepting connections in ", server->getPort()), true, 0);
+	connectionSocket = accepter->startAccepting(serverSocket);
+	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl; // debug level
+  sendMessageToLogFile(concatenate_int("Connection opened in socket: ", connectionSocket), true, 0);
+	_addConnectionsToPoll(accepter, server);
 
-	clientSocket = accept(socket->get_sock(),
-						(struct sockaddr *)&address,
-						(socklen_t *)&address_len);
-
-	_epoll.add(clientSocket, _epoll.ServerToData(server), EPOLLIN | EPOLLOUT);
-	server->setClientSocket(clientSocket);
 }
 
-void	WebServ::_launchHandler(SimpleServer *server, struct sockaddr_in &address)
+void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 {
-	int			clientSocket = server->getClientSocket();
-	_handler = Handler(clientSocket, server->getConf(), address);
+	int			clientSocket = accept->getClientSocket();
+	sockaddr_in	address = accept->getClientAddress();
 
+	_handler = Handler(clientSocket, server->getConf(), address);
 	sendMessageToLogFile("Request Received", true, 0);
 	std::cout << "++ Request Received " << std::endl;
 	_handler.launch();
-	_epoll.modify(clientSocket, _epoll.ServerToData(server), EPOLLOUT);
 }
 
-void	WebServ::_launchResponder(SimpleServer* server)
+void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 {
-	int	clientSocket = server->getClientSocket();
+	int	clientSocket = accept->getClientSocket();
 
 	sendMessageToLogFile("Launching responder", true, 0);
 	std::cout << " ++ launching responder" << std::endl;
@@ -195,7 +242,6 @@ void	WebServ::_launchResponder(SimpleServer* server)
 		sendMessageToLogFile(e.what(), false, 0);
 		return ;
 	}
-	_removeFromPoll(clientSocket);
 }
 
 

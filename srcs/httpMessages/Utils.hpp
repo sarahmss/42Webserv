@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/24 00:06:13 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:00:13 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <string.h>
 #include <sys/stat.h>
 #include <dirent.h>
+# include <csignal>
+
 
 
 #define CRLF "\r\n"
@@ -65,5 +67,9 @@
 	strPairType	getFileContent(std::string path);
 	strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri);
 	std::string	getExtension(std::string path);
+
+	bool	live(bool status);
+	void	sigHandler(int signal);
+
 
 #endif // UTILS_HPP

@@ -21,29 +21,38 @@
 # include "../httpMessages/Request/RequestParser.hpp"
 # include "../httpMessages/Request/Handler.hpp"
 #include "./../global.hpp"
+typedef struct s_channel
+{
+	void	*ptr;
 
-		class SimpleServer
+	enum t_channelType
 	{
-		public:
-			SimpleServer(ServerConf Confs, const int port, int backlog);
-			~SimpleServer();
+		CHANNEL_SOCKET,
+		CHANNEL_CONNECTION
+	} type;
 
-			void			init(void);
+}	t_channel;
 
-			ListeningSocket	*getListeningSocket(void);
-			ServerConf		getConf(void);
-			int				getSocket(void);
-			int				getClientSocket(void);
-			void			setClientSocket(int clientSocket);
-			int				getPort(void);
-			int				getBacklog(void);
+class SimpleServer
+{
+	public:
+		SimpleServer(ServerConf Confs, const int port, int backlog);
+		~SimpleServer();
 
-		private:
-			ListeningSocket	*socket;
-			ServerConf		_confs;
-			int				_clientSocket;
-			int				_port;
-			int				_backlog;
-	};
+		void				init(void);
+
+		ListeningSocket	*getListeningSocket(void);
+		ServerConf		getConf(void);
+		sockaddr_in		getAddress(void);
+		int				getSocket(void);
+		int				getPort(void);
+		int				getBacklog(void);
+
+	private:
+		ListeningSocket			*_socket;
+		ServerConf				_confs;
+		int						_port;
+		int						_backlog;
+};
 
 #endif /* **************************************************** SIMPLESERVER_H */

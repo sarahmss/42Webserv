@@ -28,7 +28,7 @@ SRCS_FILES =	./main.cpp												\
 				./srcs/Settings/Directives/Location.cpp					\
 				./srcs/Settings/Directives/LocationParser.cpp			\
 				./srcs/Networking/Sockets/BindingSocket.cpp				\
-				./srcs/Networking/Sockets/ConnectingSocket.cpp			\
+				./srcs/Networking/Sockets/AcceptingSocket.cpp			\
 				./srcs/Networking/Sockets/ListeningSocket.cpp			\
 				./srcs/Networking/Sockets/SimpleSocket.cpp				\
 				./srcs/Networking/SimpleServer.cpp						\
@@ -63,7 +63,7 @@ HEADER_FILES	=	./srcs/Settings/Parser.hpp								\
 					./srcs/Settings/Directives/LocationParser.hpp			\
 					./srcs/Networking/Sockets/BindingSocket.hpp				\
 					./srcs/Networking/Sockets/Sockets.hpp					\
-					./srcs/Networking/Sockets/ConnectingSocket.hpp			\
+					./srcs/Networking/Sockets/AcceptingSocket.hpp			\
 					./srcs/Networking/Sockets/ListeningSocket.hpp			\
 					./srcs/Networking/Sockets/SimpleSocket.hpp				\
 					./srcs/Networking/SimpleServer.hpp						\

@@ -6,7 +6,7 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 20:14:22 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/08/31 13:01:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Responder::Responder(void):	_protocolVersion("HTTP/1.1"),
 {
 	_header["Server"] = "webserv";
 	_header["Content-type"] = "text/html";
-	_header["Connection"] = "close";
+	_header["AcceptingSocket"] = "close";
 	return ;
 }
 
@@ -66,7 +66,8 @@ void	Responder::sendResponse(void)
 	std::cout << " ++ Sending Response" << std::endl;
 	if (send(_clientSocket, _respBuilder.get_cresponse(), _respBuilder.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");
-
+	if (_sttsCode == "413") // Payload too large
+		sleep(1);
 	// [LOGGING] DEBUG LEVEL == true
 	//std::cout << _respBuilder.get_response() << std::endl;
 	_respBuilder.reset();
