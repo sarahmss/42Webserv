@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 10:50:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/31 11:06:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
-
 
 /*
 	@Defines adress structure and establish socket
@@ -117,5 +116,20 @@ void SimpleSocket::set_address(struct sockaddr_in add)
 void SimpleSocket::set_sock(int sck)
 {
 	sock = sck;
+}
+
+// Set the file status flags to the value specified by arg.
+bool setNonBlocking(int fd)
+{
+	int flags = fcntl(fd, F_GETFL, 0);
+	if (flags == -1)
+		return false;
+	if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)
+	{
+		// [Logging]
+		perror("fcntl setting non blocking");
+		exit(EXIT_FAILURE);
+	}
+	return true;
 }
 /* ************************************************************************** */
