@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "RequestParser.hpp"
+#include <stdexcept>
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
@@ -109,6 +110,9 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	_uri = line;
 	std::getline(RequestLineStream, line, '\r');
 	_protocolVersion = line;
+
+	if (_method == "" || _uri == "" || _protocolVersion == "")
+		throw std::runtime_error("Empty or incomplete RequestLine");
 }
 
 void	RequestParser::_parseHeader(const std::string Headers)
@@ -117,14 +121,17 @@ void	RequestParser::_parseHeader(const std::string Headers)
 	std::string			line;
 
 	// [LOGGING]
-//	std::cout << " ++ Parsing headers" << std::endl;
-	while (getline(HeadersStream, line))
-	{
-		std::size_t pos = line.find(' ');
-		std::string key = line.substr(0, pos);
-		std::string value = line.substr(pos + 1, std::string::npos);
-		this->_headers.insert(RequestPairType(key, value));
-	}
+	std::cout << " ++ Parsing headers" << std::endl;
+	if (!getline(HeadersStream, line))
+		throw std::runtime_error("Empty request header field");
+	else
+		do {
+			std::size_t pos = line.find(' ');
+			std::string key = line.substr(0, pos);
+			std::string value = line.substr(pos + 1, std::string::npos);
+			this->_headers.insert(RequestPairType(key, value));
+		}
+		while(getline(HeadersStream, line));
 }
 
 void	RequestParser::_parseBody()
