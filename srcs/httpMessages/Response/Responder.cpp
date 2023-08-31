@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   Responder.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
 /*   Updated: 2023/08/31 13:01:52 by smodesto         ###   ########.fr       */
@@ -55,14 +55,14 @@ void	Responder::sendResponse(void)
 	HeadersType::iterator it = _header.begin();
 	HeadersType::iterator end = _header.end();
 
-	// [LOGGING]
+	sendMessageToLogFile("Building response", true, 0);
 	std::cout << " ++ Building response" << std::endl;
 	_respBuilder.add_protocol_status(_protocolVersion, _sttsCode);
 	for (; it != end; ++it)
 		_respBuilder.add_value_pair(it->first, it->second);
 	_respBuilder.add_body(_respBuilder.build_body(_body));
 
-	// [LOGGING]
+	sendMessageToLogFile("Sending Response | sendResponde->Responder ", true, 0);
 	std::cout << " ++ Sending Response" << std::endl;
 	if (send(_clientSocket, _respBuilder.get_cresponse(), _respBuilder.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");

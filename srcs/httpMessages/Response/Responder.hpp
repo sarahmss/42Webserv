@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Responder.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:56:00 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 11:59:33 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:54:00 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <iostream>
 # include <string>
+#include "./../../global.hpp"
 # include <unistd.h>
 # include "./ResponseBuilder.hpp"
 # include "../Utils.hpp"

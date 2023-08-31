@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RequestParser.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/15 20:58:11 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:46:34 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define REQUESTPARSER_HPP
 
 #include "Body.hpp"
+# include "./../../global.hpp"
 	class RequestParser
 	{
 		public:
