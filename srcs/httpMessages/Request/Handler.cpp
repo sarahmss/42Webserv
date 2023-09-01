@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 14:11:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:54:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	Handler::launch(void)
 	}
 	catch (const std::exception & e)
 	{
+		std::cout << e.what() << std::endl;
 		return ;
 		sendMessageToLogFile(e.what(), false, 0);
 	}
@@ -126,7 +127,6 @@ void	Handler::_checkMethod(void)
 
 	methods = _location.getAllowedMethods();
 	_method = _requestParsed.getMethod();
-	std::cout << "++++++" << _method << std::endl;
 	found = methods.find(_method);
 	if (found == methods.end())
 	{
@@ -137,7 +137,6 @@ void	Handler::_checkMethod(void)
 		response_code = "405";
 		throw(std::invalid_argument("Method not allowed: " + _method));
 	}
-	std::cout << response_code << std::endl;
 }
 
 
@@ -214,6 +213,8 @@ void	Handler::_launchPost(void)
 	std::string		filePath;
 	std::string		fileLocation;
 
+	// [LOGGING]
+	std::cout << "++++++++++++ Launching POST +++++++++++++" << std::endl;
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
@@ -224,7 +225,6 @@ void	Handler::_launchPost(void)
 		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
 		std::cout << fileLocation << std::endl;
 		body = _requestParsed.getBody();
-		std::cout << body << std::endl;
 		newFile.open(filePath.c_str(), std::ios::binary);
 		if (!newFile.is_open())
 		{
@@ -238,6 +238,8 @@ void	Handler::_launchPost(void)
 		}
 		newFile.close();
 		headerField = std::make_pair("Location", fileLocation);
+		// [LOGGING] file created at: {filelocation}
+		std::cout << fileLocation << std::endl;
 		response_code = "201";
 	}
 }
@@ -253,7 +255,6 @@ void	Handler::_checkPayload(void)
 	payloadMaxSize = _conf.getBodySize();
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
-
 	if (bodyLength > payloadMaxSize) {
 		response_code = "413";
 		throw (std::invalid_argument("Payload Too Large"));

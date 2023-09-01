@@ -19,14 +19,26 @@ def start_webserv(infile):
 												stdout=log_file,
 												stderr=log_file)
 
+def check_stts_code(response, code=200):
+	try:
+		assert response.status_code == code, f"-> ❌ Error sttsCode [{response.status_code}]"
+		print(f" -> ✔️  sttsCode [{response.status_code}]")
+	except AssertionError as e:
+		print(e)
+
+def check_text(response, text):
+	try:
+		assert response.text == text, f"-> ❌ Error text [{response.text}]"
+		print(f" -> ✔️  text [{response.text}]")
+	except AssertionError as e:
+		print(e)
+
+
 def test(test_name, infile, test_func):
 	print (test_name, end="")
 	start_webserv(infile)
 	time.sleep(2)
-	if (test_func() == True):
-		print(" -> ✔️")
-	else:
-		print("-> ❌ Error []")
+	test_func()
 	web_server_process.send_signal(signal.SIGINT)
 
 
@@ -37,8 +49,8 @@ def get(URL):
 	try:
 		response = requests.get(URL)
 		return response
-	except:
-		print(" -> ❌ Error [request.get] " + URL)
+	except AssertionError as e:
+		print("-> ❌ Error request.get " + URL + f"[{e}]")
 		exit(1)
 
 """"
@@ -50,8 +62,8 @@ def post(URL, body):
 	try:
 		response = requests.post(URL, data=body)
 		return response
-	except:
-		print("-> ❌ Error [request.post] " + URL)
+	except AssertionError as e:
+		print("-> ❌ Error request.post " + URL + f"[{e}]")
 		exit(1)
 
 """"
@@ -63,6 +75,6 @@ def chunkedPost(URL, body):
 	try:
 		response = requests.post(URL, data=body, headers={"Transfer-Encoding": "chunked"})
 		return response
-	except:
-		print("-> ❌ Error [request.post] " + URL)
+	except AssertionError as e:
+		print("-> ❌ Error request.post " + URL + f"[{e}]")
 		exit(1)

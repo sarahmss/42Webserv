@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 14:03:10 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:19:58 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,16 +138,14 @@ void	RequestParser::_parseBody()
 	Body	body(_socketFd, _headers);
 	int		bodyStatus = body.parseBody();
 
-	sendMessageToLogFile("Parsing body | requestParser->_parseBody", true, 0);
+	// Informação do estado do body, empty, chunked, unchucked [LOGGING]
+	sendMessageToLogFile("Parsing body: " + intToString(bodyStatus), true, 0);
 	if (bodyStatus == EMPTYBODY)
-	{
-		sendMessageToLogFile("Error EMPTY BODY | requestParser->_parseBody", false, 0);
 		return ;
-	}
-	if (bodyStatus == UNCHUNKED)	// [LOGGING] body stts // preciso sanar dúvidas com a sarah
+	if (bodyStatus == UNCHUNKED)
 		_headers["filename:"] = body.getFileName();
-	if (bodyStatus == CHUNKED)		// [LOGGING] body stts // preciso sanar dúvidas com a sarah
-		_headers["Content-Length:"] = body.getContentLength();
+	if (bodyStatus == CHUNKED)
+		_headers["Content-Length:"] = intToString(body.getContentLength());
 	_body = body.getBody();
 	_multPart = body.IsMultipartForm();
 }
