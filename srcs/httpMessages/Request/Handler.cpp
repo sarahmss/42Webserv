@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/30 21:45:41 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:11:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	Handler::_checkMethod(void)
 
 	methods = _location.getAllowedMethods();
 	_method = _requestParsed.getMethod();
+	std::cout << "++++++" << _method << std::endl;
 	found = methods.find(_method);
 	if (found == methods.end())
 	{
@@ -136,6 +137,7 @@ void	Handler::_checkMethod(void)
 		response_code = "405";
 		throw(std::invalid_argument("Method not allowed: " + _method));
 	}
+	std::cout << response_code << std::endl;
 }
 
 
@@ -186,7 +188,7 @@ bool	Handler::_checkCgi(std::string path)
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()))
 			return (false);
-	} else if (!isFile(path)) 
+	} else if (!isFile(path))
 	{
 		sendMessageToLogFile("404 | checkCGI->Handler", false, 0);
 		response_code = "404";
@@ -208,17 +210,21 @@ void	Handler::_launchPost(void)
 {
 	std::ofstream	newFile;
 	std::string		body;
+	std::string		fileName;
 	std::string		filePath;
 	std::string		fileLocation;
 
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
-		filePath = getFilePath(_setPath(),
-						_requestParsed.getHeader("filename"));
-		fileLocation = getFileLocation(_requestParsed.getHeader("filename"),
-						(_conf.getRoot() + _uri));
+		fileName = _requestParsed.getHeader("filename");
+		std::cout << fileName << std::endl;
+		filePath = getFilePath(_setPath(), fileName);
+		std::cout << filePath << std::endl;
+		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
+		std::cout << fileLocation << std::endl;
 		body = _requestParsed.getBody();
+		std::cout << body << std::endl;
 		newFile.open(filePath.c_str(), std::ios::binary);
 		if (!newFile.is_open())
 		{
@@ -235,6 +241,8 @@ void	Handler::_launchPost(void)
 		response_code = "201";
 	}
 }
+
+
 
 void	Handler::_checkPayload(void)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RequestParser.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/30 21:53:29 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:03:10 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	RequestParser::_parseRequest(void)
 	std::string	requestLine;
 
 	sendMessageToLogFile("Parsing request | requestParser->_parseRequest", true, 0);
+	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 	std::cout << "++Parsing request..." << std::endl;
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
@@ -103,7 +104,6 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	std::string			line;
 
 	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
-	std::cout << " ++ Parsing RequestLine" << std::endl;
 	std::getline(RequestLineStream, line, ' ');
 	_method = line;
 	std::getline(RequestLineStream, line, ' ');
@@ -119,9 +119,8 @@ void	RequestParser::_parseHeader(const std::string Headers)
 {
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
-  
+
 	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
-	std::cout << " ++ Parsing headers" << std::endl;
 	if (!getline(HeadersStream, line))
 		throw std::runtime_error("Empty request header field");
 	else
@@ -140,7 +139,6 @@ void	RequestParser::_parseBody()
 	int		bodyStatus = body.parseBody();
 
 	sendMessageToLogFile("Parsing body | requestParser->_parseBody", true, 0);
-	std::cout << " ++ Parsing body" << std::endl;
 	if (bodyStatus == EMPTYBODY)
 	{
 		sendMessageToLogFile("Error EMPTY BODY | requestParser->_parseBody", false, 0);

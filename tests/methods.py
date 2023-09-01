@@ -26,7 +26,7 @@ def test(test_name, infile, test_func):
 	if (test_func() == True):
 		print(" -> ✔️")
 	else:
-		print("-> ❌ Error [stts code]")
+		print("-> ❌ Error []")
 	web_server_process.send_signal(signal.SIGINT)
 
 
