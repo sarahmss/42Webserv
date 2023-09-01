@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:23:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:41:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,29 @@ void CreateDirectory(std::string fileName, std::string filePath)
 
 	dirName = filePath.erase(filePath.find(fileName));
 	check = mkdir(dirName.c_str(), 0777);
-	if (!check)
-		std::cout << "Directory " << dirName << " created\n";
-	else
-		std::cout << "Unable to create directory\n";
+	if (check)
+		throw (std::runtime_error("Unable to create directory\n"));
+}
+
+
+std::string CreateFile(std::string filePath, std::string body)
+{
+	std::ofstream	newFile;
+	std::string		responseCode = "201";
+
+	newFile.open(filePath.c_str(), std::ios::binary);
+	if (!newFile.is_open())
+	{
+		responseCode = "500";
+		throw (std::runtime_error("Failed to open file for writing"));
+	}
+	newFile.write(body.c_str(), body.length());
+	if (newFile.fail()) {
+		responseCode = "500";
+		throw std::runtime_error("Failed to write [POST]");
+	}
+	newFile.close();
+	return (responseCode);
 }
 
 bool isFile(std::string path)

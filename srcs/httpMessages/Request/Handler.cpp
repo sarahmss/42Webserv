@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:26:40 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:41:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,6 @@ bool	Handler::_checkCgi(std::string path)
 
 void	Handler::_launchPost(void)
 {
-	std::ofstream	newFile;
-	std::string		body;
 	std::string		fileName;
 	std::string		filePath;
 	std::string		fileLocation;
@@ -221,21 +219,8 @@ void	Handler::_launchPost(void)
 		filePath = getFilePath(_setPath(), fileName);
 		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
 		CreateDirectory(fileName, filePath);
-		body = _requestParsed.getBody();
-		newFile.open(filePath.c_str(), std::ios::binary);
-		if (!newFile.is_open())
-		{
-			response_code = "500";
-			throw (std::runtime_error("Failed to open file for writing"));
-		}
-		newFile.write(body.c_str(), body.length());
-		if (newFile.fail()) {
-			response_code = "500";
-			throw std::runtime_error("Failed to write [POST]");
-		}
-		newFile.close();
+		response_code = CreateFile(filePath, _requestParsed.getBody());
 		headerField = std::make_pair("Location", fileLocation);
-		response_code = "201";
 	}
 }
 

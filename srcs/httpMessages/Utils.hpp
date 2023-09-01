@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:17:46 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:36:49 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@
 	bool		findIndex(std::string &path, std::vector<std::string> indexes);
 	void		checkSlash(std::string &path);
 	void		CreateDirectory(std::string fileName, std::string filePath);
+	std::string	CreateFile(std::string filePath, std::string body);
 
 	std::string cast_to_string(int num);
 	std::string intToString(int value);
