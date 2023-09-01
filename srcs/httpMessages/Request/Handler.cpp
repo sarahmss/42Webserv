@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 14:54:11 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:12:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ void	Handler::launch(void)
 	}
 	catch (const std::exception & e)
 	{
-		std::cout << e.what() << std::endl;
-		return ;
 		sendMessageToLogFile(e.what(), false, 0);
+		return ;
 	}
 }
 
@@ -218,12 +217,12 @@ void	Handler::_launchPost(void)
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
-		fileName = _requestParsed.getHeader("filename");
-		std::cout << fileName << std::endl;
+		fileName = _requestParsed.getHeader("filename:");
 		filePath = getFilePath(_setPath(), fileName);
-		std::cout << filePath << std::endl;
 		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
-		std::cout << fileLocation << std::endl;
+		CreateDirectory(fileName, filePath);
+		std::cout << fileName << '\n' << filePath << '\n' << fileLocation << '\n';
+
 		body = _requestParsed.getBody();
 		newFile.open(filePath.c_str(), std::ios::binary);
 		if (!newFile.is_open())
@@ -238,8 +237,6 @@ void	Handler::_launchPost(void)
 		}
 		newFile.close();
 		headerField = std::make_pair("Location", fileLocation);
-		// [LOGGING] file created at: {filelocation}
-		std::cout << fileLocation << std::endl;
 		response_code = "201";
 	}
 }

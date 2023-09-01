@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 16:19:47 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:29:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ std::string	Body::getBody(void)
 
 std::string	Body::getFileName(void)
 {
-	return (_body);
+	return (_fileName);
 }
 
 int	Body::getContentLength(void)

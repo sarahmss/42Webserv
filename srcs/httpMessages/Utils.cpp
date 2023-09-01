@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 14:25:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:23:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,19 @@ bool	isDirectory(std::string path)
 	return (false);
 }
 
+void CreateDirectory(std::string fileName, std::string filePath)
+{
+	std::string	dirName;
+	int			check;
+
+	dirName = filePath.erase(filePath.find(fileName));
+	check = mkdir(dirName.c_str(), 0777);
+	if (!check)
+		std::cout << "Directory " << dirName << " created\n";
+	else
+		std::cout << "Unable to create directory\n";
+}
+
 bool isFile(std::string path)
 {
 	struct stat s;
@@ -99,13 +112,13 @@ std::string	getFilePath(std::string path, std::string filename)
 {
 	if (filename == "")
 		throw (std::invalid_argument("Invalid Request [filename]"));
-	return (path + filename);
+	return (path + "/" + filename);
 }
 
 std::string	getFileLocation(std::string fileName, std::string fileLocation)
 {
 	checkSlash(fileLocation);
-	return (getFilePath(fileLocation, fileName));
+	return (fileLocation + fileName);
 }
 
 strPairType	getFileContent(std::string path)
