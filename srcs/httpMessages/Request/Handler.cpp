@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:12:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:26:40 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,8 +221,6 @@ void	Handler::_launchPost(void)
 		filePath = getFilePath(_setPath(), fileName);
 		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
 		CreateDirectory(fileName, filePath);
-		std::cout << fileName << '\n' << filePath << '\n' << fileLocation << '\n';
-
 		body = _requestParsed.getBody();
 		newFile.open(filePath.c_str(), std::ios::binary);
 		if (!newFile.is_open())
@@ -241,8 +239,6 @@ void	Handler::_launchPost(void)
 	}
 }
 
-
-
 void	Handler::_checkPayload(void)
 {
 	int	payloadMaxSize;
@@ -257,7 +253,6 @@ void	Handler::_checkPayload(void)
 		throw (std::invalid_argument("Payload Too Large"));
 	}
 }
-
 
 void	Handler::_launchGet(std::string path)
 {
