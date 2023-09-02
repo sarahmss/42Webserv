@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 16:29:03 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/02 17:58:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ Body::Body(int socketFd, HeadersType headers)
  {
 	_socketFd = socketFd;
 	_headers = headers;
+	_unparsed = "";
+	_ContentLenght = 0;
 }
 
 /*
@@ -35,10 +37,13 @@ Body::~Body() { return ; }
 
 int	Body::parseBody(void)
 {
+	std::string encoding;
+
 	if (MapHasKey(_headers, "Content-Length:" ) == false
 		&& MapHasKey(_headers, "Transfer-Encoding:") == false)
 		return (EMPTYBODY);
-	if (getMapItem(_headers, "Transfer-Encoding:") == "chunked")
+	encoding = getMapItem(_headers, "Transfer-Encoding:");
+	if (encoding.find("chunked") != encoding.npos)
 		return (_HandleChunkedBody());
 	else if (MapHasKey(_headers, "Content-Length:"))
 		return(_ReadMessageBody());
@@ -88,8 +93,9 @@ int	Body::_ReadMessageBody(void)
 	int			length = atoi(getMapItem(_headers, "Content-Length:").c_str());
 	ssize_t		bytes = 0;
 	char		buffer[BUFFSIZE]= {0};
-	std::string	bodyLine;
+	std::string	temp;
 
+	std::cout << "---------------------------Unchunked----------------------\n";
 	while (length > 0)
 	{
 		bytes = recv(_socketFd, buffer, BUFFSIZE, 0);
@@ -98,10 +104,10 @@ int	Body::_ReadMessageBody(void)
 		if (bytes == 0)
 			break;
 		length -= bytes;
-		bodyLine.append(buffer, bytes);
+		temp.append(buffer, bytes);
 		memset(buffer, 0, BUFFSIZE);
 	}
-	_getBodyMessage(bodyLine);
+	_getBodyMessage(temp);
 	return (UNCHUNKED);
 }
 

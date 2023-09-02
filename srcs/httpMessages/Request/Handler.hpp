@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:31:04 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:54:34 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 
 typedef std::priority_queue<Location> LocationQueueType;
-
 class Handler
 {
 	public:

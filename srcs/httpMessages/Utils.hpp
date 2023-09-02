@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:36:49 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:41:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@
 #include <dirent.h>
 # include <csignal>
 
-
-
 #define CRLF "\r\n"
 #define CRLF2X "\r\n\r\n"
-#define BUFFSIZE 5
+#define BUFFSIZE 2
 
 #define AUTOINDEX_HTML_HEAD "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta http-equiv=\"X-UA-Compatible\"content=\"IE=edge\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>Autoindex</title></head>"
 #define CLOSE_BODY "</body></html>"

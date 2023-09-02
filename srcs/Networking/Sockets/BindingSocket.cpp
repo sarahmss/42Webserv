@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:01:44 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 19:33:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 22:21:21 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ BindingSocket::BindingSocket(int domain, int service, int protocol, int port, un
 	{
 		// [LOGGING]
 		std::string msg = "Setting socket options" + intToString(sock);
-		perror(msg.c_str());
+		//perror(msg.c_str());
 		exit(EXIT_FAILURE);
 	}
 	set_connection(connect_to_network(sock, address));
 	if (setNonBlocking(sock) == false)
 	{
 		// [LOGGING]
-		perror("setting non-blocking");
+		//perror("setting non-blocking");
 		exit(EXIT_FAILURE);
 	}
 	test_connection(get_connection());

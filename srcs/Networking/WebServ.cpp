@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 21:48:29 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 22:25:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,6 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 	int	clientSocket = accept->getClientSocket();
 
 	sendMessageToLogFile("Launching responder", true, 0);
-	std::cout << "Response code: " << _handler.response_code << std::endl;
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.response_code,

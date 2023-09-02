@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/01 21:27:58 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/01 22:15:06 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,12 +106,12 @@ clean:
 			@rm -f $(OBJS)
 			@rm -rf $(OBJS_PATH)
 			@echo cleaned!
-
-fclean:		clean
-			@rm -f $(NAME)
 			rm -rf www/uploads
 			@rm -rf logs
 			rm -rf tests/__pycache__
+
+fclean:		clean
+			@rm -f $(NAME)
 
 re: fclean all
 
