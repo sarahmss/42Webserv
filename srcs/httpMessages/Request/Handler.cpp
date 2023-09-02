@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:41:45 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:45:32 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ void	Handler::_setBody(void)
 		_launchDelete(path);
 }
 
-
 std::string	Handler::_setPath(void)
 {
 	std::string	path;
@@ -210,8 +209,6 @@ void	Handler::_launchPost(void)
 	std::string		filePath;
 	std::string		fileLocation;
 
-	// [LOGGING]
-	std::cout << "++++++++++++ Launching POST +++++++++++++" << std::endl;
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
