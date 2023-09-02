@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Responder.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 13:01:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:03:59 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	Responder::sendResponse(void)
 	HeadersType::iterator end = _header.end();
 
 	sendMessageToLogFile("Building response", true, 0);
-	std::cout << " ++ Building response" << std::endl;
 	_respBuilder.add_protocol_status(_protocolVersion, _sttsCode);
 	for (; it != end; ++it)
 		_respBuilder.add_value_pair(it->first, it->second);

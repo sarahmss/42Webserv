@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/08/28 19:45:34 by jinacio-         ###   ########.fr        #
+#    Updated: 2023/09/01 21:27:58 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,11 +109,12 @@ clean:
 
 fclean:		clean
 			@rm -f $(NAME)
+			rm -rf www/uploads
 			@rm -rf logs
 			rm -rf tests/__pycache__
 
-
 re: fclean all
+
 
 test_misconfig:
 	sudo python3 ./tests/misconfig/misconfig.py
@@ -123,4 +124,8 @@ test_get:
 
 test_post:
 	sudo python3 tests/methods/POST/post.py
+
+test_allowed_methods:
+	sudo python3 tests/directives/allowed_methods/allowed_methods.py
+
 .PHONY: all clean fclean re

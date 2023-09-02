@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/30 21:37:50 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:03:42 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ std::string		WebServ::concatenate_int(std::string s1, int n2)
 {
 	std::ostringstream oss;
     oss << n2;
-    
+
     std::string resultado = s1 + oss.str();
     return resultado;
 }
 
 void	WebServ::_initServers(void)
 {
-	
+
 	sendMessageToLogFile("Initing Server...", true, 0);
 	clock_t start = clock();
 	clock_t end = clock();
@@ -82,9 +82,9 @@ void	WebServ::_initServers(void)
 		start = clock();
 		int port = _serversConfs[i].getListen().getPort();
 
-		sendMessageToLogFile(concatenate_int("Starting listen() int port ", port), true, 
+		sendMessageToLogFile(concatenate_int("Starting listen() int port ", port), true,
 										static_cast<double>(end - start) / CLOCKS_PER_SEC);
-		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level 
+		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
@@ -225,7 +225,6 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 	int	clientSocket = accept->getClientSocket();
 
 	sendMessageToLogFile("Launching responder", true, 0);
-	std::cout << " ++ launching responder" << std::endl;
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.response_code,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RequestParser.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/30 21:53:29 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:21:36 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	RequestParser::_parseRequest(void)
 	std::string	requestLine;
 
 	sendMessageToLogFile("Parsing request | requestParser->_parseRequest", true, 0);
+	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
 	std::cout << "++Parsing request..." << std::endl;
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
@@ -103,7 +104,6 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	std::string			line;
 
 	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
-	std::cout << " ++ Parsing RequestLine" << std::endl;
 	std::getline(RequestLineStream, line, ' ');
 	_method = line;
 	std::getline(RequestLineStream, line, ' ');
@@ -119,9 +119,8 @@ void	RequestParser::_parseHeader(const std::string Headers)
 {
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
-  
+
 	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
-	std::cout << " ++ Parsing headers" << std::endl;
 	if (!getline(HeadersStream, line))
 		throw std::runtime_error("Empty request header field");
 	else
@@ -139,17 +138,14 @@ void	RequestParser::_parseBody()
 	Body	body(_socketFd, _headers);
 	int		bodyStatus = body.parseBody();
 
-	sendMessageToLogFile("Parsing body | requestParser->_parseBody", true, 0);
-	std::cout << " ++ Parsing body" << std::endl;
+	// Informação do estado do body, empty, chunked, unchucked [LOGGING]
+	sendMessageToLogFile("Parsing body: " + intToString(bodyStatus), true, 0);
 	if (bodyStatus == EMPTYBODY)
-	{
-		sendMessageToLogFile("Error EMPTY BODY | requestParser->_parseBody", false, 0);
 		return ;
-	}
-	if (bodyStatus == UNCHUNKED)	// [LOGGING] body stts // preciso sanar dúvidas com a sarah
+	if (bodyStatus == UNCHUNKED)
 		_headers["filename:"] = body.getFileName();
-	if (bodyStatus == CHUNKED)		// [LOGGING] body stts // preciso sanar dúvidas com a sarah
-		_headers["Content-Length:"] = body.getContentLength();
+	if (bodyStatus == CHUNKED)
+		_headers["Content-Length:"] = intToString(body.getContentLength());
 	_body = body.getBody();
 	_multPart = body.IsMultipartForm();
 }

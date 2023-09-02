@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/30 21:45:41 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:41:45 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	Handler::launch(void)
 	}
 	catch (const std::exception & e)
 	{
-		return ;
 		sendMessageToLogFile(e.what(), false, 0);
+		return ;
 	}
 }
 
@@ -186,7 +186,7 @@ bool	Handler::_checkCgi(std::string path)
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()))
 			return (false);
-	} else if (!isFile(path)) 
+	} else if (!isFile(path))
 	{
 		sendMessageToLogFile("404 | checkCGI->Handler", false, 0);
 		response_code = "404";
@@ -206,33 +206,21 @@ bool	Handler::_checkCgi(std::string path)
 
 void	Handler::_launchPost(void)
 {
-	std::ofstream	newFile;
-	std::string		body;
+	std::string		fileName;
 	std::string		filePath;
 	std::string		fileLocation;
 
+	// [LOGGING]
+	std::cout << "++++++++++++ Launching POST +++++++++++++" << std::endl;
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
-		filePath = getFilePath(_setPath(),
-						_requestParsed.getHeader("filename"));
-		fileLocation = getFileLocation(_requestParsed.getHeader("filename"),
-						(_conf.getRoot() + _uri));
-		body = _requestParsed.getBody();
-		newFile.open(filePath.c_str(), std::ios::binary);
-		if (!newFile.is_open())
-		{
-			response_code = "500";
-			throw (std::runtime_error("Failed to open file for writing"));
-		}
-		newFile.write(body.c_str(), body.length());
-		if (newFile.fail()) {
-			response_code = "500";
-			throw std::runtime_error("Failed to write [POST]");
-		}
-		newFile.close();
+		fileName = _requestParsed.getHeader("filename:");
+		filePath = getFilePath(_setPath(), fileName);
+		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
+		CreateDirectory(fileName, filePath);
+		response_code = CreateFile(filePath, _requestParsed.getBody());
 		headerField = std::make_pair("Location", fileLocation);
-		response_code = "201";
 	}
 }
 
@@ -245,13 +233,11 @@ void	Handler::_checkPayload(void)
 	payloadMaxSize = _conf.getBodySize();
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
-
 	if (bodyLength > payloadMaxSize) {
 		response_code = "413";
 		throw (std::invalid_argument("Payload Too Large"));
 	}
 }
-
 
 void	Handler::_launchGet(std::string path)
 {

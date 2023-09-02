@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:29:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ Body::~Body() { return ; }
 int	Body::parseBody(void)
 {
 	if (MapHasKey(_headers, "Content-Length:" ) == false
-		|| MapHasKey(_headers, "Transfer-Encoding: ") == false)
+		&& MapHasKey(_headers, "Transfer-Encoding:") == false)
 		return (EMPTYBODY);
 	if (getMapItem(_headers, "Transfer-Encoding:") == "chunked")
 		return (_HandleChunkedBody());
@@ -110,7 +110,7 @@ void	Body::_getBodyMessage(std::string &Body)
 	if (IsMultipartForm() == true)
 	{
 		_ClearHeader(Body);
-		_ClearFooter(Body);
+		_ClearBoundary(Body);
 	}
 	_body = Body;
 }
@@ -120,16 +120,16 @@ bool Body::IsMultipartForm(void)
 	std::string	contentType;
 
 	contentType = getMapItem(_headers, "Content-Type:");
-	return (contentType.find("multipart/form-data:") != std::string::npos);
+	return (contentType.find("multipart/form-data") != std::string::npos);
 }
 
 
-void	Body::_ClearFooter(std::string &Body)
+void	Body::_ClearBoundary(std::string &Body)
 {
-	std::string	footer;
+	int			begin = Body.find("\n-");
+	int			end = Body.rfind(CRLF);
 
-	footer = Body.substr(Body.rfind(CRLF), Body.npos);
-	Body.erase(Body.length() - footer.length(), Body.npos);
+	Body.erase(begin, begin - end);
 }
 
 void	Body::_ClearHeader(std::string &Body)
@@ -147,11 +147,12 @@ void	Body::_getFileName(std::string header)
 	size_t	begin;
 	size_t	end;
 
-	begin = header.find("filename=\"") + 11;
+	begin = header.find("filename=\"") + 10;
 	end = header.find("\"", begin);
 	filename = header.substr(begin, (end - begin));
 	_fileName = filename;
 }
+
 
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
@@ -164,7 +165,7 @@ std::string	Body::getBody(void)
 
 std::string	Body::getFileName(void)
 {
-	return (_body);
+	return (_fileName);
 }
 
 int	Body::getContentLength(void)

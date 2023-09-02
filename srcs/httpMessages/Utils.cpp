@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 19:59:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:22:47 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,41 @@ bool	isDirectory(std::string path)
 	return (false);
 }
 
+void CreateDirectory(std::string fileName, std::string filePath)
+{
+	std::string	dirName;
+	int			check;
+
+	dirName = filePath.erase(filePath.find(fileName));
+	if (!isDirectory(dirName))
+	{
+		check = mkdir(dirName.c_str(), 0777);
+		if (check)
+			throw (std::runtime_error("Unable to create directory\n"));
+	}
+}
+
+
+std::string CreateFile(std::string filePath, std::string body)
+{
+	std::ofstream	newFile;
+	std::string		responseCode = "201";
+
+	newFile.open(filePath.c_str(), std::ios::binary);
+	if (!newFile.is_open())
+	{
+		responseCode = "500";
+		throw (std::runtime_error("Failed to open file for writing"));
+	}
+	newFile.write(body.c_str(), body.length());
+	if (newFile.fail()) {
+		responseCode = "500";
+		throw std::runtime_error("Failed to write [POST]");
+	}
+	newFile.close();
+	return (responseCode);
+}
+
 bool isFile(std::string path)
 {
 	struct stat s;
@@ -99,13 +134,13 @@ std::string	getFilePath(std::string path, std::string filename)
 {
 	if (filename == "")
 		throw (std::invalid_argument("Invalid Request [filename]"));
-	return (path + filename);
+	return (path + "/" + filename);
 }
 
 std::string	getFileLocation(std::string fileName, std::string fileLocation)
 {
 	checkSlash(fileLocation);
-	return (getFilePath(fileLocation, fileName));
+	return (fileLocation + fileName);
 }
 
 strPairType	getFileContent(std::string path)
