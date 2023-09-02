@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 17:41:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:22:47 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,12 @@ void CreateDirectory(std::string fileName, std::string filePath)
 	int			check;
 
 	dirName = filePath.erase(filePath.find(fileName));
-	check = mkdir(dirName.c_str(), 0777);
-	if (check)
-		throw (std::runtime_error("Unable to create directory\n"));
+	if (!isDirectory(dirName))
+	{
+		check = mkdir(dirName.c_str(), 0777);
+		if (check)
+			throw (std::runtime_error("Unable to create directory\n"));
+	}
 }
 
 
