@@ -109,23 +109,22 @@ void FT::Dir_listing::_add_body(std::string &buff,
 	buff += "</ul>";
 }
 
-std::string FT::Dir_listing::generate_listing_page (std::string root_dir, std::string path = "") {
+std::string FT::Dir_listing::generate_listing_page (std::string path = "") {
 
-	std::string full_path = root_dir + "/" + path;
-	if (access(full_path.c_str(), F_OK | R_OK | X_OK) == -1)
+	if (path.size() == 0 && access(path.c_str(), F_OK | R_OK | X_OK) == -1)
 		throw std::invalid_argument("The file doesn't exist or requires privileges!");
-	if (!_check_is_dir(full_path))
+	if (!_check_is_dir(path))
 		throw std::invalid_argument("The path given it's not a directory!");
 
-	DIR *dir = opendir(full_path.c_str());
+	DIR *dir = opendir(path.c_str());
 
 	std::string page = "<html>";
 	_add_header(page,
-			"Listing: " + full_path,
+			"Listing: " + path,
 			"Arial",
 			"https://pluspng.com/img-png/folder-png-folder-icon-1600.png");
 
-	_add_body (page, full_path, dir);
+	_add_body (page, path, dir);
 	page += "</html>";
 	closedir(dir);
 	return page;
