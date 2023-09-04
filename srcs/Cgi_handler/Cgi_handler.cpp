@@ -1,7 +1,9 @@
 
 #include "Cgi_handler.hpp"
 #include <cstdlib>
+#include <exception>
 #include <iostream>
+#include <stdexcept>
 #include <sys/types.h>
 
 // php program handler
@@ -99,9 +101,19 @@ std::string FT::Cgi_handler::cgi_handler(
 // os arrays de ponteiros char(string)
 void FT::Cgi_handler::_handler(std::map<std::string, std::string> &env) {
 
-	std::vector<const char *> env_vector;
+	std::vector<std::string> env_vector;
 
-	char const **envp = _make_list(env, env_vector);
+	char buff[env.size() + 1][501];
+	char *envp[env.size() + 1];
+	try {
+		_make_list(env, buff);
+	} catch (std::exception &e){
+		exit(1);
+	}
+
+	for (int i = 0; buff[i][0]; i++)
+		envp[i] = buff[i];
+	envp[env.size()] = 0;
 
 	const char *arg[2];
 	arg[0] = env["SCRIPT_NAME"].c_str();
@@ -121,21 +133,27 @@ void FT::Cgi_handler::_handler(std::map<std::string, std::string> &env) {
 
 	execve(env["SCRIPT_FILENAME"].c_str(),
 			const_cast<char **>(arg),
-			const_cast<char **>(envp)); 
+			envp); 
 
 	close(_socketpair_fd[1]);
 	exit(1);
 }
 
-char const **FT::Cgi_handler::_make_list(
+void FT::Cgi_handler::_make_list(
 		std::map<std::string, std::string> &env,
-		std::vector<const char *> &env_vector) {
+		char envp_buff[][501]) {
 
-	for (env_var_t::iterator iter = env.begin(); iter != env.end(); iter++ ) {
-		std::string buff = iter->first + "=" + iter->second;
-		env_vector.push_back(buff.c_str());
+	std::string buff;
+	int idx = 0;
+	for (std::map<std::string, std::string>::iterator iter = env.begin();
+			iter != env.end(); ++iter) {
+
+		buff = iter->first + "=" + iter->second;
+		if (buff.size() > 500)
+			throw std::runtime_error("env var too big");
+
+		std::strcpy(envp_buff[idx], buff.c_str());
+		idx += 1;
 	}
-
-	env_vector.push_back(NULL);
-	return env_vector.data();
+	envp_buff[env.size()][0] = 0;
 }

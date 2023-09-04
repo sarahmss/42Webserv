@@ -7,6 +7,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# include <cstring>
 # include <map>
 # include <cstdlib>
 # include <vector>
@@ -37,9 +38,9 @@ namespace FT {
 
             int         _open_socketpair();
 
-			char const **_make_list(
+			void _make_list(
 					std::map<std::string, std::string> &env,
-					std::vector<const char *> &env_vector);
+					char envp[][501]);
 
             int         _socketpair_fd[2];
             std::string _response;

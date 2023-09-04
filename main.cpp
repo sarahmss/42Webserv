@@ -16,7 +16,7 @@
 
 void	createFile( void )
 {
-	std::string pathLog = "/root/webserv/42Webserv/logFile/log.txt";
+	std::string pathLog = "./logFile/log.txt";
 	const char* filePath = pathLog.c_str();
 	
 	logFile.open(filePath, std::ios::app);
