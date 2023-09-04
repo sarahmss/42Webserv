@@ -133,7 +133,7 @@ bool Body::IsMultipartForm(void)
 void	Body::_ClearBoundary(std::string &Body)
 {
 	int			begin = Body.rfind("\n-");
-	int			end = Body.rfind("--");
+	int			end = Body.rfind(CRLF);
 
 	Body.erase(begin, begin - end);
 }
