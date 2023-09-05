@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 21:45:32 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/04 22:16:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,19 +205,29 @@ bool	Handler::_checkCgi(std::string path)
 
 void	Handler::_launchPost(void)
 {
-	std::string		fileName;
+	FilesType		files;
 	std::string		filePath;
 	std::string		fileLocation;
+	std::string		fileName;
 
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
-		fileName = _requestParsed.getHeader("filename:");
-		filePath = getFilePath(_setPath(), fileName);
-		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
-		CreateDirectory(fileName, filePath);
-		response_code = CreateFile(filePath, _requestParsed.getBody());
-		headerField = std::make_pair("Location", fileLocation);
+		files = _requestParsed.getFiles();
+		std::cout <<"Creating files..." << std::endl;
+		std::cout << files.begin()->first << files.begin()->second << std::endl;
+		std::cout << files.end()->first << files.end()->second << std::endl;
+
+		for (FilesType::iterator it = files.begin(); it != files.end(); it++)
+		{
+			std::cout << "Creating " << it->first << it->second << std::endl;
+			fileName = fileName = it->first;
+			filePath = getFilePath(_setPath(), fileName);
+			fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
+			CreateDirectory(fileName, filePath);
+			response_code = CreateFile(filePath, it->second);
+			headerField = std::make_pair("Location", fileLocation);
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 15:37:10 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/04 21:27:34 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,19 @@ std::string intToString(int value)
 	std::ostringstream oss;
 	oss << value;
 	return oss.str();
+}
+
+void tokenize(std::string const &str, std::string delim,
+            std::vector<std::string> &out)
+{
+    size_t start;
+    size_t end = 0;
+
+    while ((start = str.find_first_not_of(delim, end)) != std::string::npos)
+    {
+        end = str.find(delim, start);
+        out.push_back(str.substr(start, end - start));
+    }
 }
 
 bool	isKnownMethod(std::string method)

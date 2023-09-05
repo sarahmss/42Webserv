@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 15:41:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/04 23:03:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@
 #define DELETE_HTML	"<html><body><h1>Arquivo removido.</h1></body></html>"
 
 	typedef std::map<std::string, std::string>	HeadersType;
+	typedef std::map<std::string, std::string>	FilesType;
+
 	typedef std::pair<std::string, std::string>	RequestPairType;
 	typedef std::pair<std::string, std::string> strPairType;
 
@@ -70,6 +72,7 @@
 
 	bool	live(bool status);
 	void	sigHandler(int signal);
-
+	void tokenize(std::string const &str, std::string delim,
+            std::vector<std::string> &out);
 
 #endif // UTILS_HPP

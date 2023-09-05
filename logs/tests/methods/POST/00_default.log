@@ -1,0 +1,10 @@
+Log was not created
+++ Initing Servers
+++ Starting listen() in port 8080
+++ Connection opened in socket: 5
+++ Request Received 
++++++++++++++++++++++++++++++++++++++++++++++++
+++Parsing request...
+ ++ Sending Response
+++ Response sent 
+++ Connection closed in socket:5

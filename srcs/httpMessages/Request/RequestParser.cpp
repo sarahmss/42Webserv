@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 17:34:34 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/04 22:25:10 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ RequestParser::RequestParser(int socketFd)
 	_method = "";
 	_protocolVersion = "";
 	_uri = "";
-	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
 	sendMessageToLogFile("Request Parsed | RequestParser->RequestParser ", false, 0);
@@ -49,7 +48,6 @@ RequestParser &	RequestParser::operator=( RequestParser const & rhs )
 {
 	if ( this != &rhs )
 	{
-		this->_body = rhs.getBody();
 		this->_headers = rhs.getHeaders();
 		this->_method = rhs.getMethod();
 		this->_uri = rhs.getUri();
@@ -137,13 +135,19 @@ void	RequestParser::_parseBody()
 {
 	Body	body(_socketFd, _headers);
 	int		bodyStatus = body.parseBody();
+	std::string	fileNames;
 
 	// Informação do estado do body, empty, chunked, unchucked [LOGGING]
 	sendMessageToLogFile("Parsing body: " + intToString(bodyStatus), true, 0);
+	_files = body.getFiles();
 	if (bodyStatus == EMPTYBODY)
 		return ;
 	if (bodyStatus == UNCHUNKED)
-		_headers["filename:"] = body.getFileName();
+	{
+		for (FilesType::iterator it = _files.begin(); it != _files.end(); ++it)
+			fileNames = it->first + " ";
+		_headers["Filename"] = fileNames;
+	}
 	if (bodyStatus == CHUNKED)
 		_headers["Content-Length:"] = intToString(body.getContentLength());
 	_body = body.getBody();
@@ -153,6 +157,12 @@ void	RequestParser::_parseBody()
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
+
+
+FilesType	RequestParser::getFiles(void)
+{
+	return (_files);
+}
 
 std::string	RequestParser::getServerName() const
 {

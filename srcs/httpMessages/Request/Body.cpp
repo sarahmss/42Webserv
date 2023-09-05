@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 17:58:16 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/04 23:04:31 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ Body::Body(int socketFd, HeadersType headers)
  {
 	_socketFd = socketFd;
 	_headers = headers;
-	_unparsed = "";
 	_ContentLenght = 0;
 }
 
@@ -56,6 +55,8 @@ int	Body::_HandleChunkedBody(void)
 	size_t		chunkSize = _getChunkSize();
 	std::string	bodyLine = "";
 
+
+	std::cout << "---------------------------Chunked----------------------\n";
 	for (size_t i = 0; i < chunkSize; i++)
 	{
 		bodyLine += getSockStreamLine(_socketFd);
@@ -107,18 +108,30 @@ int	Body::_ReadMessageBody(void)
 		temp.append(buffer, bytes);
 		memset(buffer, 0, BUFFSIZE);
 	}
+	_boundary = temp.substr(0, temp.find(CRLF));
+	temp.erase(0, temp.find(CRLF));
 	_getBodyMessage(temp);
 	return (UNCHUNKED);
 }
 
 void	Body::_getBodyMessage(std::string &Body)
 {
+	std::vector<std::string>	splitted_content;
+	FilesType					files;
+
+	tokenize(Body, _boundary, splitted_content);
 	if (IsMultipartForm() == true)
 	{
-		_ClearHeader(Body);
-		_ClearBoundary(Body);
+		for (size_t i = 0; i < splitted_content.size(); i++)
+		{
+			_ClearHeader(splitted_content[i]);
+			files[_fileName] = splitted_content[i];
+			_body += splitted_content[i];
+		}
 	}
-	_body = Body;
+	std::cout << "Files size" << files.size() << std::endl;
+	for (FilesType::iterator it = _files.begin(); it != _files.end(); ++it)
+		std::cout << it->first << std::endl;
 }
 
 bool Body::IsMultipartForm(void)
@@ -127,15 +140,6 @@ bool Body::IsMultipartForm(void)
 
 	contentType = getMapItem(_headers, "Content-Type:");
 	return (contentType.find("multipart/form-data") != std::string::npos);
-}
-
-
-void	Body::_ClearBoundary(std::string &Body)
-{
-	int			begin = Body.rfind("\r\n-");
-	int			end = Body.rfind(CRLF);
-
-	Body.erase(begin, begin - end);
 }
 
 void	Body::_ClearHeader(std::string &Body)
@@ -164,14 +168,14 @@ void	Body::_getFileName(std::string header)
 ** --------------------------------- ACCESSOR ---------------------------------
 */
 
+FilesType	Body::getFiles(void)
+{
+	return (_files);
+}
+
 std::string	Body::getBody(void)
 {
 	return (_body);
-}
-
-std::string	Body::getFileName(void)
-{
-	return (_fileName);
 }
 
 int	Body::getContentLength(void)
