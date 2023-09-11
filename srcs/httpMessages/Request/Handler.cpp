@@ -277,7 +277,11 @@ void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std:
     env_map["HTTP_REFERER"] = _requestParsed.getUri();
     env_map["HTTP_USER_AGENT"] = _requestParsed.getHeader("User-Agent:");
 
-    env_map["QUERY_STRING"] = _uri.find_first_of("?");
+	std::string::size_type aux_idx = _uri.substr(_uri.rfind("?")).find("=");
+	if (aux_idx == std::string::npos || aux_idx == _uri.size())
+		env_map["QUERY_STRING"] = "";
+	else
+		env_map["QUERY_STRING"] = _uri.substr(aux_idx + 1);
 
     env_map["REMOTE_ADDR"] = _client_ip_address;
     env_map["REMOTE_PORT"] = cast_to_string(_client_port);
