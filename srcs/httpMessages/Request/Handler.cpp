@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/04 22:16:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:19:13 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,18 +214,15 @@ void	Handler::_launchPost(void)
 	if (_requestParsed.IsMultipartForm())
 	{
 		files = _requestParsed.getFiles();
-		std::cout <<"Creating files..." << std::endl;
-		std::cout << files.begin()->first << files.begin()->second << std::endl;
-		std::cout << files.end()->first << files.end()->second << std::endl;
+		std::cout <<"Creating files... " << std::endl;
 
-		for (FilesType::iterator it = files.begin(); it != files.end(); it++)
+		for (size_t i = 0; i < files.size(); i++)
 		{
-			std::cout << "Creating " << it->first << it->second << std::endl;
-			fileName = fileName = it->first;
+			fileName = files[i].fileName;
 			filePath = getFilePath(_setPath(), fileName);
 			fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
 			CreateDirectory(fileName, filePath);
-			response_code = CreateFile(filePath, it->second);
+			response_code = CreateFile(filePath, files[i].fileContet);
 			headerField = std::make_pair("Location", fileLocation);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/04 22:25:10 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:28:28 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,17 @@ RequestParser &	RequestParser::operator=( RequestParser const & rhs )
 {
 	if ( this != &rhs )
 	{
+		this->_files = rhs.getFiles();
+		this->_body = rhs.getBody();
 		this->_headers = rhs.getHeaders();
 		this->_method = rhs.getMethod();
 		this->_uri = rhs.getUri();
 		this->_protocolVersion = rhs.getProtocolVersion();
+		this->_multPart = rhs.getMultPart();
 	}
 	return *this;
 }
+
 
 std::ostream &operator<<(std::ostream &o, const RequestParser &rhs)
 {
@@ -144,8 +148,8 @@ void	RequestParser::_parseBody()
 		return ;
 	if (bodyStatus == UNCHUNKED)
 	{
-		for (FilesType::iterator it = _files.begin(); it != _files.end(); ++it)
-			fileNames = it->first + " ";
+		for (size_t i = 0; i < _files.size(); i++)
+			fileNames += _files[i].fileName + " ";
 		_headers["Filename"] = fileNames;
 	}
 	if (bodyStatus == CHUNKED)
@@ -159,7 +163,12 @@ void	RequestParser::_parseBody()
 */
 
 
-FilesType	RequestParser::getFiles(void)
+bool	RequestParser::getMultPart(void) const
+{
+	return (_multPart);
+}
+
+FilesType	RequestParser::getFiles(void) const
 {
 	return (_files);
 }

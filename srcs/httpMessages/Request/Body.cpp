@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/04 23:04:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:57:00 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,20 @@ int	Body::_ReadMessageBody(void)
 void	Body::_getBodyMessage(std::string &Body)
 {
 	std::vector<std::string>	splitted_content;
-	FilesType					files;
+	FileType					file;
 
 	tokenize(Body, _boundary, splitted_content);
 	if (IsMultipartForm() == true)
 	{
-		for (size_t i = 0; i < splitted_content.size(); i++)
+		for (size_t i = 0; i < splitted_content.size() - 1; i++)
 		{
 			_ClearHeader(splitted_content[i]);
-			files[_fileName] = splitted_content[i];
+			file.fileContet = splitted_content[i];
+			file.fileName = _fileName;
+			_files.push_back(file);
 			_body += splitted_content[i];
 		}
 	}
-	std::cout << "Files size" << files.size() << std::endl;
-	for (FilesType::iterator it = _files.begin(); it != _files.end(); ++it)
-		std::cout << it->first << std::endl;
 }
 
 bool Body::IsMultipartForm(void)

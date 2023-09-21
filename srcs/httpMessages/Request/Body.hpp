@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:58:42 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/04 22:08:09 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:17:08 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define CHUNKED 1
 # define UNCHUNKED 2
 #define SIZE 1024
+
 
 class Body
 {
