@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/01 22:15:06 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/21 14:33:02 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -124,6 +124,9 @@ test_get:
 
 test_post:
 	sudo python3 tests/methods/POST/post.py
+
+test_chunked_post:
+	sudo python3 tests/methods/POST/chunkedPost.py
 
 test_allowed_methods:
 	sudo python3 tests/directives/allowed_methods/allowed_methods.py

@@ -1,0 +1,199 @@
+Lista 1
+
+Q1)da carga Q que uma pequena
+'F = (1/4*π*ε)*Q1*Q2/d²'
+'F = (1/4*π*ε)*(Q-q)*q/d²'
+'d((Q-q)*q)/dq = Q - 2*q'
+'Q - 2*q = 0'
+'q/Q=1/2'
+----------------------------------------------------
+Q2)Determine a direcao e magnit
+'E = K*Q/d²'
+'cos(θ)=x/d'
+'sen(θ)=a/d'
+'d² = a²+x²'
+E2 = E2cos(θ)(-ai) + E2sen(o)(-aj)
+
+E1 = E1cos(o)(ai) + E1sen(o)(-aj)
+
+E_res= E1 + E2 = 2Q/2πε(a²+x²)^3/2(-aj)
+
+para x >> a E_Res = Qa(-aj)/2πεx^3
+----------------------------------------------------
+Q3)no interior de uma esfera
+a) P = Q/A => P_a = q_a/4πa² ; P_b = q_b/4πb² ; P_R = (q_a + q_b)/4πR²
+
+b)∫E.ds = qenc/ε; ds = p²sen(θ)dθdØ {(θ,Ø) | 0 < θ < π | 0 < Ø <2π}
+∫E. p²sen(θ)dθdØ = qenc/ε => Ep = qenc/4πεp² =>
+Ep = q_a + q_b/4πεR² 
+
+c) dentro da cavidade:
+para p=a => E=q_a/4πa² | para p=b => E = q_b/4πb²
+
+d) F = 0 pois as cargas estão localizadas no interior de uma esfera condutora neutra
+    
+e) apenas o campo eletrico na regiao externa
+----------------------------------------------------
+Q4)na figura os capacitores
+    A =  5,0.10^-3 m2 | d = 2,0 mm | v = 12V | ε_ar = 1 | ε_r = 3
+
+    a) E = V/d = 12/2.10-³ =6.10³
+
+    b) C = ε.A/d | C1 = 2,2.10^-11 | C2 = 6,64.10^-11
+    Q = CV | Q1 = 2,65.10^-10 | Q2=7,97.10^-10
+
+    c) w = 1/2 c.v² | w1= 1,59.10-9 J | w2 = 5,98.10^-8 J
+----------------------------------------------------
+Q5)uma carga q=-25
+
+a) F = |QVBsen(0)| = 25.10-6.2.10^6.0,03.√2/2 = 1,06N
+
+b) na direcao positiva do eixo x
+----------------------------------------------------
+Q6)na figura um fio reto de 
+
+dl produz em P1 um campo infinitesimal dB
+ 
+db = µ0.i/4π . dlXs/s² =µ0.i/4π . dl(x)X(sen(0)(âx)+cos(0)(ây))/s²
+
+I- db = µ0.i/4π . dl.cos(0)(âz))/s²
+
+para dl = dx 
+
+II - tan(-0)=-x/R => x = R.tan(0) => dx =  R.d0/cos²(0)
+
+III - S² = R²+x²= R²(1+tan²(0))=R²/cos²(0)
+
+III e II -> I:
+
+db = µ0.i/4π . (cos²(0)/R²).(R/cos²(0)).cos(0)d0 (âz)
+
+db = µ0.i/4π . cos(0).d0(âz)
+
+Integrando:
+
+B = µ0.i/4πR ∫cos(0).d0(âz)=
+
+IV - B = µ0.i/4πR sen(02)+sen(01)
+
+a) B em P1 => 01 = 02 => sen(02)=sen(01) = (L/2)/√((L/2)²+R²) = (L)/√(L²+4R²)
+B = µ0.i/4πR . 2.sen(01) = µ0.i/2πR . (L)/√(L²+4R²)(âz)
+
+b) 01 < 0 < 02
+B = µ0.i/4πR . sen(01) = µ0.i/4πR . (L)/√(L²+R²)(âz)
+
+c) 01 = 02 = π/2
+B = µ0.i/4πR . 2.sen(π/2) = µ0.i/2πR(âz)
+----------------------------------------------------
+Q7)na figura abaixo a corrente i(t) = 3,0t² - 2,0t 
+
+a) B = µ0.i/2.π.r | φ_B = ∫B.n.ds
+φ_x = -∫∫ µ0.i/2π.x dx.dy= -µ0.i(t)/2π ∫∫dx/x.dy = -µ0.i(t).ln(a).b/2π
+φ_y = -∫∫ µ0.i/2π.x dx.dy= -µ0.i(t)/2π ∫∫dx/x.dy = -µ0.i(t).ln(b-a).b/2π
+φ_B = φ_x + φ_y = φ_B = -µ0.i_b/2.π .ln(a/b-a)
+
+b) femm = -d[φ_B]/dt = µ0.b/2.π .ln(a/b-a).di/dt
+di/dt = 6t - 2 = 12 -2 = 10A
+femm = µ0.b.5/π .ln(a/b-a)
+
+
+c) anti horario
+----------------------------------------------------
+Q8)num circuito LC no qual c=4
+V_max: 1,5V | C = 4,0.10^-6 | I_max = 50.10^-3
+
+a) W = 1/2 . CV² + 1/2 . LI²
+
+b) LI²/2= Q²/2C => L = Q²/CI²; Q = C.V_max
+L = C.V²_max/I² = 3,6.10^-3H
+
+c) ω = 1/√(LC) = 1/√(3,6.10^-3 . 4.10^-6) = 7,856.10³
+f = 1/2π√(LC) = 1,33.10³
+
+d) t = T/4 = 1 / 4.1,33.10³ = 1,88.10^-4
+----------------------------------------------------
+
+Q9)uma fonte de fem alternada
+ εm = 100V | f = 100 rad/s | R = 100 Ω | L = 0,8 H |C = 0,5×10-3 F
+
+a) Impedância Z = √(R² + (Xl-Xc)²) = √(R² + (ωL-1/ωC)²) =  √100²+(80-20)² = 200
+
+b) amplitude da corrente: I = εm/Z = 0,5 A 
+fase da corrente:  φ = arctan((XL - XC)/R = -0,93 rad
+
+c) VR = I_r . R = 0,5.100 = 50v |VL = I_L . xL = 40v | V_c = I_c . Xc= 10v
+
+d) i(t) = i.sen(ωt + φ)= 0,5.sen(100t + φ)
+
+e) VL(t) = 40.sen(100t - φ)
+
+f) ω = 1/√(LC) = 50rad/s
+
+----------------------------------------------------
+Q10)eqs de maxwell
+
+1) Lei de gauss para o campo eletrico: descreve o comportamento das linhas de campo 
+(geradas por uma carga envolvida em uma regiao fechada) que divergem saindo
+ de portadores positivos e convergem chgando nos negativos
+∇ · E = ρ/ε0 <=> ∫E · dA = Q/ε0
+
+2) Lei de gauss para campo magnetico: evidencia a inexistencia de monopolos magnetico 
+ja que o fluxo atraves de uma superficie fechada e sempre nulo. 
+assim as linhas de campo n possuem cBomeco ou fim.
+ 
+∇ · B = 0 <=> ∫B · dA = 0,
+
+3)Lei de Faraday da indução eletromagnética: descreve como um campo magnético variável no tempo pode 
+gerar um campo elétrico circulatório. Ela afirma que a circulação do campo elétrico em torno de uma curva 
+fechada é igual à taxa de variação temporal do fluxo magnético através da superfície delimitada por essa curva.
+
+∇ × E = -∂B/∂t <=> ∫E · dl = -dΦB/dt
+
+
+4) Lei de Ampère-Maxwell:descreve como um campo elétrico variável no tempo pode gerar um campo magnético
+ circulatório. Ela afirma que a circulação do campo magnético em torno de uma curva fechada é igual à soma 
+da corrente elétrica que atravessa essa curva e da  taxa de variação temporal do fluxo elétrico através da
+ superfície delimitada por essa curva.
+ ∇ × B = μ0(J + ε0∂E/∂t) <=> ∫B · dl = μ0(I + ε0dΦE/dt)
+----------------------------------------------------
+Q11)usando os teoremas do div
+
+I- ∫∫E · dA = Q/ε0 => ∫∫∫ ∇.Edv = 1/ε0 ∫p.db para todo v => ∇ · E = ρ/ε0
+
+II- ∫B · dA = ∫∫(∇ · B) dS = 0 => ∫∫(∇ · B) dS = ∫∫∫(∇ · B) dV => ∇ · B = 0
+
+
+III- ∫B · dl = μ0(I + ε0dΦE/dt) = ∫∫(∇ × B) · dS=  ∫∫∫(∇ × B) · dV => ∇ × B = μ0(J + ε0∂E/∂t)
+
+
+IV- ∇ × B = μ0J + μ0ε0d[∫E·dA]/dt => ∫∫ ∇ x Bds = μ0∫J.ds + μ0ε0∫∂E/∂t .ds para todo S => ∇ × B = μ0(J + ε0∂E/∂t)
+----------------------------------------------------
+Q12)usando as eqs de maxwell em 
+
+1) ∇ · E = ρ/ε0 <=> ∫E · dA = Q/ε0
+2) ∇ · B = 0 <=> ∫B · dA = 0
+3) ∇ × E = -∂B/∂t <=> ∫E · dl = -dΦB/dt
+4) ∇ × B = μ0J + μ0ε0∂E/∂t <=> ∫B · dl = μ0(I + ε0dΦE/dt)
+
+
+-> Laplaciano 
+I- ∇²A = ∇(∇.A) = ∇x∇xA  
+II- ∇x∇xA  = ∇ (∇.A) - ∇²A
+
+-> Para campos elétricos
+
+∇x(∇xE) = ∇(∇.E) - ∇²E  <- eq3 & eq1
+∇x(-∂B/∂t) = ∇(ρ/ε0) - ∇²E
+-∂/∂t(∇xB) = 0 - ∇²E
+-∂[μ0J + μ0ε0∂E/∂t]/∂t+ ∇²E = 0
+-∂²[E.μ0.ε0]/∂t² + ∇²E  = 0 | μ0ε0  = 1/c² 
+-∂²[E.1/c²]/∂t² + ∇²E  = 0 
+
+-> Para campos Magneticos
+
+∇x(∇xB) = ∇(∇.B) - ∇²B  <- eq4 & eq2
+∇x(μ0J + μ0ε0∂E/∂t) = ∇(0) - ∇²E
+∂/∂t(∇xE)μ0ε0 + ∇²B = 0 -> μ0ε0 = 1/c² <- eq3
+-∂²B/∂t² . 1/c² + ∇²B = 0 
+ 
+---------------------------------------------------

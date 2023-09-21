@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 13:28:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:49:28 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ void	RequestParser::_parseBody()
 			fileNames += _files[i].fileName + " ";
 		_headers["Filename"] = fileNames;
 	}
+	_body = body.getBody();
 	if (bodyStatus == CHUNKED)
 		_headers["Content-Length:"] = intToString(body.getContentLength());
-	_body = body.getBody();
 	_multPart = body.IsMultipartForm();
 }
 

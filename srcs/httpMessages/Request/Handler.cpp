@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 13:43:04 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 19:52:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	Handler::_setBody(void)
 	if (_checkCgi(path) == true)
 		_launchCGI(path);
 	else if (_method == "POST")
-		_launchPost();
+		_launchPost(path);
 	else if (_method == "GET")
 		_launchGet(path);
 	else if (_method == "DELETE")
@@ -203,7 +203,7 @@ bool	Handler::_checkCgi(std::string path)
 	return (true);
 }
 
-void	Handler::_launchPost(void)
+void	Handler::_launchPost(std::string path)
 {
 	FilesType		files;
 	std::string		filePath;
@@ -214,17 +214,16 @@ void	Handler::_launchPost(void)
 	if (_requestParsed.IsMultipartForm())
 	{
 		files = _requestParsed.getFiles();
-		std::cout <<"Creating files... " << std::endl;
-
-		for (size_t i = 0; i < files.size(); i++)
-		{
-			fileName = files[i].fileName;
-			filePath = getFilePath(_setPath(), fileName);
-			fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
-			CreateDirectory(fileName, filePath);
-			response_code = CreateFile(filePath, files[i].fileContet);
-			headerField = std::make_pair("Location", fileLocation);
-		}
+			for (size_t i = 0; i < files.size(); i++)
+			{
+				fileName = files[i].fileName;
+				filePath = getFilePath(_setPath(), fileName);
+				fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
+				CreateDirectory(fileName, filePath);
+				response_code = CreateFile(filePath, files[i].fileContet);
+				headerField = std::make_pair("Location", fileLocation);
+			}
+		Response = std::make_pair(_requestParsed.getBody(), path);
 	}
 }
 
