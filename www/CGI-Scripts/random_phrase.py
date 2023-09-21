@@ -7,7 +7,7 @@ random_phrase = ["Damn you enraged whale!",
                  "Harry Potter is overrated...",
                  "Baking bread it's not hard!",
                  "Angry cats will dominate the world!",
-                 "I'm only a human afterall, don't put your blame on me....",
+                 "I'm only a human after all, don't put your blame on me....",
                  "Gotcha!"]
 
 print('<html>')

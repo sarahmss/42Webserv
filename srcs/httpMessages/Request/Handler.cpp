@@ -280,18 +280,28 @@ void	Handler::_launchCGI(std::string path) {
 }
 
 void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
+	std::string::size_type aux_idx;
+
     env_map["DOCUMENT_ROOT"] = _conf.getRoot();
     env_map["HTTP_REFERER"] = _requestParsed.getUri();
     env_map["HTTP_USER_AGENT"] = _requestParsed.getHeader("User-Agent:");
 
-    env_map["QUERY_STRING"] = _uri.find_first_of("?");
+	aux_idx = _uri.rfind("?");
+	if (aux_idx == std::string::npos || aux_idx == _uri.size())
+		env_map["QUERY_STRING"] = "";
+	else
+		env_map["QUERY_STRING"] = _uri.substr(aux_idx + 1);
 
     env_map["REMOTE_ADDR"] = _client_ip_address;
     env_map["REMOTE_PORT"] = cast_to_string(_client_port);
     env_map["REMOTE_URI"] = _uri;
 
+	aux_idx = _uri.rfind("/");
+	if (aux_idx == std::string::npos || aux_idx == _uri.size())
+		env_map["SCRIPT_NAME"] = "";
+	else
+		env_map["SCRIPT_NAME"] = _uri.substr(aux_idx + 1);
     env_map["SCRIPT_FILENAME"] = path;
-    env_map["SCRIPT_NAME"] = _uri.substr(_uri.find_last_of("/") + 1);
 
     env_map["SERVER_NAME"] = _serverName;
     env_map["SERVER_ADMIN"] = "I'm only a human after all, btw admin here";
