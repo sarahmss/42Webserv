@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 13:19:13 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:43:04 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Handler::Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address)
 {
 	response_code = "200";
 	headerField = std::make_pair("", "");
-	getResponsePath = std::make_pair("", ""); // body -> path
+	Response = std::make_pair("", ""); // body -> path
 	_clientSocket = clientSocket;
 	_conf = conf;
 	_client_port = ntohs(address.sin_port);
@@ -249,9 +249,9 @@ void	Handler::_launchGet(std::string path)
 	{
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()) == true)
-			getResponsePath = getFileContent(path);
+			Response = getFileContent(path);
 		else if (_location.getAutoIndex())
-			getResponsePath = getAutoIndexContent(path,
+			Response = getAutoIndexContent(path,
 							_conf.getListen().getHost(),
 							intToString(_conf.getListen().getPort()),
 							_uri);
@@ -259,12 +259,18 @@ void	Handler::_launchGet(std::string path)
 			response_code = "404";
 	}
 	else if (isFile(path))
-		getResponsePath = getFileContent(path);
+		Response = getFileContent(path);
 }
 
 void	Handler::_launchDelete(std::string path)
 {
-	std::cout << path;
+	if (isDirectory(path))
+		throw std::runtime_error("Delete: Invalid path: " + path);
+	if (!isFile(path))
+		throw std::runtime_error("Delete: path not found: " + path);
+	std::remove(path.c_str());
+	Response = std::make_pair(DELETE_HTML, path);
+	response_code = "202";
 	return ;
 }
 
@@ -274,7 +280,7 @@ void	Handler::_launchCGI(std::string path) {
 
 	response_code = "200";
 	_prepare_env_map(env, path);
-	getResponsePath = std::make_pair(
+	Response = std::make_pair(
 			cgi.cgi_handler(response_code, env, _requestParsed.getBody()),
 			path);
 }
