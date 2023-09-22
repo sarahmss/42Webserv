@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 15:26:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:24:17 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	Responder::sendResponse(void)
 	std::cout << " ++ Sending Response" << std::endl;
 	if (send(_clientSocket, _respBuilder.get_cresponse(), _respBuilder.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");
+		// CLOSE CLIENT CONNECTION [1]
 	if (_sttsCode == "413") // Payload too large
 		sleep(1);
 	// [LOGGING] DEBUG LEVEL == true

@@ -28,7 +28,7 @@ int AcceptingSocket::startAccepting(int socket)
 	_clientSocket = accept(socket,
 						(struct sockaddr *)&_clientAddress,
 						(socklen_t *)&address_len);
-	// [LOGGING] strerror(errno)
+	// [LOGGING]
 	if (_clientSocket == -1)
 		perror("Failed setting clientSocket" );
 	if (setNonBlocking(_clientSocket) == false)

@@ -75,6 +75,7 @@ std::string FT::Cgi_handler::cgi_handler(
 		close(_socketpair_fd[1]);
 
 		write(_socketpair_fd[0], body.c_str(), body.size() + 1);
+		// CHECAR ERRO [1]
 		waitpid(child_pid, &status, 0);
 
 		if (WIFEXITED(status) == 0) {
@@ -84,7 +85,7 @@ std::string FT::Cgi_handler::cgi_handler(
 		}
 
 		ssize_t read_quant_bytes = read(_socketpair_fd[0], buff, 100000);
-
+		// CHECAR ERROR [1]
 		if (read_quant_bytes >= 100000) {
 			close(_socketpair_fd[0]);
 			responseCode = "413";
@@ -133,7 +134,7 @@ void FT::Cgi_handler::_handler(std::map<std::string, std::string> &env) {
 
 	execve(env["SCRIPT_FILENAME"].c_str(),
 			const_cast<char **>(arg),
-			envp); 
+			envp);
 
 	close(_socketpair_fd[1]);
 	exit(1);

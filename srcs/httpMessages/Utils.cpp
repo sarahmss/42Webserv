@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/04 21:27:34 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:23:51 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ std::string CreateFile(std::string filePath, std::string body)
 	if (newFile.fail()) {
 		responseCode = "500";
 		throw std::runtime_error("Failed to write [POST]");
+		// CLOSE CLIENT CONNECTION [1]
 	}
 	newFile.close();
 	return (responseCode);
