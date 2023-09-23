@@ -20,8 +20,8 @@ def start_webserv(infile):
 
 def check_stts_code(response, code=200):
 	try:
-		assert response.status_code == code, f"-> ❌ Error sttsCode [{response.status_code}]"
-		print(f" -> ✔️  sttsCode [{response.status_code}]")
+		assert response.status_code == code, f"-> ❌ Error sttsCode [{response.status_code} : {response.reason}]"
+		print(f" -> ✔️  sttsCode [{response.status_code}: {response.reason}]")
 	except AssertionError as e:
 		print(e)
 

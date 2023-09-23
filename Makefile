@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/23 18:18:33 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/23 19:28:25 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,25 +117,18 @@ fclean:		clean
 
 re: fclean all
 
-test_misconfig:
-	sudo python3 ./tests/misconfig/misconfig.py
+test_conf:
+#	sudo python3 ./tests/misconfig/misconfig.py
+#	sudo python3 ./tests/directives/listen/listen.py
+#	sudo python3 ./tests/directives/server_name/server_name.py
+	sudo python3 ./tests/directives/client_body_size/client_body_size.py
+#	sudo python3 tests/directives/allowed_methods/allowed_methods.py
 
-test_server_name:
-	sudo python3 ./tests/directives/server_name/server_name.py
-	
-test_get:
-	sudo python3 tests/methods/GET/get.py
+test_methods:
+	sudo python3 ./tests/methods/GET/get.py
+	sudo python3 ./tests/methods/POST/post.py
 
-test_post:
-	sudo python3 tests/methods/POST/post.py
-
-test_listen:
-	sudo python3 tests/directives/listen/listen.py
-
-test_allowed_methods:
-	sudo python3 tests/directives/allowed_methods/allowed_methods.py
-
-test_all: test_misconfig test_listen
+test_all: test_conf
 	@echo Done!
 
 

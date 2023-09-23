@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerConf.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 02:11:47 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/28 21:07:20 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 19:52:47 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ ServerConf::ServerConf():			_listen(ListenType()),
 								_errorPagesDefault(ErrorType()),
 								_cgi(CgiType()),
 								_root(""),
-								_bodySize(1000000)
+								_bodySize(1000000) //1MB
 {
 	_errorPages.SetDefaultPages();
 	return ;
