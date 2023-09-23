@@ -25,10 +25,10 @@ def check_stts_code(response, code=200):
 	except AssertionError as e:
 		print(e)
 
-def check_text(response, text):
+def check_text(given, expected):
 	try:
-		assert response.text == text, f"-> ❌ Error text [{response.text}]"
-		print(f" -> ✔️ text [{response.text}]", end="")
+		assert given == expected, f"-> ❌  Error, receive [{given}]"
+		print(f" -> ✔️  Ok, receive [{given}]")
 	except AssertionError as e:
 		print(e)
 
@@ -47,7 +47,7 @@ def get(URL):
 	try:
 		response = requests.get(URL)
 		return response
-	except requests.exceptions as e:
+	except AssertionError as e:
 		print("-> ❌ Error request.get " + URL + f"[{e}]")
 		exit(1)
 
@@ -60,7 +60,7 @@ def post(URL, body):
 	try:
 		response = requests.post(URL, data=body)
 		return response
-	except requests.exceptions as e:
+	except AssertionError as e:
 		print("-> ❌ Error request.post " + URL + f"[{e}]")
 		exit(1)
 
@@ -73,6 +73,6 @@ def chunkedPost(URL, body):
 	try:
 		response = requests.post(URL, data=body, headers={"Transfer-Encoding": "chunked"})
 		return response
-	except requests.exceptions as e:
+	except AssertionError as e:
 		print("-> ❌ Error request.post " + URL + f"[{e}]")
 		exit(1)
