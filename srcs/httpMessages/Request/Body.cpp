@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 12:57:00 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:24:53 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	Body::_HandleChunkedBody(void)
 	size_t		chunkSize = _getChunkSize();
 	std::string	bodyLine = "";
 
-
-	std::cout << "---------------------------Chunked----------------------\n";
 	for (size_t i = 0; i < chunkSize; i++)
 	{
 		bodyLine += getSockStreamLine(_socketFd);
@@ -96,14 +94,13 @@ int	Body::_ReadMessageBody(void)
 	char		buffer[BUFFSIZE]= {0};
 	std::string	temp;
 
-	std::cout << "---------------------------Unchunked----------------------\n";
 	while (length > 0)
 	{
 		bytes = recv(_socketFd, buffer, BUFFSIZE, 0);
 		if (bytes == -1)
 			throw(std::runtime_error("Failed reading from socket!"));
 		if (bytes == 0)
-			break;
+			close(_socketFd);
 		length -= bytes;
 		temp.append(buffer, bytes);
 		memset(buffer, 0, BUFFSIZE);

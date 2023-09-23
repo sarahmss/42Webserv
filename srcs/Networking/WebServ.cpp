@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 11:06:32 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:49:42 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,10 +176,15 @@ void	WebServ::_coreLoop(void)
 
 				if (currentEvent.events & EPOLLIN)
 				{
-					_launchHandler(server, accepter);
-					_epoll.modify(accepter->getClientSocket(),
-									_epoll.ChannelToData(channel),
-									EPOLLOUT);
+					try {
+						_launchHandler(server, accepter);
+						_epoll.modify(accepter->getClientSocket(),
+									_epoll.ChannelToData(channel), EPOLLOUT);
+					} catch (const std::exception & e) {
+						sendMessageToLogFile(e.what(), false, 0);
+						_removeConnectionFromPoll(connection, channel);
+						return ;
+					}
 				}
 				if (currentEvent.events & EPOLLOUT)
 				{
@@ -214,9 +219,8 @@ void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 	int			clientSocket = accept->getClientSocket();
 	sockaddr_in	address = accept->getClientAddress();
 
-	_handler = Handler(clientSocket, server->getConf(), address);
 	sendMessageToLogFile("Request Received", true, 0);
-	std::cout << "++ Request Received " << std::endl;
+	_handler = Handler(clientSocket, server->getConf(), address);
 	_handler.launch();
 }
 
@@ -230,14 +234,10 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 			_handler.response_code,
 			_handler.Response.first,
 			_handler.headerField);
-	try
-	{
+	try {
 		_responder.sendResponse();
 		sendMessageToLogFile("Response sent ", true, 0);
-		std::cout << "++ Response sent " << std::endl;
-	}
-	catch (const std::exception & e)
-	{
+	} catch (const std::exception & e) {
 		sendMessageToLogFile(e.what(), false, 0);
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 13:28:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:25:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ RequestParser::RequestParser(int socketFd)
 	_socketFd = socketFd;
 	_parseRequest();
 	sendMessageToLogFile("Request Parsed | RequestParser->RequestParser ", false, 0);
-	std::cout << " ++ Request Parsed" << std::endl;
 }
 
 RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -87,8 +86,6 @@ void	RequestParser::_parseRequest(void)
 	std::string	requestLine;
 
 	sendMessageToLogFile("Parsing request | requestParser->_parseRequest", true, 0);
-	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-	std::cout << "++Parsing request..." << std::endl;
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
 		requestLine = getSockStreamLine(_socketFd);

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 11:28:03 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:50:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,17 @@ Handler::~Handler() { return ;}
 /*
 ** --------------------------------- METHODS ----------------------------------
 */
-
 void	Handler::launch(void)
 {
-	try
-	{
-		_requestParsed = RequestParser(_clientSocket);
-
-		_serverName = _requestParsed.getServerName();
-		_uri = _requestParsed.getUri();
-		_checkRequest();
-		_selectLocation();
-		if (_checkRedirection())
-			return ;
-		_checkMethod();
-		_setBody();
-	}
-	catch (const std::exception & e)
-	{
-		sendMessageToLogFile(e.what(), false, 0);
+	_requestParsed = RequestParser(_clientSocket);
+	_serverName = _requestParsed.getServerName();
+	_uri = _requestParsed.getUri();
+	_checkRequest();
+	_selectLocation();
+	if (_checkRedirection())
 		return ;
-	}
+	_checkMethod();
+	_setBody();
 }
 
 bool	Handler::_checkRedirection(void)
@@ -214,8 +204,6 @@ void	Handler::_launchPost(void)
 	if (_requestParsed.IsMultipartForm())
 	{
 		files = _requestParsed.getFiles();
-		std::cout <<"Creating files... " << std::endl;
-
 		for (size_t i = 0; i < files.size(); i++)
 		{
 			fileName = files[i].fileName;

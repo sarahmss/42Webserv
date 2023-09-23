@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 11:16:37 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:05:03 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ std::string CreateFile(std::string filePath, std::string body)
 		responseCode = "500";
 		throw (std::runtime_error("Failed to open file for writing"));
 	}
-	newFile.write(body.c_str(), body.length()); 
+	newFile.write(body.c_str(), body.length());
 	if (newFile.fail()) {
 		responseCode = "500";
 		throw std::runtime_error("Failed to write [POST]");
@@ -221,7 +221,7 @@ std::string	getSockStreamLine(int socketFd)
 		if (bytes == -1)
 			throw(std::runtime_error("Failed reading from socket!"));
 		if (bytes == 0)
-			break;
+			close(socketFd);
 		Line += buffer;
 		if (Line.rfind(CRLF) != std::string::npos)
 			break;
