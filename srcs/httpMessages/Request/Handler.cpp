@@ -6,12 +6,11 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 19:52:30 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 13:21:17 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Handler.hpp"
-
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
@@ -203,6 +202,37 @@ bool	Handler::_checkCgi(std::string path)
 	return (true);
 }
 
+void	Handler::checkDirNSendBySocket( void )
+{
+	const char *diretorio = "/root/webserv/upload/www/backend";
+
+    DIR *dir;
+    struct dirent *ent;
+	std::ostringstream response;
+
+	if ((dir = opendir(diretorio)) != NULL)
+	{
+		while ((ent = readdir(dir)) != NULL)
+		{
+			if (ent->d_type == DT_REG)
+			{
+				response << "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
+							 				<< strlen(ent->d_name) << "\r\n\r\n";
+				response << ent->d_name;
+				send(_clientSocket, response.str().c_str(), response.str().length(), 0);
+				std::cout << "Arquivo: " << ent->d_name << std::endl;
+			}
+		}
+	closedir(dir);
+    }
+	else
+	{
+        perror("Erro ao abrir diretório");
+        return ;
+    }
+
+}
+
 void	Handler::_launchPost(std::string path)
 {
 	FilesType		files;
@@ -211,6 +241,7 @@ void	Handler::_launchPost(std::string path)
 	std::string		fileName;
 
 	_checkPayload();
+
 	if (_requestParsed.IsMultipartForm())
 	{
 		files = _requestParsed.getFiles();
@@ -259,6 +290,12 @@ void	Handler::_launchGet(std::string path)
 	}
 	else if (isFile(path))
 		Response = getFileContent(path);
+	else
+	{
+		response_code = "404";
+		path = _conf.getErrorPage("404");
+		Response = getFileContent(path);
+	}
 }
 
 void	Handler::_launchDelete(std::string path)

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 20:10:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 13:17:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 Body::Body(int socketFd, HeadersType headers)
- {
+{
 	_socketFd = socketFd;
 	_headers = headers;
 	_ContentLenght = 0;

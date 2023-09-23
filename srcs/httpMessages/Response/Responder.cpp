@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Responder.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 15:26:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/09 11:32:43 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	Responder::sendResponse(void)
 	if (_sttsCode == "413") // Payload too large
 		sleep(1);
 	// [LOGGING] DEBUG LEVEL == true
-//	std::cout << _respBuilder.get_response() << std::endl;
+	//	std::cout << _respBuilder.get_response() << std::endl;
 	_respBuilder.reset();
 }
 

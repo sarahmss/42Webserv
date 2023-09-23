@@ -6,7 +6,7 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:27:22 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/31 19:48:35 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/09 11:22:42 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,10 @@ std::string	SetConfigurationFile(int argc, char *argv[])
 
 void	ParseConfigurationFile(Parser &parser, std::string filename)
 {
-	clock_t start = clock();
 	try 
 	{
 		parser.launch(filename);
-		clock_t end = clock();
-		sendMessageToLogFile("File opened and Parser completed", true,
-							 static_cast<double>(end - start) / CLOCKS_PER_SEC);
+		sendMessageToLogFile("File opened and Parser completed", true, 0);
 	}
 	catch (const std::exception &e)
 	{
@@ -67,6 +64,7 @@ int main(int argc, char **argv)
 {
 	std::string	filename;
 	Parser	parser;
+	start = clock();
 
 	createFile();
 	filename = SetConfigurationFile(argc, argv);

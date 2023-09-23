@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 19:49:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 13:16:49 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	RequestParser::_parseRequest(void)
 		else
 			_parseHeader(requestLine);
 	}
+	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
+	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
 	_parseBody();
 }
 
@@ -105,7 +107,6 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	std::stringstream	RequestLineStream(RequestLine);
 	std::string			line;
 
-	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
 	std::getline(RequestLineStream, line, ' ');
 	_method = line;
 	std::getline(RequestLineStream, line, ' ');
@@ -122,11 +123,11 @@ void	RequestParser::_parseHeader(const std::string Headers)
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
 
-	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
 	if (!getline(HeadersStream, line))
 		throw std::runtime_error("Empty request header field");
 	else
-		do {
+		do
+		{
 			std::size_t pos = line.find(' ');
 			std::string key = line.substr(0, pos);
 			std::string value = line.substr(pos + 1, std::string::npos);

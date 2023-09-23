@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BindingSocket.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:49:19 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:43:21 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/09 12:20:22 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <iostream>
 # include <string>
 # include "SimpleSocket.hpp"
-
+# include "./../../global.hpp"
 /*
 	This class implements a call to the bind() function of sockets as a deefinition of
 	connect_to_network virtual function from SimpleSocket

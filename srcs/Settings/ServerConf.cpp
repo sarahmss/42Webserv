@@ -6,7 +6,7 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 02:11:47 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/28 21:07:20 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:37:25 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,9 @@ void	ServerConf::AddLocation(LocationType locationBlock)
 
 void	ServerConf::AddErrorPage(std::string code, std::string pagePath)
 {
-	_errorPages.addPage(code, pagePath);
+	if(isFile(pagePath))
+		_errorPages.addPage(code, pagePath);
+	return ;
 }
 
 void	ServerConf::AddCgi(std::string extension, std::string programPath)

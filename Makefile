@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/21 14:33:02 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/23 13:16:26 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/Cgi_handler
 			@mkdir -p objects/srcs/Directory_listing
 			@mkdir -p objects/srcs/multiplexing
+			@mkdir -p logFile
 
 			$(CC) $(FLAGS) -c  $< -o $@
 
