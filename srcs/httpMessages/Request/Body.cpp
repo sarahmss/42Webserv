@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 12:24:53 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 15:14:28 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	Body::_ReadMessageBody(void)
 	{
 		bytes = recv(_socketFd, buffer, BUFFSIZE, 0);
 		if (bytes == -1)
-			throw(std::runtime_error("Failed reading from socket!"));
+			throw (std::runtime_error("Failed reading from socket!"));
 		if (bytes == 0)
 			close(_socketFd);
 		length -= bytes;

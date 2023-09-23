@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 12:50:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 16:57:57 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,18 @@ Handler::~Handler() { return ;}
 void	Handler::launch(void)
 {
 	_requestParsed = RequestParser(_clientSocket);
-	_serverName = _requestParsed.getServerName();
-	_uri = _requestParsed.getUri();
-	_checkRequest();
-	_selectLocation();
-	if (_checkRedirection())
-		return ;
-	_checkMethod();
+	try
+	{
+		_serverName = _requestParsed.getServerName();
+		_uri = _requestParsed.getUri();
+		_checkRequest();
+		_selectLocation();
+		if (_checkRedirection())
+			return ;
+		_checkMethod();
+	} catch (const std::exception & e) {
+		sendMessageToLogFile(e.what(), false, 0);
+	}
 	_setBody();
 }
 
@@ -79,7 +84,6 @@ void	Handler::_selectLocation(void)
 
 	locations = _checkLocation();
 	if (locations.empty()) {
-		response_code = "404";
 		throw (std::invalid_argument("Location not found"));
 	}
 	_location = locations.top();

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 12:25:27 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 15:27:46 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ void	Responder::sendResponse(void)
 	HeadersType::iterator it = _header.begin();
 	HeadersType::iterator end = _header.end();
 
-	sendMessageToLogFile("Building response", true, 0);
+	sendMessageToLogFile("++Building response", true, 0);
 	_respBuilder.add_protocol_status(_protocolVersion, _sttsCode);
 	for (; it != end; ++it)
 		_respBuilder.add_value_pair(it->first, it->second);
 	_respBuilder.add_body(_respBuilder.build_body(_body));
 
-	sendMessageToLogFile("Sending Response | sendResponde->Responder ", true, 0);
+	sendMessageToLogFile("++Sending Response", true, 0);
 	if (send(_clientSocket, _respBuilder.get_cresponse(), _respBuilder.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");
 	if (_sttsCode == "413") // Payload too large

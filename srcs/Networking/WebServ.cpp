@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 12:49:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 15:28:42 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ std::string		WebServ::concatenate_int(std::string s1, int n2)
 void	WebServ::_initServers(void)
 {
 
-	sendMessageToLogFile("Initing Server...", true, 0);
+	sendMessageToLogFile("++ Initing Server...", true, 0);
 	clock_t start = clock();
 	clock_t end = clock();
 	std::cout << "++ Initing Servers" << std::endl;
@@ -82,7 +82,7 @@ void	WebServ::_initServers(void)
 		start = clock();
 		int port = _serversConfs[i].getListen().getPort();
 
-		sendMessageToLogFile(concatenate_int("Starting listen() int port ", port), true,
+		sendMessageToLogFile(concatenate_int("++ Starting listen() int port ", port), true,
 										static_cast<double>(end - start) / CLOCKS_PER_SEC);
 		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
@@ -181,9 +181,9 @@ void	WebServ::_coreLoop(void)
 						_epoll.modify(accepter->getClientSocket(),
 									_epoll.ChannelToData(channel), EPOLLOUT);
 					} catch (const std::exception & e) {
+						std::cout << e.what() << std::endl;
 						sendMessageToLogFile(e.what(), false, 0);
 						_removeConnectionFromPoll(connection, channel);
-						return ;
 					}
 				}
 				if (currentEvent.events & EPOLLOUT)
@@ -209,9 +209,8 @@ void	WebServ::_launchAccepter(SimpleServer *server)
 
 	connectionSocket = accepter->startAccepting(serverSocket);
 	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl; // debug level
-  sendMessageToLogFile(concatenate_int("Connection opened in socket: ", connectionSocket), true, 0);
+  sendMessageToLogFile(concatenate_int("++ Connection opened in socket: ", connectionSocket), true, 0);
 	_addConnectionsToPoll(accepter, server);
-
 }
 
 void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
@@ -219,7 +218,7 @@ void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 	int			clientSocket = accept->getClientSocket();
 	sockaddr_in	address = accept->getClientAddress();
 
-	sendMessageToLogFile("Request Received", true, 0);
+	sendMessageToLogFile("++ Request Received", true, 0);
 	_handler = Handler(clientSocket, server->getConf(), address);
 	_handler.launch();
 }
@@ -228,7 +227,7 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 {
 	int	clientSocket = accept->getClientSocket();
 
-	sendMessageToLogFile("Launching responder", true, 0);
+	sendMessageToLogFile("++ Launching responder", true, 0);
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.response_code,
@@ -236,7 +235,7 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 			_handler.headerField);
 	try {
 		_responder.sendResponse();
-		sendMessageToLogFile("Response sent ", true, 0);
+		sendMessageToLogFile("++ Response sent ", true, 0);
 	} catch (const std::exception & e) {
 		sendMessageToLogFile(e.what(), false, 0);
 		return ;

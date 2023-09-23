@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/01 22:15:06 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/23 18:00:18 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,8 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/Cgi_handler
 			@mkdir -p objects/srcs/Directory_listing
 			@mkdir -p objects/srcs/multiplexing
+			@mkdir -p logFile
+
 
 			$(CC) $(FLAGS) -c  $< -o $@
 
@@ -106,15 +108,14 @@ clean:
 			@rm -f $(OBJS)
 			@rm -rf $(OBJS_PATH)
 			@echo cleaned!
-			rm -rf www/uploads
-			@rm -rf logs
-			rm -rf tests/__pycache__
+			@rm -rf www/uploads
+			@rm -rf logFile
+			@rm -rf tests/__pycache__
 
 fclean:		clean
 			@rm -f $(NAME)
 
 re: fclean all
-
 
 test_misconfig:
 	sudo python3 ./tests/misconfig/misconfig.py
@@ -125,7 +126,14 @@ test_get:
 test_post:
 	sudo python3 tests/methods/POST/post.py
 
+test_listen:
+	sudo python3 tests/directives/listen/listen.py
+
 test_allowed_methods:
 	sudo python3 tests/directives/allowed_methods/allowed_methods.py
+
+test_all: test_misconfig test_listen
+	@echo Done!
+
 
 .PHONY: all clean fclean re
