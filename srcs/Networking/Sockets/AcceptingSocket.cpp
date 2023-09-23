@@ -28,11 +28,16 @@ int AcceptingSocket::startAccepting(int socket)
 	_clientSocket = accept(socket,
 						(struct sockaddr *)&_clientAddress,
 						(socklen_t *)&address_len);
-	// [LOGGING] strerror(errno)
 	if (_clientSocket == -1)
+	{
+		sendMessageToLogFile("Failed setting NonBlocking", false, 0);
 		perror("Failed setting clientSocket" );
+	}
 	if (setNonBlocking(_clientSocket) == false)
+	{
+		sendMessageToLogFile("Failed setting NonBlocking", false, 0);
 		perror("Failed setting NonBlocking" );
+	}
 	return (_clientSocket);
 }
 /*
@@ -50,7 +55,7 @@ AcceptingSocket::~AcceptingSocket()
 
 int	AcceptingSocket::disconnect()
 {
-	// [Logging]
+	sendMessageToLogFile(concatenate_int("Connection closed in socket:", _clientSocket), true, 0);
 	std::cout << "++ Connection closed in socket:" + intToString(_clientSocket)<< std::endl;
 	return (close(_clientSocket));
 }

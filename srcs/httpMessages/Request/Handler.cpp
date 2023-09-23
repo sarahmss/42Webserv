@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 21:45:32 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/20 21:38:53 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,13 +203,45 @@ bool	Handler::_checkCgi(std::string path)
 	return (true);
 }
 
-void	Handler::_launchPost(void)
+void	Handler::checkDirNSendBySocket( void )
 {
+	const char *diretorio = "/root/webserv/upload/www/backend";
+
+    DIR *dir;
+    struct dirent *ent;
+	std::ostringstream response;
+	
+	if ((dir = opendir(diretorio)) != NULL) 
+	{
+		while ((ent = readdir(dir)) != NULL) 
+		{
+			if (ent->d_type == DT_REG)
+			{
+				response << "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
+							 				<< strlen(ent->d_name) << "\r\n\r\n";
+				response << ent->d_name;
+				send(_clientSocket, response.str().c_str(), response.str().length(), 0);	
+				std::cout << "Arquivo: " << ent->d_name << std::endl;
+			} 
+		}
+	closedir(dir);
+    } 
+	else 
+	{
+        perror("Erro ao abrir diretório");
+        return ;
+    }
+	
+}
+
+void	Handler::_launchPost(void)
+{	
 	std::string		fileName;
 	std::string		filePath;
 	std::string		fileLocation;
 
 	_checkPayload();
+	
 	if (_requestParsed.IsMultipartForm())
 	{
 		fileName = _requestParsed.getHeader("filename:");
@@ -219,6 +251,7 @@ void	Handler::_launchPost(void)
 		response_code = CreateFile(filePath, _requestParsed.getBody());
 		headerField = std::make_pair("Location", fileLocation);
 	}
+	checkDirNSendBySocket (  );
 }
 
 void	Handler::_checkPayload(void)

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/01 22:15:06 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/09 10:59:50 by jinacio-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 			@mkdir -p objects/srcs/Cgi_handler
 			@mkdir -p objects/srcs/Directory_listing
 			@mkdir -p objects/srcs/multiplexing
+			@mkdir -p logFile
 
 			$(CC) $(FLAGS) -c  $< -o $@
 

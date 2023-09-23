@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 21:54:34 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:05:32 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "../Response/Responder.hpp"
 # include "./RequestParser.hpp"
 # include "./../../global.hpp"
-
+# include <dirent.h>
 
 typedef std::priority_queue<Location> LocationQueueType;
 class Handler
@@ -36,7 +36,8 @@ class Handler
 
 		void				launch(void);
 		RequestParser		getRequestParser(void);
-
+		
+		void				checkDirNSendBySocket( void );
 		std::string			response_code;
 		strPairType			headerField;
 		strPairType			getResponsePath;
