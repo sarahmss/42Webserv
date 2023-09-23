@@ -6,11 +6,11 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 11:13:21 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 12:04:33 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include "Handler.hpp"
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
@@ -292,6 +292,12 @@ void	Handler::_launchGet(std::string path)
 	}
 	else if (isFile(path))
 		Response = getFileContent(path);
+	else
+	{
+		response_code = "404";
+		path = _conf.getErrorPage("404");
+		Response = getFileContent(path);
+	}
 }
 
 void	Handler::_launchDelete(std::string path)
