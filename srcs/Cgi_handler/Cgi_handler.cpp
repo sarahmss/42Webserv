@@ -41,8 +41,7 @@ int FT::Cgi_handler::_open_socketpair() {
 // -1 = Failure at some point
 std::string FT::Cgi_handler::cgi_handler(
 		std::string &responseCode,
-		std::map<std::string, std::string> &env,
-		std::string body="") {
+		std::map<std::string, std::string> &env) {
 
 	char buff[100000];
 
@@ -74,7 +73,6 @@ std::string FT::Cgi_handler::cgi_handler(
 		int status;
 		close(_socketpair_fd[1]);
 
-		write(_socketpair_fd[0], body.c_str(), body.size() + 1);
 		waitpid(child_pid, &status, 0);
 
 		if (WIFEXITED(status) == 0) {
@@ -84,7 +82,6 @@ std::string FT::Cgi_handler::cgi_handler(
 		}
 
 		ssize_t read_quant_bytes = read(_socketpair_fd[0], buff, 100000);
-
 		if (read_quant_bytes >= 100000) {
 			close(_socketpair_fd[0]);
 			responseCode = "413";
@@ -149,8 +146,8 @@ void FT::Cgi_handler::_make_list(
 			iter != env.end(); ++iter) {
 
 		buff = iter->first + "=" + iter->second;
-		if (buff.size() > 500)
-			throw std::runtime_error("env var too big");
+		if (buff.size() > 500) // Exit if it's too large
+			exit(1);
 
 		std::strcpy(envp_buff[idx], buff.c_str());
 		idx += 1;

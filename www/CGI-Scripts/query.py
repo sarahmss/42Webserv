@@ -1,8 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env python
 
-import sys
 import os
-import select
 from glob import glob
 
 
@@ -12,9 +10,20 @@ def make_line(tag, content):
 
 def check_exist_file(file):
     if glob(f"{os.environ['DOCUMENT_ROOT']}/**/{file}", recursive=True):
-        print(make_line("h2", "The file exist!"))
+        print(make_line("h2", f"{file} - The file exist!"))
     else:
-        print(make_line("h2", "There is no such a thing...."))
+        print(make_line("h2", f"{file} - There is no such a thing...."))
+
+
+def parse_query(query_string):
+    parsed = {}
+    split_query = query_string.split("&")
+    for query in split_query:
+        key_value = query.split('=')
+        if len(key_value) == 1:
+            os.exit(1)
+        parsed[key_value[0]] = key_value[1]
+    return parsed
 
 
 print('<html>')
@@ -23,25 +32,28 @@ print('<title>CGI test</title>')
 print('</head>')
 print('<body>')
 
-if (os.environ['REQUEST_METHOD'] == "GET"):
-    if select.select([sys.stdin, ], [], [], 0.0)[0]:
-        file = input()
-        if file == "":
-            print(make_line("h1", "Empty query"))
-        else:
-            make_line("h1", "Using the req body to search! :D")
-            check_exist_file(file)
-
-elif (os.environ['REQUEST_METHOD'] == "POST"):
-    file = os.environ["QUERY_STRING"]
-    if (file == ""):
-        make_line("h1", "Empty query")
+if (os.environ['REQUEST_METHOD'] == "POST"):
+    query_string = os.environ['REQUEST_BODY']
+    if query_string == "":
+        print(make_line("h1", "Empty query"))
     else:
-        make_line("h1", "Using the query string to search! :D")
-        check_exist_file(file)
+        print(make_line("h1", "POST - Using the req body to search! :D"))
+        query = parse_query(query_string)
+        for key in query:
+            check_exist_file(query[key])
+
+elif (os.environ['REQUEST_METHOD'] == "GET"):
+    query_string = os.environ["QUERY_STRING"]
+    if (query_string == ""):
+        print(make_line("h1", "Empty query"))
+    else:
+        print(make_line("h1", "Get - Using the query string to search! :D"))
+        query = parse_query(query_string)
+        for key in query:
+            check_exist_file(query[key])
 
 else:
-    make_line("h1", "MEH!!!! >:(")
+    print(make_line("h1", "MEH!!!! >:("))
 
 print('</body>')
 print('</html>')

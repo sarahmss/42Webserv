@@ -27,8 +27,7 @@ namespace FT {
 
 		std::string cgi_handler(
 				std::string &responseCode,
-				std::map<std::string, std::string> &env,
-				std::string body);
+				std::map<std::string, std::string> &env);
 
         private:
             void    _not_found();

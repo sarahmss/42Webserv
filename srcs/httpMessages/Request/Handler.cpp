@@ -172,25 +172,30 @@ std::string	Handler::_setPath(void)
 
 bool	Handler::_checkCgi(std::string path)
 {
+	// If a query is sent with the get request we need
+	// to strip the query string ?<expression> from the uri
+	std::string stripped_path;
 	std::string	extension;
 	Cgi			cgi;
+
+	stripped_path = path.substr(0, path.rfind("?"));
 
 	if (_conf.getCgi().size() == 0
 			&& _location.getCgi().size() == 0)
 		return(false);
 
-	if (isDirectory(path))
+	if (isDirectory(stripped_path))
 	{
-		checkSlash(path);
-		if (findIndex(path, _location.getIndex()))
+		checkSlash(stripped_path);
+		if (findIndex(stripped_path, _location.getIndex()))
 			return (false);
-	} else if (!isFile(path))
+	} else if (!isFile(stripped_path))
 	{
 		sendMessageToLogFile("404 | checkCGI->Handler", false, 0);
 		response_code = "404";
 		throw (std::runtime_error("file not found [cgi]"));
 	}
-	extension = getExtension(path);
+	extension = getExtension(stripped_path);
 
 	if (_location.getCgi().size() != 0)
 		cgi = _location.getCgi();
@@ -315,25 +320,28 @@ void	Handler::_launchCGI(std::string path) {
 	std::map<std::string, std::string> env;
 
 	response_code = "200";
-	_prepare_env_map(env, path);
+	_prepare_env_map(env, path, _requestParsed.getBody());
 	Response = std::make_pair(
-			cgi.cgi_handler(response_code, env, _requestParsed.getBody()),
+			cgi.cgi_handler(response_code, env),
 			path);
 }
 
-void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
+void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map,
+		std::string path,
+		std::string body) {
+
+	std::string::size_type query_idx;
 	std::string::size_type aux_idx;
 
     env_map["DOCUMENT_ROOT"] = _conf.getRoot();
     env_map["HTTP_REFERER"] = _requestParsed.getUri();
     env_map["HTTP_USER_AGENT"] = _requestParsed.getHeader("User-Agent:");
 
-	aux_idx = _uri.rfind("?");
-	if (aux_idx == std::string::npos || aux_idx == _uri.size())
+	query_idx = _uri.rfind("?");
+	if (query_idx == std::string::npos || query_idx == _uri.size())
 		env_map["QUERY_STRING"] = "";
 	else
-		env_map["QUERY_STRING"] = _uri.substr(aux_idx + 1);
-
+		env_map["QUERY_STRING"] = _uri.substr(query_idx + 1);
     env_map["REMOTE_ADDR"] = _client_ip_address;
     env_map["REMOTE_PORT"] = cast_to_string(_client_port);
     env_map["REMOTE_URI"] = _uri;
@@ -342,14 +350,14 @@ void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std:
 	if (aux_idx == std::string::npos || aux_idx == _uri.size())
 		env_map["SCRIPT_NAME"] = "";
 	else
-		env_map["SCRIPT_NAME"] = _uri.substr(aux_idx + 1);
-    env_map["SCRIPT_FILENAME"] = path;
+		env_map["SCRIPT_NAME"] = _uri.substr(aux_idx + 1,  query_idx - aux_idx - 1);
+    env_map["SCRIPT_FILENAME"] = path.substr(0, path.rfind("?"));
 
     env_map["SERVER_NAME"] = _serverName;
     env_map["SERVER_ADMIN"] = "I'm only a human after all, btw admin here";
     env_map["SERVER_PORT"] = cast_to_string(_conf.getListen().getPort());
-
 	env_map["REQUEST_METHOD"] = _method;
+	env_map["REQUEST_BODY"] = body;
     env_map["SERVER_SOFTWARE"] = "webserv";
 }
 /*

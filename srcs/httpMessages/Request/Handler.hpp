@@ -73,7 +73,7 @@ class Handler
 
 		bool				_checkCgi(std::string path);
 		void				_checkPayload(void);
-		void				_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path);
+		void				_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path, std::string body);
 };
 
 #endif /* *************************************************** Request_H */
