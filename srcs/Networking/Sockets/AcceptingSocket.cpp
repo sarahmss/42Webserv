@@ -52,7 +52,9 @@ int	AcceptingSocket::disconnect()
 {
 	// [Logging]
 	std::cout << "++ Connection closed in socket:" + intToString(_clientSocket)<< std::endl;
-	return (close(_clientSocket));
+	if (fcntl(_clientSocket, F_GETFD) != -1)
+		return (close(_clientSocket));
+	return (-1);
 }
 
 /*
