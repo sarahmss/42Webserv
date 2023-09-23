@@ -6,7 +6,7 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/11 21:27:16 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 11:13:54 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ RequestParser::RequestParser(int socketFd)
 	_method = "";
 	_protocolVersion = "";
 	_uri = "";
-	_body = "";
 	_socketFd = socketFd;
 	_parseRequest();
 	sendMessageToLogFile("Request Parsed | RequestParser->RequestParser ", false, 0);
@@ -49,14 +48,17 @@ RequestParser &	RequestParser::operator=( RequestParser const & rhs )
 {
 	if ( this != &rhs )
 	{
+		this->_files = rhs.getFiles();
 		this->_body = rhs.getBody();
 		this->_headers = rhs.getHeaders();
 		this->_method = rhs.getMethod();
 		this->_uri = rhs.getUri();
 		this->_protocolVersion = rhs.getProtocolVersion();
+		this->_multPart = rhs.getMultPart();
 	}
 	return *this;
 }
+
 
 std::ostream &operator<<(std::ostream &o, const RequestParser &rhs)
 {
@@ -138,13 +140,19 @@ void	RequestParser::_parseBody()
 {
 	Body	body(_socketFd, _headers);
 	int		bodyStatus = body.parseBody();
+	std::string	fileNames;
 
 	// Informação do estado do body, empty, chunked, unchucked [LOGGING]
 	sendMessageToLogFile("Parsing body: " + intToString(bodyStatus), true, 0);
+	_files = body.getFiles();
 	if (bodyStatus == EMPTYBODY)
 		return ;
 	if (bodyStatus == UNCHUNKED)
-		_headers["filename:"] = body.getFileName();
+	{
+		for (size_t i = 0; i < _files.size(); i++)
+			fileNames += _files[i].fileName + " ";
+		_headers["Filename"] = fileNames;
+	}
 	if (bodyStatus == CHUNKED)
 		_headers["Content-Length:"] = intToString(body.getContentLength());
 	_body = body.getBody();
@@ -154,6 +162,17 @@ void	RequestParser::_parseBody()
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
+
+
+bool	RequestParser::getMultPart(void) const
+{
+	return (_multPart);
+}
+
+FilesType	RequestParser::getFiles(void) const
+{
+	return (_files);
+}
 
 std::string	RequestParser::getServerName() const
 {

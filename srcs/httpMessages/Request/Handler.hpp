@@ -6,7 +6,7 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/05 18:05:32 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 11:13:43 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class Handler
 		void				checkDirNSendBySocket( void );
 		std::string			response_code;
 		strPairType			headerField;
-		strPairType			getResponsePath;
+		strPairType			Response;
 
 	private:
 		int					_clientSocket;

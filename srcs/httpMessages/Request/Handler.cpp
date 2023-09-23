@@ -6,11 +6,10 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/20 21:38:53 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 11:13:21 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Handler.hpp"
 
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
@@ -21,7 +20,7 @@ Handler::Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address)
 {
 	response_code = "200";
 	headerField = std::make_pair("", "");
-	getResponsePath = std::make_pair("", ""); // body -> path
+	Response = std::make_pair("", ""); // body -> path
 	_clientSocket = clientSocket;
 	_conf = conf;
 	_client_port = ntohs(address.sin_port);
@@ -236,22 +235,29 @@ void	Handler::checkDirNSendBySocket( void )
 
 void	Handler::_launchPost(void)
 {	
-	std::string		fileName;
+	FilesType		files;
 	std::string		filePath;
 	std::string		fileLocation;
+	std::string		fileName;
 
 	_checkPayload();
 	
 	if (_requestParsed.IsMultipartForm())
 	{
-		fileName = _requestParsed.getHeader("filename:");
-		filePath = getFilePath(_setPath(), fileName);
-		fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
-		CreateDirectory(fileName, filePath);
-		response_code = CreateFile(filePath, _requestParsed.getBody());
-		headerField = std::make_pair("Location", fileLocation);
-	}
+		files = _requestParsed.getFiles();
+		std::cout <<"Creating files... " << std::endl;
+
+		for (size_t i = 0; i < files.size(); i++)
+		{
+			fileName = files[i].fileName;
+			filePath = getFilePath(_setPath(), fileName);
+			fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
+			CreateDirectory(fileName, filePath);
+			response_code = CreateFile(filePath, files[i].fileContet);
+			headerField = std::make_pair("Location", fileLocation);
+		}
 	checkDirNSendBySocket (  );
+	}
 }
 
 void	Handler::_checkPayload(void)
@@ -275,9 +281,9 @@ void	Handler::_launchGet(std::string path)
 	{
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()) == true)
-			getResponsePath = getFileContent(path);
+			Response = getFileContent(path);
 		else if (_location.getAutoIndex())
-			getResponsePath = getAutoIndexContent(path,
+			Response = getAutoIndexContent(path,
 							_conf.getListen().getHost(),
 							intToString(_conf.getListen().getPort()),
 							_uri);
@@ -285,12 +291,18 @@ void	Handler::_launchGet(std::string path)
 			response_code = "404";
 	}
 	else if (isFile(path))
-		getResponsePath = getFileContent(path);
+		Response = getFileContent(path);
 }
 
 void	Handler::_launchDelete(std::string path)
 {
-	std::cout << path;
+	if (isDirectory(path))
+		throw std::runtime_error("Delete: Invalid path: " + path);
+	if (!isFile(path))
+		throw std::runtime_error("Delete: path not found: " + path);
+	std::remove(path.c_str());
+	Response = std::make_pair(DELETE_HTML, path);
+	response_code = "202";
 	return ;
 }
 
@@ -300,24 +312,34 @@ void	Handler::_launchCGI(std::string path) {
 
 	response_code = "200";
 	_prepare_env_map(env, path);
-	getResponsePath = std::make_pair(
+	Response = std::make_pair(
 			cgi.cgi_handler(response_code, env, _requestParsed.getBody()),
 			path);
 }
 
 void	Handler::_prepare_env_map(std::map<std::string, std::string> &env_map, std::string path) {
+	std::string::size_type aux_idx;
+
     env_map["DOCUMENT_ROOT"] = _conf.getRoot();
     env_map["HTTP_REFERER"] = _requestParsed.getUri();
     env_map["HTTP_USER_AGENT"] = _requestParsed.getHeader("User-Agent:");
 
-    env_map["QUERY_STRING"] = _uri.find_first_of("?");
+	aux_idx = _uri.rfind("?");
+	if (aux_idx == std::string::npos || aux_idx == _uri.size())
+		env_map["QUERY_STRING"] = "";
+	else
+		env_map["QUERY_STRING"] = _uri.substr(aux_idx + 1);
 
     env_map["REMOTE_ADDR"] = _client_ip_address;
     env_map["REMOTE_PORT"] = cast_to_string(_client_port);
     env_map["REMOTE_URI"] = _uri;
 
+	aux_idx = _uri.rfind("/");
+	if (aux_idx == std::string::npos || aux_idx == _uri.size())
+		env_map["SCRIPT_NAME"] = "";
+	else
+		env_map["SCRIPT_NAME"] = _uri.substr(aux_idx + 1);
     env_map["SCRIPT_FILENAME"] = path;
-    env_map["SCRIPT_NAME"] = _uri.substr(_uri.find_last_of("/") + 1);
 
     env_map["SERVER_NAME"] = _serverName;
     env_map["SERVER_ADMIN"] = "I'm only a human after all, btw admin here";

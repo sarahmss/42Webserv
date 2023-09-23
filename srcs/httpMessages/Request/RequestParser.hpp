@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:41 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 21:54:12 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:28:42 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class RequestParser
 		RequestParser& operator= (RequestParser const & rhs);
 
 		bool		IsMultipartForm();
-		std::string	getRequest() const;
+		FilesType	getFiles() const;
 		std::string	getMethod() const;
 		std::string	getProtocolVersion() const;
 		std::string	getUri() const;
@@ -35,9 +35,11 @@ class RequestParser
 		std::string	getBody() const;
 		std::string	getServerName(void) const;
 		int			getContentLength(void) const;
+		bool		getMultPart(void) const;
 
 	private:
 		int			_socketFd;
+		FilesType	_files;
 		std::string	_body;
 		HeadersType	_headers;
 		std::string	_method;

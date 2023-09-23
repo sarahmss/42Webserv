@@ -6,7 +6,7 @@
 /*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/11 21:52:57 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/23 11:14:03 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.response_code,
-			_handler.getResponsePath.first,
+			_handler.Response.first,
 			_handler.headerField);
 	try
 	{

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:58:42 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 17:24:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:17:08 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # define UNCHUNKED 2
 #define SIZE 1024
 
+
 class Body
 {
 	public:
@@ -28,28 +29,26 @@ class Body
 		~Body();
 
 		int			parseBody();
-		std::string	getBody(void);
-		std::string	getFileName(void);
+		FilesType	getFiles();
+		std::string	getBody();
 		int			getContentLength(void);
 
 		bool		IsMultipartForm();
 	private:
 		int			_socketFd;
 		HeadersType	_headers;
+		FilesType	_files;
 		std::string	_body;
 		std::string	_fileName;
 		std::string	_boundary;
-		std::string	_unparsed;
 		int			_ContentLenght;
 
 		int				_HandleChunkedBody();
 		size_t			_getChunkSize();
 		size_t			_convertChunkSize(std::string chunkSize);
-		std::string		_skipHeaders(void);
 
 		int			_ReadMessageBody();
 		void		_getBodyMessage(std::string &Body);
-		void		_ClearBoundary(std::string &Body);
 		void		_ClearHeader(std::string &Body);
 		void		_getFileName(std::string header);
 };

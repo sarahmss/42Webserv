@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/02 15:41:52 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:43:31 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,19 @@
 #define DIVIDER ":"
 #define DELETE_HTML	"<html><body><h1>Arquivo removido.</h1></body></html>"
 
-	typedef std::map<std::string, std::string>	HeadersType;
-	typedef std::pair<std::string, std::string>	RequestPairType;
+	typedef struct s_files
+	{
+		std::string	fileName;
+		std::string	fileContet;
+	}	t_files;
+
+	typedef t_files	FileType;
+	typedef std::vector<t_files>	FilesType;
+
 	typedef std::pair<std::string, std::string> strPairType;
+	typedef std::pair<std::string, std::string>	RequestPairType;
+
+	typedef std::map<std::string, std::string>	HeadersType;
 
 	bool		MapHasKey(HeadersType map, std::string key);
 	bool		isKnownMethod(std::string method);
@@ -70,6 +80,7 @@
 
 	bool	live(bool status);
 	void	sigHandler(int signal);
-
+	void tokenize(std::string const &str, std::string delim,
+            std::vector<std::string> &out);
 
 #endif // UTILS_HPP
