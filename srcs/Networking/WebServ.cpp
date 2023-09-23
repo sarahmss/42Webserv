@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 13:40:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 11:06:32 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	WebServ::_coreLoop(void)
 			{
 				connection = reinterpret_cast<ConnectionType *>(channel->ptr);
 				if (currentEvent.events & EPOLLERR)
-					_removeConnectionFromPoll(connection, channel); // [LOGGING]
+					_removeConnectionFromPoll(connection, channel);
 				if (currentEvent.events & (EPOLLRDHUP | EPOLLHUP))
 					_removeConnectionFromPoll(connection, channel);
 
