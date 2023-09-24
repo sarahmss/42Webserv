@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 21:00:00 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 00:15:49 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	WebServ::_initServers(void)
 		else
 			sendMessageToLogFile(concatenate_int("Starting listen() in port ", port), true, 0);
 
-		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level
+		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl;
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
@@ -198,7 +198,7 @@ void	WebServ::_launchAccepter(SimpleServer *server)
 
 
 	connectionSocket = accepter->startAccepting(serverSocket);
-	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl; // debug level
+	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl;
   sendMessageToLogFile(concatenate_int("++ Connection opened in socket: ", connectionSocket), true, 0);
 	_addConnectionsToPoll(accepter, server);
 }
@@ -214,6 +214,7 @@ void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 	std::cout << "++ Request Received " << std::endl;
 	start = clock();
 	_handler.launch();
+	logFile << "+++++++++++++++++++++++++++++\n" << _handler.getRequestParser();
 }
 
 void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)

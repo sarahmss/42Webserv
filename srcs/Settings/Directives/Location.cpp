@@ -24,7 +24,7 @@ Location::Location():	_allowedMethod(LocationMethodsType()),
 							_cgi(Cgi()),
 							_errorPages(ErrorPages()),
 							_autoIndex(false),
-							_bodySize(1000000)
+							_bodySize(0)
 {
 	_allowedMethod.insert("GET");
 }

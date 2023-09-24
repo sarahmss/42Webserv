@@ -28,7 +28,7 @@ def check_stts_code(response, code=200):
 def check_text(given, expected):
 	try:
 		assert given == expected, f"-> ❌  Error, receive [{given}]"
-		print(f" -> ✔️  Ok, receive [{given}]")
+		print(f" -> ✔️ Ok, receive [{given}]")
 	except AssertionError as e:
 		print(e)
 

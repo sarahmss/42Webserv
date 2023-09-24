@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 20:56:41 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 00:14:42 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	Responder::sendResponse(void)
 	_respBuilder.add_body(_respBuilder.build_body(_body));
 
 	sendMessageToLogFile("++Sending Response", true, 0);
+	logFile << "+++++++++++++++++++++++++++++\n" << _respBuilder.get_response();
+
 	if (send(_clientSocket, _respBuilder.get_cresponse(), _respBuilder.get_response_size(), 0) < 0)
 		throw std::runtime_error("Error sending response");
 	if (_sttsCode == "413") // Payload too large

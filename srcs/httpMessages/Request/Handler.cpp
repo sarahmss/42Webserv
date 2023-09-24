@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 22:47:09 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 00:03:10 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ void	Handler::_launchPost(std::string path)
 	std::string		fileLocation;
 	std::string		fileName;
 
+	std::cout << "-----------------------LAUNCHING POST ";
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
@@ -251,6 +252,7 @@ void	Handler::_checkPayload(void)
 	payloadMaxSize = _conf.getBodySize();
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
+	std::cout << "------------------Payload size: " << payloadMaxSize << std::endl;
 	if (bodyLength > payloadMaxSize)
 		_loadErrorPage("413", "Payload Too Large");
 }
@@ -303,7 +305,6 @@ void	Handler::_launchCGI(std::string path) {
 	FT::Cgi_handler cgi;
 	std::map<std::string, std::string> env;
 
-	response_code = "200";
 	_prepare_env_map(env, path);
 	Response = std::make_pair(
 			cgi.cgi_handler(response_code, env, _requestParsed.getBody()),
