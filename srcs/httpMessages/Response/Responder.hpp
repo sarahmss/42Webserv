@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:56:00 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 17:37:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:52:02 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ class Responder
 		HeadersType			_header;
 
 		void				_setBodyType(std::string path);
+		void				_setLastModified(std::string path);
+
 
 };
 

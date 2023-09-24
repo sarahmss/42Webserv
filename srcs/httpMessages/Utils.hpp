@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 17:36:43 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:50:36 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 #include <sys/stat.h>
 #include <dirent.h>
 # include <csignal>
+#include <ctime>
+
 
 #define CRLF "\r\n"
 #define CRLF2X "\r\n\r\n"

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 17:41:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:05:40 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,28 @@ void Responder::_setBodyType(std::string path)
 	}
 }
 
+void Responder::_setLastModified(std::string path)
+{
+	char		timeBuffer[100];
+	std::time_t	time;
+	struct stat s;
+
+
+	if (!isFile(path) || stat(path.c_str(), &s) != 0)
+		return;
+	memset(timeBuffer, 0, 100);
+	time = s.st_mtim.tv_sec;
+	std::strftime(timeBuffer, sizeof(timeBuffer),"%a, %d %b %Y %T GMT", std::gmtime(&time));
+	_header["Last-Modified"] = timeBuffer;
+}
+
 void	Responder::launch(int clientSocket, std::string serverName, std::string sttsCode, strPairType Response, strPairType headerField)
 {
 	_clientSocket = clientSocket;
 	_body = Response.first;
 	_sttsCode = sttsCode;
 	_setBodyType(Response.second);
+	_setLastModified(Response.second);
 	if (headerField.first != "" && headerField.second != "")
 		_header[headerField.first] = headerField.second;
 	_header["Server"] = serverName;
