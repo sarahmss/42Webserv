@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 15:27:13 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:48:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	RequestParser::_parseRequest(void)
 		else
 			_parseHeader(requestLine);
 	}
+	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
+	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
 	_parseBody();
 }
 
@@ -119,11 +121,11 @@ void	RequestParser::_parseHeader(const std::string Headers)
 	std::stringstream	HeadersStream(Headers);
 	std::string			line;
 
-	sendMessageToLogFile("++++ Parsing headers", true, 0);
 	if (!getline(HeadersStream, line))
 		throw std::runtime_error("Empty request header field");
 	else
-		do {
+		do
+		{
 			std::size_t pos = line.find(' ');
 			std::string key = line.substr(0, pos);
 			std::string value = line.substr(pos + 1, std::string::npos);
@@ -148,9 +150,9 @@ void	RequestParser::_parseBody()
 			fileNames += _files[i].fileName + " ";
 		_headers["Filename"] = fileNames;
 	}
+	_body = body.getBody();
 	if (bodyStatus == CHUNKED)
 		_headers["Content-Length:"] = intToString(body.getContentLength());
-	_body = body.getBody();
 	_multPart = body.IsMultipartForm();
 }
 

@@ -6,12 +6,11 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 16:57:57 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:47:18 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Handler.hpp"
-
 /*
 ** ------------------------------- CONSTRUCTOR --------------------------------
 */
@@ -141,7 +140,7 @@ void	Handler::_setBody(void)
 	if (_checkCgi(path) == true)
 		_launchCGI(path);
 	else if (_method == "POST")
-		_launchPost();
+		_launchPost(path);
 	else if (_method == "GET")
 		_launchGet(path);
 	else if (_method == "DELETE")
@@ -197,7 +196,38 @@ bool	Handler::_checkCgi(std::string path)
 	return (true);
 }
 
-void	Handler::_launchPost(void)
+void	Handler::checkDirNSendBySocket( void )
+{
+	const char *diretorio = "/root/webserv/upload/www/backend";
+
+    DIR *dir;
+    struct dirent *ent;
+	std::ostringstream response;
+
+	if ((dir = opendir(diretorio)) != NULL)
+	{
+		while ((ent = readdir(dir)) != NULL)
+		{
+			if (ent->d_type == DT_REG)
+			{
+				response << "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
+							 				<< strlen(ent->d_name) << "\r\n\r\n";
+				response << ent->d_name;
+				send(_clientSocket, response.str().c_str(), response.str().length(), 0);
+				std::cout << "Arquivo: " << ent->d_name << std::endl;
+			}
+		}
+	closedir(dir);
+    }
+	else
+	{
+        perror("Erro ao abrir diretório");
+        return ;
+    }
+
+}
+
+void	Handler::_launchPost(std::string path)
 {
 	FilesType		files;
 	std::string		filePath;
@@ -205,18 +235,20 @@ void	Handler::_launchPost(void)
 	std::string		fileName;
 
 	_checkPayload();
+
 	if (_requestParsed.IsMultipartForm())
 	{
 		files = _requestParsed.getFiles();
-		for (size_t i = 0; i < files.size(); i++)
-		{
-			fileName = files[i].fileName;
-			filePath = getFilePath(_setPath(), fileName);
-			fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
-			CreateDirectory(fileName, filePath);
-			response_code = CreateFile(filePath, files[i].fileContet);
-			headerField = std::make_pair("Location", fileLocation);
-		}
+			for (size_t i = 0; i < files.size(); i++)
+			{
+				fileName = files[i].fileName;
+				filePath = getFilePath(_setPath(), fileName);
+				fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
+				CreateDirectory(fileName, filePath);
+				response_code = CreateFile(filePath, files[i].fileContet);
+				headerField = std::make_pair("Location", fileLocation);
+			}
+		Response = std::make_pair(_requestParsed.getBody(), path);
 	}
 }
 
@@ -248,10 +280,20 @@ void	Handler::_launchGet(std::string path)
 							intToString(_conf.getListen().getPort()),
 							_uri);
 		else
+		{
 			response_code = "404";
+			path = _conf.getErrorPage("404");
+			Response = getFileContent(path);
+		}
 	}
 	else if (isFile(path))
 		Response = getFileContent(path);
+	else
+	{
+		response_code = "404";
+		path = _conf.getErrorPage("404");
+		Response = getFileContent(path);
+	}
 }
 
 void	Handler::_launchDelete(std::string path)

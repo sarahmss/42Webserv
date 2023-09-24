@@ -20,6 +20,7 @@
 # include "./Directives/Location.hpp"
 # include "./Directives/Cgi.hpp"
 # include "./Directives/ErrorPages.hpp"
+# include "./../httpMessages/Utils.hpp"
 
 # define ServerNameType		std::vector<std::string>
 # define ListenType			Listen

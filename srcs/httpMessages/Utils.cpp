@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 17:26:12 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 21:01:23 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ std::string	getSockStreamLine(int socketFd)
 		if (bytes == -1)
 			throw (std::runtime_error("Failed reading from socket!"));
 		if (bytes == 0)
-			close(socketFd);
+			close(socketFd); // check
 		Line += buffer;
 		if (Line.rfind(CRLF) != std::string::npos)
 			break;

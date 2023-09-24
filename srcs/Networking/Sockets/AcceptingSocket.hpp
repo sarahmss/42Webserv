@@ -15,8 +15,9 @@
 
 # include <iostream>
 # include <string>
-# include "./SimpleSocket.hpp"
 
+# include "./SimpleSocket.hpp"
+# include "./../../global.hpp"
 class AcceptingSocket
 {
 	public:

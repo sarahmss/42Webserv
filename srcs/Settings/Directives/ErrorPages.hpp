@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 20:56:15 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:44:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 13:32:43 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <string>
 # include <map>
 # define ErrorPagesType std::map<std::string, std::string>
-# define DEFAULTPATH "./www/error/"
+# define DEFAULTPATH "./www/error_pages/"
 
 
 	class ErrorPages

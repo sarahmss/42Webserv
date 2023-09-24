@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BindingSocket.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:01:44 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/01 22:21:21 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/11 21:14:54 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ BindingSocket::BindingSocket(int domain, int service, int protocol, int port, un
 
 	if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(int)) == -1)
 	{
-		// [LOGGING]
+		sendMessageToLogFile(concatenate_int("Setting socket options", sock), false, 0);
 		std::string msg = "Setting socket options" + intToString(sock);
 		//perror(msg.c_str());
 		exit(EXIT_FAILURE);
@@ -33,7 +33,7 @@ BindingSocket::BindingSocket(int domain, int service, int protocol, int port, un
 	set_connection(connect_to_network(sock, address));
 	if (setNonBlocking(sock) == false)
 	{
-		// [LOGGING]
+		sendMessageToLogFile(concatenate_int("Setting non-blocking", sock), false, 0);
 		//perror("setting non-blocking");
 		exit(EXIT_FAILURE);
 	}
@@ -79,7 +79,7 @@ int BindingSocket::connect_to_network(int sock, struct sockaddr_in address)
 	ret = bind(sock, (struct sockaddr *)&address, sizeof(address));
 	if (ret < 0)
 	{
-		// [LOGGING]
+		sendMessageToLogFile(concatenate_int("Binding socket ", sock), true, 0);
 		std::string msg = "Binding socket " + intToString(sock);
 		perror(msg.c_str());
 		close(sock);

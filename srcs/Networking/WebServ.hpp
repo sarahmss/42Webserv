@@ -27,8 +27,6 @@ class WebServ
 
 		WebServ(ConfsVecType confs);
 		~WebServ();
-  	std::string	concatenate_string(std::string s1, std::string s2);
-		std::string	concatenate_int(std::string s1, int n2);
 
 		void	launch(void);
 

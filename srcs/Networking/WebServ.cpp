@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 15:28:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 21:00:00 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,6 @@ void	WebServ::launch(void)
 	@brief: Init Servers based in port number
 */
 
-std::string		WebServ::concatenate_string(std::string s1, std::string s2)
-{
-	std::string ret = s1 + s2;
-	return ret;
-}
-
-std::string		WebServ::concatenate_int(std::string s1, int n2)
-{
-	std::ostringstream oss;
-    oss << n2;
-
-    std::string resultado = s1 + oss.str();
-    return resultado;
-}
-
 void	WebServ::_initServers(void)
 {
 
@@ -79,18 +64,22 @@ void	WebServ::_initServers(void)
 	std::cout << "++ Initing Servers" << std::endl;
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
-		start = clock();
 		int port = _serversConfs[i].getListen().getPort();
+		if (i == 0)
+		{
+			end = clock();
+			sendMessageToLogFile(concatenate_int("Starting listen() in port ", port), true,
+											static_cast<double>(end - start) / CLOCKS_PER_SEC);
+		}
+		else
+			sendMessageToLogFile(concatenate_int("Starting listen() in port ", port), true, 0);
 
-		sendMessageToLogFile(concatenate_int("++ Starting listen() int port ", port), true,
-										static_cast<double>(end - start) / CLOCKS_PER_SEC);
 		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
 		_simpleServers.push_back(newServer);
 		_addServerToPoll(newServer);
-    end = clock();
 	}
 }
 /*
@@ -132,6 +121,7 @@ void	WebServ::_removeConnectionFromPoll(ConnectionType *cnc, t_channel *chnl)
 	delete accepter;
 	delete cnc;
 	delete chnl;
+	sendMessageToLogFile("Connection was remove. ", true, 0);
 }
 
 /*
@@ -220,6 +210,9 @@ void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 
 	sendMessageToLogFile("++ Request Received", true, 0);
 	_handler = Handler(clientSocket, server->getConf(), address);
+	sendMessageToLogFile("Request Received", true, 0);
+	std::cout << "++ Request Received " << std::endl;
+	start = clock();
 	_handler.launch();
 }
 
@@ -235,8 +228,11 @@ void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 			_handler.headerField);
 	try {
 		_responder.sendResponse();
-		sendMessageToLogFile("++ Response sent ", true, 0);
-	} catch (const std::exception & e) {
+		sendMessageToLogFile("Response sent ", true, 0);
+		std::cout << "++ Response sent " << std::endl;
+	}
+	catch (const std::exception & e)
+	{
 		sendMessageToLogFile(e.what(), false, 0);
 		return ;
 	}

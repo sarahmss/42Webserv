@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 15:14:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:59:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 
 Body::Body(int socketFd, HeadersType headers)
- {
+{
 	_socketFd = socketFd;
 	_headers = headers;
 	_ContentLenght = 0;
@@ -54,15 +54,21 @@ int	Body::_HandleChunkedBody(void)
 	int			length = 0;
 	size_t		chunkSize = _getChunkSize();
 	std::string	bodyLine = "";
+	FileType	file;
 
 	for (size_t i = 0; i < chunkSize; i++)
 	{
 		bodyLine += getSockStreamLine(_socketFd);
 		length += chunkSize;
+		getSockStreamLine(_socketFd);
 		chunkSize = _getChunkSize();
 	}
 	_body = bodyLine;
 	_ContentLenght = length;
+	file.fileContet = _body;
+	file.fileName = _fileName;
+	_files.push_back(file);
+
 	return (CHUNKED);
 }
 

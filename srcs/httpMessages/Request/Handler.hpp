@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 20:11:48 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 20:47:39 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "../Response/Responder.hpp"
 # include "./RequestParser.hpp"
 # include "./../../global.hpp"
-
+# include <dirent.h>
 
 typedef std::priority_queue<Location> LocationQueueType;
 class Handler
@@ -39,6 +39,7 @@ class Handler
 
 		RequestParser		getRequestParser(void);
 
+		void				checkDirNSendBySocket( void );
 		std::string			response_code;
 		strPairType			headerField;
 		strPairType			Response;
@@ -67,7 +68,7 @@ class Handler
 		void				_setBody(void);
 		std::string			_setPath(void);
 
-		void				_launchPost(void);
+		void				_launchPost(std::string path);
 		void				_launchGet(std::string path);
 		void				_launchDelete(std::string path);
 		void				_launchCGI(std::string path);
