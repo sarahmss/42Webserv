@@ -2948,3 +2948,193 @@ Connection closed in socket:7 | Sat Sep 23 13:33:51 2023
 
 Connection was remove.  | Sat Sep 23 13:33:51 2023
 
+Log starts | createFile -> Main  | Sat Sep 23 22:39:52 2023
+
+Lauching default conf file... | SetConfigurationFile -> Main  | Sat Sep 23 22:39:52 2023
+
+File opened and Parser completed | Sat Sep 23 22:39:52 2023
+
+++ Initing Server... | Sat Sep 23 22:39:52 2023
+
+Starting listen() in port 8080 | Sat Sep 23 22:39:52 2023
+ | Duration: 3.5e-05
+Starting listen() in port 9000 | Sat Sep 23 22:39:52 2023
+
+++ Connection opened in socket: 7 | Sat Sep 23 22:39:59 2023
+
+++ Request Received | Sat Sep 23 22:39:59 2023
+
+Request Received | Sat Sep 23 22:39:59 2023
+
+++Parsing request | Sat Sep 23 22:39:59 2023
+
+++++ Parsing RequestLine | Sat Sep 23 22:39:59 2023
+
+Parsing RequestLine | requestParser->_parseRequestLine | Sat Sep 23 22:39:59 2023
+
+Parsing headers | requestParser->_parseHeader | Sat Sep 23 22:39:59 2023
+
+++++ Parsing body: -1 | Sat Sep 23 22:39:59 2023
+
+++Request Parsed  | Sat Sep 23 22:39:59 2023
+
+++ Launching responder | Sat Sep 23 22:39:59 2023
+
+++Building response | Sat Sep 23 22:39:59 2023
+
+++Sending Response | Sat Sep 23 22:39:59 2023
+
+Response sent  | Sat Sep 23 22:39:59 2023
+
+Connection closed in socket:7 | Sat Sep 23 22:39:59 2023
+
+Connection was remove.  | Sat Sep 23 22:39:59 2023
+
+++ Connection opened in socket: 7 | Sat Sep 23 22:39:59 2023
+
+++ Connection opened in socket: 8 | Sat Sep 23 22:39:59 2023
+
+++ Request Received | Sat Sep 23 22:40:04 2023
+
+Request Received | Sat Sep 23 22:40:04 2023
+
+++Parsing request | Sat Sep 23 22:40:04 2023
+
+++++ Parsing RequestLine | Sat Sep 23 22:40:04 2023
+
+Parsing RequestLine | requestParser->_parseRequestLine | Sat Sep 23 22:40:04 2023
+
+Parsing headers | requestParser->_parseHeader | Sat Sep 23 22:40:04 2023
+
+++++ Parsing body: -1 | Sat Sep 23 22:40:04 2023
+
+++Request Parsed  | Sat Sep 23 22:40:04 2023
+
+++ Launching responder | Sat Sep 23 22:40:04 2023
+
+++Building response | Sat Sep 23 22:40:04 2023
+
+++Sending Response | Sat Sep 23 22:40:04 2023
+
+Response sent  | Sat Sep 23 22:40:04 2023
+
+Connection closed in socket:7 | Sat Sep 23 22:40:04 2023
+
+Connection was remove.  | Sat Sep 23 22:40:04 2023
+
+++ Request Received | Sat Sep 23 22:40:14 2023
+
+Request Received | Sat Sep 23 22:40:14 2023
+
+++Parsing request | Sat Sep 23 22:40:14 2023
+
+++++ Parsing RequestLine | Sat Sep 23 22:40:14 2023
+
+Parsing RequestLine | requestParser->_parseRequestLine | Sat Sep 23 22:40:14 2023
+
+Parsing headers | requestParser->_parseHeader | Sat Sep 23 22:40:14 2023
+
+++++ Parsing body: 2 | Sat Sep 23 22:40:14 2023
+
+++Request Parsed  | Sat Sep 23 22:40:14 2023
+
+++ Launching responder | Sat Sep 23 22:40:43 2023
+
+++Building response | Sat Sep 23 22:40:43 2023
+
+++Sending Response | Sat Sep 23 22:40:43 2023
+
+Response sent  | Sat Sep 23 22:40:43 2023
+
+Connection closed in socket:8 | Sat Sep 23 22:40:43 2023
+
+Connection was remove.  | Sat Sep 23 22:40:43 2023
+
+++ Connection opened in socket: 7 | Sat Sep 23 22:40:43 2023
+
+Log starts | createFile -> Main  | Sat Sep 23 22:41:03 2023
+
+Lauching default conf file... | SetConfigurationFile -> Main  | Sat Sep 23 22:41:03 2023
+
+File opened and Parser completed | Sat Sep 23 22:41:03 2023
+
+++ Initing Server... | Sat Sep 23 22:41:03 2023
+
+Starting listen() in port 8080 | Sat Sep 23 22:41:03 2023
+ | Duration: 3.5e-05
+Starting listen() in port 9000 | Sat Sep 23 22:41:03 2023
+
+++ Connection opened in socket: 7 | Sat Sep 23 22:41:07 2023
+
+++ Connection opened in socket: 8 | Sat Sep 23 22:41:07 2023
+
+++ Request Received | Sat Sep 23 22:41:09 2023
+
+Request Received | Sat Sep 23 22:41:09 2023
+
+++Parsing request | Sat Sep 23 22:41:09 2023
+
+++++ Parsing RequestLine | Sat Sep 23 22:41:09 2023
+
+Parsing RequestLine | requestParser->_parseRequestLine | Sat Sep 23 22:41:09 2023
+
+Parsing headers | requestParser->_parseHeader | Sat Sep 23 22:41:09 2023
+
+++++ Parsing body: 2 | Sat Sep 23 22:41:09 2023
+
+++Request Parsed  | Sat Sep 23 22:41:09 2023
+
+Payload Too Large | Sat Sep 23 22:41:35 2023
+
+Payload Too Large | Sat Sep 23 22:41:45 2023
+
+Connection closed in socket:7 | Sat Sep 23 22:41:45 2023
+
+Connection was remove.  | Sat Sep 23 22:41:45 2023
+
+++ Request Received | Sat Sep 23 22:41:45 2023
+
+Request Received | Sat Sep 23 22:41:45 2023
+
+++Parsing request | Sat Sep 23 22:41:45 2023
+
+++++ Parsing RequestLine | Sat Sep 23 22:41:45 2023
+
+Parsing RequestLine | requestParser->_parseRequestLine | Sat Sep 23 22:41:45 2023
+
+Parsing headers | requestParser->_parseHeader | Sat Sep 23 22:41:45 2023
+
+++++ Parsing body: 2 | Sat Sep 23 22:41:45 2023
+
+++Request Parsed  | Sat Sep 23 22:41:45 2023
+
+Payload Too Large | Sat Sep 23 22:42:10 2023
+
+Payload Too Large | Sat Sep 23 22:42:11 2023
+
+Connection closed in socket:8 | Sat Sep 23 22:42:11 2023
+
+Connection was remove.  | Sat Sep 23 22:42:11 2023
+
+++ Connection opened in socket: 7 | Sat Sep 23 22:42:12 2023
+
+++ Request Received | Sat Sep 23 22:42:12 2023
+
+Request Received | Sat Sep 23 22:42:12 2023
+
+++Parsing request | Sat Sep 23 22:42:12 2023
+
+++++ Parsing RequestLine | Sat Sep 23 22:42:12 2023
+
+Parsing RequestLine | requestParser->_parseRequestLine | Sat Sep 23 22:42:12 2023
+
+Parsing headers | requestParser->_parseHeader | Sat Sep 23 22:42:12 2023
+
+Failed reading from socket! | Sat Sep 23 22:42:12 2023
+
+Connection closed in socket:7 | Sat Sep 23 22:42:12 2023
+
+Connection was remove.  | Sat Sep 23 22:42:12 2023
+
+++ Connection opened in socket: 7 | Sat Sep 23 22:42:12 2023
+

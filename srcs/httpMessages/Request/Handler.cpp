@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 20:47:18 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 22:39:29 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ void	Handler::_checkRequest()
 	std::string	method = _requestParsed.getMethod();
 	std::string	uri = _requestParsed.getUri();
 	std::string	protocolVersion = _requestParsed.getProtocolVersion();
-	if ( method == "" || uri == "" || protocolVersion == "") {
-		response_code = "400";
-		throw (std::invalid_argument("Invalid request [Missing arg in request line]"));
-	}
+	if ( method == "" || uri == "" || protocolVersion == "")
+		_loadErrorPage("400", "Invalid request [Missing arg in request line]");
 }
 
 void	Handler::_selectLocation(void)
@@ -122,12 +120,9 @@ void	Handler::_checkMethod(void)
 	found = methods.find(_method);
 	if (found == methods.end())
 	{
-		if (isKnownMethod(_method) == false) {
-			response_code = "501";
-			throw(std::invalid_argument("Invalid request [Not Known Method]"));
-		}
-		response_code = "405";
-		throw(std::invalid_argument("Method not allowed: " + _method));
+		if (isKnownMethod(_method) == false)
+			_loadErrorPage("501", "Invalid request [Not Known Method]");
+		_loadErrorPage("405", ("Method not allowed: " + _method));
 	}
 }
 
@@ -179,11 +174,7 @@ bool	Handler::_checkCgi(std::string path)
 		if (findIndex(path, _location.getIndex()))
 			return (false);
 	} else if (!isFile(path))
-	{
-		sendMessageToLogFile("404 | checkCGI->Handler", false, 0);
-		response_code = "404";
-		throw (std::runtime_error("file not found [cgi]"));
-	}
+		_loadErrorPage("404", "file not found [cgi]");
 	extension = getExtension(path);
 
 	if (_location.getCgi().size() != 0)
@@ -235,7 +226,6 @@ void	Handler::_launchPost(std::string path)
 	std::string		fileName;
 
 	_checkPayload();
-
 	if (_requestParsed.IsMultipartForm())
 	{
 		files = _requestParsed.getFiles();
@@ -261,10 +251,19 @@ void	Handler::_checkPayload(void)
 	payloadMaxSize = _conf.getBodySize();
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
-	if (bodyLength > payloadMaxSize) {
-		response_code = "413";
-		throw (std::invalid_argument("Payload Too Large"));
-	}
+	if (bodyLength > payloadMaxSize)
+		_loadErrorPage("413", "Payload Too Large");
+}
+
+void	Handler::_loadErrorPage(std::string code, std::string message)
+{
+	std::string	path;
+
+	path = _conf.getErrorPage(code);
+	Response = getFileContent(path);
+	response_code = code;
+	sendMessageToLogFile(message, true, 0);
+	throw (std::runtime_error(message));
 }
 
 void	Handler::_launchGet(std::string path)
@@ -280,20 +279,12 @@ void	Handler::_launchGet(std::string path)
 							intToString(_conf.getListen().getPort()),
 							_uri);
 		else
-		{
-			response_code = "404";
-			path = _conf.getErrorPage("404");
-			Response = getFileContent(path);
-		}
+			_loadErrorPage("404", "Get Failed [location]");
 	}
 	else if (isFile(path))
 		Response = getFileContent(path);
 	else
-	{
-		response_code = "404";
-		path = _conf.getErrorPage("404");
-		Response = getFileContent(path);
-	}
+		_loadErrorPage("404", "Get Failed");
 }
 
 void	Handler::_launchDelete(std::string path)

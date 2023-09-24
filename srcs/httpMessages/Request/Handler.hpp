@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 20:47:39 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 22:39:02 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ class Handler
 
 		void				_checkRequest();
 		void				_selectLocation(void);
+		void				_loadErrorPage(std::string code, std::string message);
 
 		std::string			_setPrefix(Location location);
 
