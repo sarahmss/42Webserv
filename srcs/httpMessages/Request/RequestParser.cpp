@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 20:48:30 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:55:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void	RequestParser::_parseRequest(void)
 		else
 			_parseHeader(requestLine);
 	}
-	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
-	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
+	sendMessageToLogFile("Parsing RequestLine...", true, 0);
+	sendMessageToLogFile("Parsing headers...", true, 0);
 	_parseBody();
 }
 
