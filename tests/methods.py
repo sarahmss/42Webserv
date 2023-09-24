@@ -61,6 +61,25 @@ def get(URL):
 		exit(1)
 
 """"
+	@brief: Makes a GET request and returns response
+"""
+def delete(URL):
+	try:
+		response = requests.delete(URL)
+		return response
+	except AssertionError as e:
+		print("-> ❌ Error request.delete " + URL + f"[{e}]")
+		exit(1)
+
+def head(URL):
+    try:
+        response = requests.head(URL)
+        return response
+    except AssertionError as e:
+        print("-> ❌ Error request.head " + URL + f"[{e}]")
+        exit(1)
+
+""""
 	@brief: Makes a POST request and returns response
 		@params:
 			body: data to post

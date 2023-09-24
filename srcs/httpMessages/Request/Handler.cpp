@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 12:29:10 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 13:35:18 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,13 @@ void	Handler::_checkMethod(void)
 		found = methods.find(_method);
 		if (found == methods.end())
 		{
-			if (isKnownMethod(_method) == false)
-				_loadErrorPage("501", "Invalid request [Not Known Method]");
+			if (isKnownMethod(_method) == true)
+				_loadErrorPage("501", "Invalid request method not implemented");
 			_loadErrorPage("405", ("Method not allowed: " + _method));
 		}
 	}
-	else if (isKnownMethod(_method) == false)
-		_loadErrorPage("501", "Invalid request [Not Known Method]");
+	else if (isKnownMethod(_method) == true)
+		_loadErrorPage("501", "Invalid request, method not implemented");
 	if (isValidMethod(_method) == false)
 		_loadErrorPage("405", ("Method not allowed: " + _method));
 }

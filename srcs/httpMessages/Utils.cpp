@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 11:45:54 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 13:34:09 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void tokenize(std::string const &str, std::string delim,
 
 bool	isKnownMethod(std::string method)
 {
-	std::string Methods[7] = {"HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"};
+	std::string Methods[7] = {"HEAD", "OPTIONS", "TRACE", "PUT", "PATCH"};
 
 	for (int i = 0; i < 7; i++)
 		if (method == Methods[i])

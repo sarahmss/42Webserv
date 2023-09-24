@@ -2,12 +2,10 @@ import sys
 sys.path.append('./tests')
 import methods
 
-def test_single_server():
+def test():
 	URL = "http://localhost:8080"
-	response = methods.get(URL)
+	response = methods.post(URL, "Testing POST...")
 	methods.check_stts_code(response)
-	print()
-
 
 if __name__ == "__main__":
-	test_single_server()
+	test()
