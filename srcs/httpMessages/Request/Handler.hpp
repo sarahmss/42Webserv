@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 12:14:29 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:40:49 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ class Handler
 		void				_setBody(void);
 		std::string			_setPath(void);
 
-		void				_launchPost(std::string path);
+		void				_launchPost(void);
 		void				_launchGet(std::string path);
 		void				_launchDelete(std::string path);
 		void				_launchCGI(std::string path);

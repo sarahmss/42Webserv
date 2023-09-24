@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 16:08:37 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:47:46 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	Handler::_setBody(void)
 	if (_checkCgi(path) == true)
 		_launchCGI(path);
 	else if (_method == "POST")
-		_launchPost(path);
+		_launchPost();
 	else if (_method == "GET")
 		_launchGet(path);
 	else if (_method == "DELETE")
@@ -195,38 +195,7 @@ bool	Handler::_checkCgi(std::string path)
 	return (true);
 }
 
-void	Handler::checkDirNSendBySocket( void )
-{
-	const char *diretorio = "/root/webserv/upload/www/backend";
-
-    DIR *dir;
-    struct dirent *ent;
-	std::ostringstream response;
-
-	if ((dir = opendir(diretorio)) != NULL)
-	{
-		while ((ent = readdir(dir)) != NULL)
-		{
-			if (ent->d_type == DT_REG)
-			{
-				response << "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
-							 				<< strlen(ent->d_name) << "\r\n\r\n";
-				response << ent->d_name;
-				send(_clientSocket, response.str().c_str(), response.str().length(), 0);
-				std::cout << "Arquivo: " << ent->d_name << std::endl;
-			}
-		}
-	closedir(dir);
-    }
-	else
-	{
-        perror("Erro ao abrir diretório");
-        return ;
-    }
-
-}
-
-void	Handler::_launchPost(std::string path)
+void	Handler::_launchPost(void)
 {
 	FilesType		files;
 	std::string		filePath;
@@ -246,7 +215,7 @@ void	Handler::_launchPost(std::string path)
 				response_code = CreateFile(filePath, files[i].fileContet);
 				headerField = std::make_pair("Location", fileLocation);
 			}
-		Response = std::make_pair(_requestParsed.getBody(), path);
+//		Response = std::make_pair(_requestParsed.getBody(), path);
 	}
 }
 
