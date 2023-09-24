@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 22:39:29 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/23 22:47:09 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ void	Handler::launch(void)
 		if (_checkRedirection())
 			return ;
 		_checkMethod();
+		_setBody();
 	} catch (const std::exception & e) {
 		sendMessageToLogFile(e.what(), false, 0);
 	}
-	_setBody();
 }
 
 bool	Handler::_checkRedirection(void)
