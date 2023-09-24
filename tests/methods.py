@@ -36,6 +36,12 @@ def check_text(given, expected):
 	except AssertionError as e:
 		print(e)
 
+def check_html(got, expected):
+	try:
+		assert expected in got, f"-> ❌  Error, receive {got}"
+		print(f" -> ✔️ Ok, receive \"{expected}\"")
+	except AssertionError as e:
+		print(e)
 
 def test(test_name, infile, test_func):
 	try:
