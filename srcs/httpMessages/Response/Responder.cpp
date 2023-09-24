@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 00:14:42 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:41:25 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,46 @@ Responder::Responder(void):	_protocolVersion("HTTP/1.1"),
 							_header()
 {
 	_header["Server"] = "webserv";
-	_header["Content-type"] = "text/html";
 	_header["AcceptingSocket"] = "close";
 	return ;
 }
 
-void	Responder::launch(int clientSocket, std::string serverName, std::string sttsCode, std::string body, strPairType headerField)
+void Responder::_setBodyType(std::string path)
+{
+	MimeType mimeType = setContentType(path);
+
+	switch (mimeType)
+	{
+		case JPEG:
+			_header["Content-Type"] = "image/jpg";
+			break;
+		case PNG:
+			_header["Content-Type"] = "image/png";
+			break;
+		case GIF:
+			_header["Content-Type"] = "image/gif";
+			break;
+		case TXT:
+			_header["Content-Type"] = "text/plain";
+			break;
+		case CSS:
+			_header["Content-Type"] = "text/css";
+			break;
+		default:
+			_header["Content-Type"] = "text/html";
+			break;
+	}
+}
+
+void	Responder::launch(int clientSocket, std::string serverName, std::string sttsCode, strPairType Response, strPairType headerField)
 {
 	_clientSocket = clientSocket;
-	_body = body;
+	_body = Response.first;
 	_sttsCode = sttsCode;
+	_setBodyType(Response.second);
 	if (headerField.first != "" && headerField.second != "")
 		_header[headerField.first] = headerField.second;
 	_header["Server"] = serverName;
-	// _header["date"] = ; gerenciar data
 }
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------

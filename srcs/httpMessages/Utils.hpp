@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 16:07:44 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:36:43 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,43 +45,55 @@
 #define DIVIDER ":"
 #define DELETE_HTML	"<html><body><h1>Arquivo removido.</h1></body></html>"
 
-	typedef struct s_files
-	{
-		std::string	fileName;
-		std::string	fileContet;
-	}	t_files;
+enum MimeType
+{
+	JPEG,
+	PNG,
+	GIF,
+	TXT, //plain
+	HTML,
+	CSS,
+	Unknown
+};
 
-	typedef t_files	FileType;
-	typedef std::vector<t_files>	FilesType;
+typedef struct s_files
+{
+	std::string	fileName;
+	std::string	fileContet;
+}	t_files;
 
-	typedef std::pair<std::string, std::string> strPairType;
-	typedef std::pair<std::string, std::string>	RequestPairType;
+typedef t_files	FileType;
+typedef std::vector<t_files>	FilesType;
 
-	typedef std::map<std::string, std::string>	HeadersType;
+typedef std::pair<std::string, std::string> strPairType;
+typedef std::pair<std::string, std::string>	RequestPairType;
 
-	bool		MapHasKey(HeadersType map, std::string key);
-	bool		isKnownMethod(std::string method);
-	bool		isValidMethod(std::string method);
-	bool		isDirectory(std::string path);
-	bool		isFile(std::string path);
-	bool		findIndex(std::string &path, std::vector<std::string> indexes);
-	void		checkSlash(std::string &path);
-	void		CreateDirectory(std::string fileName, std::string filePath);
-	std::string	CreateFile(std::string filePath, std::string body);
+typedef std::map<std::string, std::string>	HeadersType;
 
-	std::string cast_to_string(int num);
-	std::string intToString(int value);
-	std::string	getMapItem(HeadersType map, std::string key);
-	std::string	getSockStreamLine(int socketFd);
-	std::string	getFilePath(std::string path, std::string filename);
-	std::string	getFileLocation(std::string fileName, std::string fileLocation);
-	strPairType	getFileContent(std::string path);
-	strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri);
-	std::string	getExtension(std::string path);
+bool		MapHasKey(HeadersType map, std::string key);
+bool		isKnownMethod(std::string method);
+bool		isValidMethod(std::string method);
+bool		isDirectory(std::string path);
+bool		isFile(std::string path);
+bool		findIndex(std::string &path, std::vector<std::string> indexes);
+void		checkSlash(std::string &path);
+void		CreateDirectory(std::string fileName, std::string filePath);
+std::string	CreateFile(std::string filePath, std::string body);
 
-	bool	live(bool status);
-	void	sigHandler(int signal);
-	void tokenize(std::string const &str, std::string delim,
-            std::vector<std::string> &out);
+std::string	cast_to_string(int num);
+std::string	intToString(int value);
+std::string	getMapItem(HeadersType map, std::string key);
+std::string	getSockStreamLine(int socketFd);
+std::string	getFilePath(std::string path, std::string filename);
+std::string	getFileLocation(std::string fileName, std::string fileLocation);
+strPairType	getFileContent(std::string path);
+strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri);
+std::string	getExtension(std::string path);
+
+bool	live(bool status);
+void	sigHandler(int signal);
+void tokenize(std::string const &str, std::string delim,
+		std::vector<std::string> &out);
+MimeType	setContentType(std::string path);
 
 #endif // UTILS_HPP

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 16:09:19 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:37:52 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,23 @@ strPairType	getFileContent(std::string path)
 		throw (std::runtime_error("file not found"));
 	buffer << file.rdbuf();
 	return std::make_pair(buffer.str(), path);
+}
+
+MimeType	setContentType(std::string path)
+{
+	if (path.find(".jpg") != std::string::npos)
+		return(JPEG);
+	else if (path.find(".jpeg") != std::string::npos)
+		return(JPEG);
+	else if (path.find(".png") != std::string::npos)
+		return(PNG);
+	else if (path.find(".gif") != std::string::npos)
+		return(GIF);
+	else if (path.find(".txt") != std::string::npos)
+		return(TXT);
+	else if (path.find(".css") != std::string::npos)
+		return(CSS);
+	return (Unknown);
 }
 
 strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri)
