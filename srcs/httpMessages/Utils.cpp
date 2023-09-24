@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 17:52:28 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:18:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,9 @@ strPairType	getFileContent(std::string path)
 
 MimeType	setContentType(std::string path)
 {
-	if (path.find(".jpg") != std::string::npos)
+	if (path.find(".html") != std::string::npos)
+		return(HTML);
+	else if (path.find(".jpg") != std::string::npos)
 		return(JPEG);
 	else if (path.find(".jpeg") != std::string::npos)
 		return(JPEG);
@@ -187,10 +189,14 @@ MimeType	setContentType(std::string path)
 		return(PNG);
 	else if (path.find(".gif") != std::string::npos)
 		return(GIF);
+	else if (path.find(".ico") != std::string::npos)
+		return(ICO);
 	else if (path.find(".txt") != std::string::npos)
 		return(TXT);
 	else if (path.find(".css") != std::string::npos)
 		return(CSS);
+	else if (path.find(".js") != std::string::npos)
+		return(JS);
 	return (Unknown);
 }
 
