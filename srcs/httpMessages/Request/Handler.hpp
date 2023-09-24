@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 22:39:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 12:14:29 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class Handler
 		RequestParser		_requestParsed;
 		ServerConf			_conf;
 		Location			_location;
+		bool				_locationSet;
 		std::string			_serverName;
 		std::string			_uri;
 		std::string			_method;

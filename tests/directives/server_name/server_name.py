@@ -18,6 +18,7 @@ def test_mult_name():
 	methods.check_text(response.headers['Server'], "webserv webserv.br webserv.fr ")
 
 if __name__ == "__main__":
+	print ("=" * 80)
 	methods.test ("Testing server empty name []",
 			"tests/directives/server_name/00_empty_name.conf",
 			test_empty_name)

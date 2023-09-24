@@ -1,6 +1,5 @@
 import requests
 import subprocess
-import signal
 import time
 import os
 
@@ -12,11 +11,16 @@ def get_log_file(infile):
 def start_webserv(infile):
 	global web_server_process
 	log_file_path = get_log_file(infile)
-	os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
-	with open(log_file_path, 'w') as log_file:
-		web_server_process = subprocess.Popen(["sudo", "./webserv", infile],
-												stdout=log_file,
-												stderr=log_file)
+	try:
+		os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
+		with open(log_file_path, 'w') as log_file:
+			web_server_process = subprocess.Popen(["sudo", "./webserv", infile],
+													stdout=log_file,
+													stderr=log_file)
+	except OSError as e:
+		print(f"Error starting web server: {e}")
+	except Exception as ex:
+		print(f"An unexpected error occurred: {ex}")
 
 def check_stts_code(response, code=200):
 	try:
@@ -34,11 +38,16 @@ def check_text(given, expected):
 
 
 def test(test_name, infile, test_func):
-	print (test_name, end="")
-	start_webserv(infile)
-	time.sleep(2)
-	test_func()
-	web_server_process.kill()
+	try:
+		start_webserv(infile)
+		print (test_name, end="")
+		time.sleep(1)
+		test_func()
+		web_server_process.kill()
+	except KeyboardInterrupt:
+		print("Server startup interrupted.")
+	except Exception as e:
+		print(f"An error occurred: {e}")
 
 """"
 	@brief: Makes a GET request and returns response

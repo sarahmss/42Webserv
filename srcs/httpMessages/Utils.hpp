@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/21 12:43:31 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 11:46:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@
 
 	bool		MapHasKey(HeadersType map, std::string key);
 	bool		isKnownMethod(std::string method);
+	bool		isValidMethod(std::string method);
 	bool		isDirectory(std::string path);
 	bool		isFile(std::string path);
 	bool		findIndex(std::string &path, std::vector<std::string> indexes);

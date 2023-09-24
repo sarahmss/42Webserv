@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 21:01:23 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 11:45:54 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,16 @@ bool	isKnownMethod(std::string method)
 	std::string Methods[7] = {"HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"};
 
 	for (int i = 0; i < 7; i++)
+		if (method == Methods[i])
+			return (true);
+	return (false);
+}
+
+bool	isValidMethod(std::string method)
+{
+	std::string Methods[3] = {"GET", "POST", "DELETE"};
+
+	for (int i = 0; i < 3; i++)
 		if (method == Methods[i])
 			return (true);
 	return (false);

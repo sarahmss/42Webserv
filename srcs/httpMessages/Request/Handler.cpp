@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 00:03:10 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 12:29:10 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ Handler::Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address)
 	_client_port = ntohs(address.sin_port);
 	const unsigned char *ip = reinterpret_cast<const unsigned char *>(&(address.sin_addr));
 	std::sprintf(_client_ip_address, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
+	_locationSet = false;
 }
 /*
 ** -------------------------------- DESTRUCTOR --------------------------------
@@ -80,10 +81,10 @@ void	Handler::_selectLocation(void)
 	LocationQueueType	locations;
 
 	locations = _checkLocation();
-	if (locations.empty()) {
-		throw (std::invalid_argument("Location not found"));
-	}
+	if (locations.empty())
+		return ;
 	_location = locations.top();
+	_locationSet = true;
 }
 
 
@@ -115,15 +116,22 @@ void	Handler::_checkMethod(void)
 	LocationMethodsType				methods;
 	LocationMethodsType::iterator	found;
 
-	methods = _location.getAllowedMethods();
 	_method = _requestParsed.getMethod();
-	found = methods.find(_method);
-	if (found == methods.end())
+	if (_locationSet == true)
 	{
-		if (isKnownMethod(_method) == false)
-			_loadErrorPage("501", "Invalid request [Not Known Method]");
-		_loadErrorPage("405", ("Method not allowed: " + _method));
+		methods = _location.getAllowedMethods();
+		found = methods.find(_method);
+		if (found == methods.end())
+		{
+			if (isKnownMethod(_method) == false)
+				_loadErrorPage("501", "Invalid request [Not Known Method]");
+			_loadErrorPage("405", ("Method not allowed: " + _method));
+		}
 	}
+	else if (isKnownMethod(_method) == false)
+		_loadErrorPage("501", "Invalid request [Not Known Method]");
+	if (isValidMethod(_method) == false)
+		_loadErrorPage("405", ("Method not allowed: " + _method));
 }
 
 
@@ -225,7 +233,6 @@ void	Handler::_launchPost(std::string path)
 	std::string		fileLocation;
 	std::string		fileName;
 
-	std::cout << "-----------------------LAUNCHING POST ";
 	_checkPayload();
 	if (_requestParsed.IsMultipartForm())
 	{
@@ -252,7 +259,6 @@ void	Handler::_checkPayload(void)
 	payloadMaxSize = _conf.getBodySize();
 	if (_location.getBodySize())
 		payloadMaxSize = _location.getBodySize();
-	std::cout << "------------------Payload size: " << payloadMaxSize << std::endl;
 	if (bodyLength > payloadMaxSize)
 		_loadErrorPage("413", "Payload Too Large");
 }
@@ -270,7 +276,7 @@ void	Handler::_loadErrorPage(std::string code, std::string message)
 
 void	Handler::_launchGet(std::string path)
 {
-	if (isDirectory(path))
+	if (isDirectory(path) && _locationSet)
 	{
 		checkSlash(path);
 		if (findIndex(path, _location.getIndex()) == true)

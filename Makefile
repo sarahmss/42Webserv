@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/23 23:14:17 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/24 12:41:20 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,13 +103,11 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 
 			$(CC) $(FLAGS) -c  $< -o $@
 
-clean:
+clean:	clean_log
 			@rm -f $(OBJS)
 			@rm -rf $(OBJS_PATH)
 			@echo cleaned!
 			@rm -rf www/uploads
-			@rm -rf logFile
-			@rm -rf tests/__pycache__
 
 fclean:		clean
 			@rm -f $(NAME)
@@ -117,11 +115,14 @@ fclean:		clean
 re: fclean all
 
 test_conf:
-#	sudo python3 ./tests/misconfig/misconfig.py
-#	sudo python3 ./tests/directives/listen/listen.py
-#	sudo python3 ./tests/directives/server_name/server_name.py
-	sudo python3 ./tests/directives/client_body_size/client_body_size.py
+	@sudo python3 ./tests/misconfig/misconfig.py
+	@sudo python3 ./tests/directives/listen/listen.py
+	@sudo python3 ./tests/directives/server_name/server_name.py
+	@sudo python3 ./tests/directives/client_body_size/client_body_size.py
 #	sudo python3 tests/directives/allowed_methods/allowed_methods.py
+
+test_debug:
+	@sudo python3 ./tests/directives/listen/debug.py
 
 test_methods:
 	sudo python3 ./tests/methods/GET/get.py
@@ -129,6 +130,10 @@ test_methods:
 
 test_all: test_conf
 	@echo Done!
+
+clean_log:
+	@rm -rf logFile
+	@rm -rf tests/__pycache__
 
 
 .PHONY: all clean fclean re
