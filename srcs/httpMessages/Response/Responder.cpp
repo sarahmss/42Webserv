@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 18:17:17 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 19:07:14 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,19 @@ void Responder::_setBodyType(std::string path)
 			_header["Content-Type"] = "image/gif";
 			break;
 		case TXT:
-			_header["Content-Type"] = "text/plain";
+			_header["Content-Type"] = "text/plain; charset=UTF-8";
 			break;
 		case CSS:
-			_header["Content-Type"] = "text/css";
+			_header["Content-Type"] = "text/css; charset=UTF-8";
 			break;
 		case ICO:
 			_header["Content-Type"] = "image/x-icon";
 			break;
 		case JS:
-			_header["Content-Type"] = "text/javascript";
-			break;
-		case HTML:
-			_header["Content-Type"] = "text/html";
+			_header["Content-Type"] = "text/javascript; charset=UTF-8";
 			break;
 		default:
-			_header["Content-Type"] = "application/octet-stream";
+			_header["Content-Type"] = "text/html; charset=UTF-8";
 			break;
 	}
 }
