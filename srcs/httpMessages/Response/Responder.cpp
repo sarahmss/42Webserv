@@ -107,7 +107,6 @@ void	Responder::sendResponse(void)
 	_respBuilder.add_protocol_status(_protocolVersion, _sttsCode);
 	for (; it != end; ++it)
 		_respBuilder.add_value_pair(it->first, it->second);
-	std::cout << _body << std::endl;
 	_respBuilder.add_body(_body);
 
 	sendMessageToLogFile("++Sending Response", true, 0);
