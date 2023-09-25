@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 23:09:02 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 16:13:44 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 20:05:11 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	ServerParser::_setRoot(void)
 	ClearDirective(_line, ROOT);
 
 	if ((_server.IsRootSet()) || (!OnlyOneArg(_line)) || _line.empty())
-		throw (std::invalid_argument("Failed setting server [redirection]"));
+		throw (std::invalid_argument("Failed setting server [root]"));
 	_server.SetRoot(_line);
 }
 

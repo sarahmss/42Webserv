@@ -10,6 +10,6 @@ def test_single_server():
 if __name__ == "__main__":
 	print ("=" * 80)
 	methods.test ("Basic index",
-			"./tests/directives/index/00_index.conf",
+			"./tests/directives/redirection/00_redir.conf",
 			test_single_server)
 

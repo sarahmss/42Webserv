@@ -78,7 +78,7 @@ void ResponseBuilder::add_content_len(std::string &body) {
 
 void ResponseBuilder::add_body(std::string body) {
     add_content_len(body);
-    response += body;
+    response += CRLF + body;
 }
 
 void ResponseBuilder::add_value_pair(std::string header, std::string value) {
