@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import os
+import sys
 from glob import glob
 
 
@@ -21,7 +22,7 @@ def parse_query(query_string):
     for query in split_query:
         key_value = query.split('=')
         if len(key_value) == 1:
-            os.exit(1)
+            sys.exit(1)
         parsed[key_value[0]] = key_value[1]
     return parsed
 
