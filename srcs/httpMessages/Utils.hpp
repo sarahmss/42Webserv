@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 18:13:51 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 21:34:02 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ std::string	getExtension(std::string path);
 
 bool	live(bool status);
 void	sigHandler(int signal);
-void tokenize(std::string const &str, std::string delim,
+void	tokenize(std::string const &str, std::string delim,
 		std::vector<std::string> &out);
 MimeType	setContentType(std::string path);
 

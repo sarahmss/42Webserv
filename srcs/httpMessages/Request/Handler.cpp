@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 16:47:46 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 21:39:26 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	Handler::_checkRedirection(void)
 	if (redirection == "")
 		return (false);
 	headerField = std::make_pair("Location", redirection);
-	response_code = "301";
+	_loadErrorPage("301", "");
 	return (true);
 }
 
@@ -239,8 +239,11 @@ void	Handler::_loadErrorPage(std::string code, std::string message)
 	path = _conf.getErrorPage(code);
 	Response = getFileContent(path);
 	response_code = code;
-	sendMessageToLogFile(message, true, 0);
-	throw (std::runtime_error(message));
+	if (!message.empty())
+	{
+		sendMessageToLogFile(message, true, 0);
+		throw (std::runtime_error(message));
+	}
 }
 
 void	Handler::_launchGet(std::string path)

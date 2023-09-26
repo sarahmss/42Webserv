@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/25 19:07:14 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 21:27:15 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ Responder::Responder(void):	_protocolVersion("HTTP/1.1"),
 							_body(""),
 							_header()
 {
-	_header["Server"] = "webserv";
-	_header["AcceptingSocket"] = "close";
 	return ;
 }
 
