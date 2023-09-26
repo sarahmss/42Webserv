@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/25 21:39:26 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 22:14:22 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ bool	Handler::_checkRedirection(void)
 	if (redirection == "")
 		return (false);
 	headerField = std::make_pair("Location", redirection);
-	_loadErrorPage("301", "");
+	response_code = "301";
 	return (true);
 }
 

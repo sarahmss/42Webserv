@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/25 21:27:15 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 22:18:15 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 Responder::Responder(void):	_protocolVersion("HTTP/1.1"),
 							_sttsCode("200"),
-							_reasonPhrase("OK"),
 							_body(""),
 							_header()
 {

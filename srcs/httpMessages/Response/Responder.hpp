@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:56:00 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 17:52:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 22:18:38 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ class Responder
 		int					_clientSocket;
 		std::string			_protocolVersion;
 		std::string			_sttsCode;
-		std::string			_reasonPhrase;
 		std::string			_body;
 		HeadersType			_header;
 
