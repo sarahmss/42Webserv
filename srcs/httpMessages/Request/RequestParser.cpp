@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "RequestParser.hpp"
+#include "Body.hpp"
 #include <stdexcept>
 
 /*

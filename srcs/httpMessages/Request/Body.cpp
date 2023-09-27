@@ -114,7 +114,8 @@ int	Body::_ReadMessageBody(void)
 		memset(buffer, 0, BUFFSIZE);
 	}
 	_boundary = temp.substr(0, temp.find(CRLF));
-	temp.erase(0, temp.find(CRLF));
+	if (IsMultipartForm() == true)
+		temp.erase(0, temp.find(CRLF));
 	_getBodyMessage(temp);
 	return (UNCHUNKED);
 }
@@ -124,9 +125,9 @@ void	Body::_getBodyMessage(std::string &Body)
 	std::vector<std::string>	splitted_content;
 	FileType					file;
 
-	tokenize(Body, _boundary, splitted_content);
 	if (IsMultipartForm() == true)
 	{
+		tokenize(Body, _boundary, splitted_content);
 		for (size_t i = 0; i < splitted_content.size() - 1; i++)
 		{
 			_ClearHeader(splitted_content[i]);
@@ -136,6 +137,8 @@ void	Body::_getBodyMessage(std::string &Body)
 			_body += splitted_content[i];
 		}
 	}
+	else 
+		_body = Body;
 }
 
 bool Body::IsMultipartForm(void)
