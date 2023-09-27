@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/23 13:16:26 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/27 19:50:34 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,33 +103,33 @@ $(OBJS_PATH)%.o : $(SRC_PATH)%.cpp $(HEADERS)
 
 			$(CC) $(FLAGS) -c  $< -o $@
 
-clean:
+clean:	clean_log
 			@rm -f $(OBJS)
 			@rm -rf $(OBJS_PATH)
 			@echo cleaned!
-			rm -rf www/uploads
-			@rm -rf logs
-			rm -rf tests/__pycache__
+			@rm -rf www/uploads
 
 fclean:		clean
 			@rm -f $(NAME)
 
 re: fclean all
 
+test_conf:
+	@sudo python3 ./tests/misconfig/misconfig.py
+	@sudo python3 ./tests/directives/listen/listen.py
+	@sudo python3 ./tests/directives/server_name/server_name.py
+	@sudo python3 ./tests/directives/client_body_size/client_body_size.py
+	@sudo python3 ./tests/directives/allowed_methods/allowed_methods.py
+	@sudo python3 ./tests/directives/index/index.py
+	@sudo python3 ./tests/directives/autoindex/autoindex.py
+	@sudo python3 ./tests/directives/redirection/redirection.py
 
-test_misconfig:
-	sudo python3 ./tests/misconfig/misconfig.py
+test_all: test_conf
+	@echo Done!
 
-test_get:
-	sudo python3 tests/methods/GET/get.py
+clean_log:
+	@rm -rf logFile
+	@rm -rf tests/__pycache__
 
-test_post:
-	sudo python3 tests/methods/POST/post.py
-
-test_chunked_post:
-	sudo python3 tests/methods/POST/chunkedPost.py
-
-test_allowed_methods:
-	sudo python3 tests/directives/allowed_methods/allowed_methods.py
 
 .PHONY: all clean fclean re

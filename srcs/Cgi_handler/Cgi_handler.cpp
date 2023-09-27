@@ -1,10 +1,21 @@
 
 #include "Cgi_handler.hpp"
 #include <cstdlib>
+#include "../multiplexing/PollHandler.hpp"
+#include <ctime>
 #include <exception>
 #include <iostream>
 #include <stdexcept>
 #include <sys/types.h>
+
+
+void static _ft_sleep(unsigned int milliseconds) {
+    clock_t start = std::clock();
+    clock_t delay = milliseconds * CLOCKS_PER_SEC / 1000;
+
+    while (std::clock() - start < delay)
+		continue ;
+}
 
 // php program handler
 // python program handler
@@ -35,63 +46,100 @@ int FT::Cgi_handler::_open_socketpair() {
 	return 0;
 }
 
+int FT::Cgi_handler::_check_file(
+		std::string filename,
+		int flags,
+		std::string error_code,
+		std::string &responseCode) {
+
+	if (access(filename.c_str(), flags)) {
+		responseCode = error_code;
+		return 1;
+	}
+	return 0;
+}
+
+std::string FT::Cgi_handler::_parent_side(
+		int child_pid,
+		std::string &responseCode) {
+
+	char buff[100000];
+	pid_t child_wait;
+	int status;
+
+	int wait_steps = 0;
+	for (; wait_steps < WAIT_MAX; wait_steps++) {
+
+		child_wait = waitpid(child_pid, &status, WNOHANG);
+
+		if (child_wait && (WIFEXITED(status) == 0 || WEXITSTATUS(status))) {
+			close(_socketpair_fd[0]);
+			responseCode = "500";
+			return "";
+		}
+
+		if (child_wait && WIFEXITED(status)) {
+			ssize_t read_quant_bytes = read(_socketpair_fd[0], buff, 100000);
+			if (read_quant_bytes >= 100000) {
+				close(_socketpair_fd[0]);
+				responseCode = "413";
+				return "";
+			}
+			buff[read_quant_bytes] = 0;
+			break ;
+		}
+
+		_ft_sleep(WAIT_MS);
+	}
+
+	if (wait_steps == WAIT_MAX) {
+		kill(child_pid, SIGKILL);
+		wait(NULL);
+		responseCode = "500";
+		return "";
+	}
+
+	return std::string(buff);
+}
+
+
 // Return value meaning
 // 1 = no extension specified
 // 0 = Success
 // -1 = Failure at some point
 std::string FT::Cgi_handler::cgi_handler(
 		std::string &responseCode,
-		std::map<std::string, std::string> &env) {
+		std::map<std::string,
+		std::string> &env) {
 
-	char buff[100000];
+	std::string response_body;
+		
+	if (_check_file(env["SCRIPT_FILENAME"], F_OK, "404", responseCode),
+			_check_file(env["SCRIPT_FILENAME"], X_OK | R_OK, "403", responseCode))
+		return "";
 
-	if (access(env["SCRIPT_FILENAME"].c_str(), F_OK)) {
-		responseCode = "404";
-		throw std::runtime_error("File not found");
+	if (_open_socketpair())  {
+		responseCode = "500";
+		return "";
 	}
-
-	if (access(env["SCRIPT_FILENAME"].c_str(), X_OK | R_OK)) {
-		responseCode = "403";
-		throw std::runtime_error("Not enough privileges");
-	}
-
-	if (_open_socketpair())
-		throw std::runtime_error("Failure at opening socketPair()");
 
 	int child_pid = fork();
 
 	if (child_pid < 0) {
 		close(_socketpair_fd[0]);
 		close(_socketpair_fd[1]);
-		throw std::runtime_error("Failure at fork()");
+		responseCode = "500";
+		return "";
 	}
 
-	if (child_pid == 0) {
+	if (child_pid == 0)
 		_handler(env);
-	}
 	else {
-		int status;
 		close(_socketpair_fd[1]);
-
-		waitpid(child_pid, &status, 0);
-
-		if (WIFEXITED(status) == 0) {
-			close(_socketpair_fd[0]);
-			responseCode = "500";
-			throw std::runtime_error("CGI: Error in the child process");
-		}
-
-		ssize_t read_quant_bytes = read(_socketpair_fd[0], buff, 100000);
-		if (read_quant_bytes >= 100000) {
-			close(_socketpair_fd[0]);
-			responseCode = "413";
-			throw std::runtime_error("CGI: Response too large");
-		}
-		buff[read_quant_bytes] = 0;
+		response_body = _parent_side(child_pid, responseCode);
 	}
-
 	close(_socketpair_fd[0]);
-	return std::string(buff);
+	return response_body;
 }
 
 // Const cast pode ser usado porque o execve so vai lar
@@ -130,7 +178,7 @@ void FT::Cgi_handler::_handler(std::map<std::string, std::string> &env) {
 
 	execve(env["SCRIPT_FILENAME"].c_str(),
 			const_cast<char **>(arg),
-			envp); 
+			envp);
 
 	close(_socketpair_fd[1]);
 	exit(1);
@@ -154,3 +202,4 @@ void FT::Cgi_handler::_make_list(
 	}
 	envp_buff[env.size()][0] = 0;
 }
+

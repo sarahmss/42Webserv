@@ -12,8 +12,11 @@
 # include <cstdlib>
 # include <vector>
 # include <cstdlib>
-#include <stdexcept>
+# include <stdexcept>
 # include <string>
+
+# define WAIT_MS 200
+# define WAIT_MAX 15
 
 typedef std::map<std::string, std::string> env_var_t;
 
@@ -30,8 +33,16 @@ namespace FT {
 				std::map<std::string, std::string> &env);
 
         private:
-            void    _not_found();
-            void    _error();
+
+			int _check_file(
+					std::string filename,
+					int flags,
+					std::string error_code,
+					std::string &responseCode);
+
+			std::string _parent_side(
+					int child_pid,
+					std::string &responseCode);
 
 			void _handler(std::map<std::string, std::string> &env);
 
