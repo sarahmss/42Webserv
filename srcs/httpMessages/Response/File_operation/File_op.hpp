@@ -3,7 +3,6 @@
 #define FILE_OP
 
 #include <string>
-#include <cerrno>
 #include <fstream>
 #include <sstream>
 #include <streambuf>

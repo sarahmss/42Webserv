@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:27:22 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/09 11:22:42 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/24 12:34:05 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	createFile( void )
 {
 	std::string pathLog = "./logFile/log.txt";
 	const char* filePath = pathLog.c_str();
-	
-	logFile.open(filePath, std::ios::app);
+
+	logFile.open(filePath);
 	if (logFile.is_open())
 		sendMessageToLogFile("Log starts | createFile -> Main ", true, 0);
 	else
@@ -47,7 +47,7 @@ std::string	SetConfigurationFile(int argc, char *argv[])
 
 void	ParseConfigurationFile(Parser &parser, std::string filename)
 {
-	try 
+	try
 	{
 		parser.launch(filename);
 		sendMessageToLogFile("File opened and Parser completed", true, 0);

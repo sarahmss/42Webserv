@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:37 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 13:16:49 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:55:30 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ RequestParser::RequestParser(int socketFd)
 	_uri = "";
 	_socketFd = socketFd;
 	_parseRequest();
-	sendMessageToLogFile("Request Parsed | RequestParser->RequestParser ", false, 0);
-	std::cout << " ++ Request Parsed" << std::endl;
+	sendMessageToLogFile("++Request Parsed ", false, 0);
 }
 
 RequestParser::RequestParser( const RequestParser & src ) { *this = src; }
@@ -87,9 +86,7 @@ void	RequestParser::_parseRequest(void)
 {
 	std::string	requestLine;
 
-	sendMessageToLogFile("Parsing request | requestParser->_parseRequest", true, 0);
-	std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-	std::cout << "++Parsing request..." << std::endl;
+	sendMessageToLogFile("++Parsing request", true, 0);
 	for ( int i = 0; requestLine != CRLF; i++)
 	{
 		requestLine = getSockStreamLine(_socketFd);
@@ -98,8 +95,8 @@ void	RequestParser::_parseRequest(void)
 		else
 			_parseHeader(requestLine);
 	}
-	sendMessageToLogFile("Parsing RequestLine | requestParser->_parseRequestLine", true, 0);
-	sendMessageToLogFile("Parsing headers | requestParser->_parseHeader", true, 0);
+	sendMessageToLogFile("Parsing RequestLine...", true, 0);
+	sendMessageToLogFile("Parsing headers...", true, 0);
 	_parseBody();
 }
 
@@ -108,6 +105,7 @@ void	RequestParser::_parseRequestLine(std::string RequestLine)
 	std::stringstream	RequestLineStream(RequestLine);
 	std::string			line;
 
+	sendMessageToLogFile("++++ Parsing RequestLine", true, 0);
 	std::getline(RequestLineStream, line, ' ');
 	_method = line;
 	std::getline(RequestLineStream, line, ' ');
@@ -143,8 +141,7 @@ void	RequestParser::_parseBody()
 	int		bodyStatus = body.parseBody();
 	std::string	fileNames;
 
-	// Informação do estado do body, empty, chunked, unchucked [LOGGING]
-	sendMessageToLogFile("Parsing body: " + intToString(bodyStatus), true, 0);
+	sendMessageToLogFile("++++ Parsing body: " + intToString(bodyStatus), true, 0);
 	_files = body.getFiles();
 	if (bodyStatus == EMPTYBODY)
 		return ;

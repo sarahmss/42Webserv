@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    conf_file.py                                       :+:      :+:    :+:    #
+#    misconfig.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/20 16:36:46 by smodesto          #+#    #+#              #
-#    Updated: 2023/07/21 15:03:26 by smodesto         ###   ########.fr        #
+#    Updated: 2023/09/25 23:29:25 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ def test_bad_directives():
 			"Error: Failed setting server [directives]\n")
 	test(	"bad_directive3",
 			"./tests/misconfig/bad_directive3.conf",
-			"Error: Failed setting server [directives]\n")
+			"Error: Failed setting server [listen]\n")
 
 if __name__ == "__main__":
 	test_server_blocks()

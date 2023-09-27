@@ -130,7 +130,7 @@ void FT::Cgi_handler::_handler(std::map<std::string, std::string> &env) {
 
 	execve(env["SCRIPT_FILENAME"].c_str(),
 			const_cast<char **>(arg),
-			envp); 
+			envp);
 
 	close(_socketpair_fd[1]);
 	exit(1);

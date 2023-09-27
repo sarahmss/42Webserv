@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BindingSocket.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 12:01:44 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/11 21:14:54 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/24 12:35:16 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ BindingSocket::BindingSocket(int domain, int service, int protocol, int port, un
 	set_connection(connect_to_network(sock, address));
 	if (setNonBlocking(sock) == false)
 	{
-		sendMessageToLogFile(concatenate_int("Setting non-blocking", sock), false, 0);
+		sendMessageToLogFile(concatenate_int("Setting non-blocking: ", sock), false, 0);
 		//perror("setting non-blocking");
 		exit(EXIT_FAILURE);
 	}

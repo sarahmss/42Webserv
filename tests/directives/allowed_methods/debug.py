@@ -2,14 +2,10 @@ import sys
 sys.path.append('./tests')
 import methods
 
-def test_default():
+def test():
 	URL = "http://localhost:8080"
-	response = methods.get(URL)
+	response = methods.post(URL, "Testing POST...")
 	methods.check_stts_code(response)
 
 if __name__ == "__main__":
-	methods.test ("Default GET [200:OK]",
-			"tests/methods/GET/00_default.conf",
-			test_default)
-
-
+	test()

@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 23:02:43 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/04 21:27:34 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 21:33:56 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,19 @@ void tokenize(std::string const &str, std::string delim,
 
 bool	isKnownMethod(std::string method)
 {
-	std::string Methods[7] = {"HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"};
+	std::string Methods[7] = {"HEAD", "OPTIONS", "TRACE", "PUT", "PATCH"};
 
 	for (int i = 0; i < 7; i++)
+		if (method == Methods[i])
+			return (true);
+	return (false);
+}
+
+bool	isValidMethod(std::string method)
+{
+	std::string Methods[3] = {"GET", "POST", "DELETE"};
+
+	for (int i = 0; i < 3; i++)
 		if (method == Methods[i])
 			return (true);
 	return (false);
@@ -167,6 +177,29 @@ strPairType	getFileContent(std::string path)
 	return std::make_pair(buffer.str(), path);
 }
 
+MimeType	setContentType(std::string path)
+{
+	if (path.find(".html") != std::string::npos)
+		return(HTML);
+	else if (path.find(".jpg") != std::string::npos)
+		return(JPEG);
+	else if (path.find(".jpeg") != std::string::npos)
+		return(JPEG);
+	else if (path.find(".png") != std::string::npos)
+		return(PNG);
+	else if (path.find(".gif") != std::string::npos)
+		return(GIF);
+	else if (path.find(".ico") != std::string::npos)
+		return(ICO);
+	else if (path.find(".txt") != std::string::npos)
+		return(TXT);
+	else if (path.find(".css") != std::string::npos)
+		return(CSS);
+	else if (path.find(".js") != std::string::npos)
+		return(JS);
+	return (Unknown);
+}
+
 strPairType	getAutoIndexContent(std::string path, std::string host, std::string port, std::string uri)
 {
 	std::string		body(AUTOINDEX_HTML_HEAD);
@@ -207,8 +240,6 @@ void	sigHandler(int signal)
 		live(false);
 }
 
-
-
 std::string	getSockStreamLine(int socketFd)
 {
 	ssize_t		bytes = 0;
@@ -219,7 +250,7 @@ std::string	getSockStreamLine(int socketFd)
 	{
 		bytes = recv(socketFd, buffer, 1, 0);
 		if (bytes == -1)
-			throw(std::runtime_error("Failed reading from socket!"));
+			throw (std::runtime_error("Failed reading from socket!"));
 		if (bytes == 0)
 			break;
 		Line += buffer;

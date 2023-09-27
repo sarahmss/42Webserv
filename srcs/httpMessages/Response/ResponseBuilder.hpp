@@ -18,6 +18,7 @@ class ResponseBuilder {
         ResponseBuilder& operator=(const ResponseBuilder& other);
 
         std::string build_body(std::string body);
+		std::string build_body(std::string body, std::string path);
         std::string build_body_with_file(std::string path);
         std::string build_content_len(std::string &response);
         std::string build_value_pair(std::string header, std::string value);

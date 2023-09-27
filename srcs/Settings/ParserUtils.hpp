@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 22:55:03 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:55 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:26:51 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 # include <string>
 # include <string.h>
-# include <errno.h>
 # include <iostream>
 
 	bool	IsValidLine(std::string &line);
