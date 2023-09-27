@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 19:52:01 by smodesto          #+#    #+#             */
-/*   Updated: 2023/08/14 19:39:25 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/25 20:06:29 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	LocationParser::_setRoot(void)
 
 void	LocationParser::_setRedirection(void)
 {
-	ClearDirective(_line, ROOT);
+	ClearDirective(_line, REDIRECTION);
 
 	if ((_location.hasRedirectionSet()) || !OnlyOneArg(_line) || _line.empty())
 		throw (std::invalid_argument("Failed setting location [redirection]"));

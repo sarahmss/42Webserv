@@ -63,46 +63,6 @@
         input[type="submit"].button {
             margin-top: 10px;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #fff;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #000;
-            color: #fff;
-        }
-
-        tr:nth-child(even) {
-            background-color: #333;
-        }
-
-        /* Botão no canto da tela */
-        .floating-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #000;
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            cursor: pointer;
-            font-size: 24px;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
     </style>
 </head>
 
@@ -117,11 +77,12 @@
         </nav>
 
         <div class="grid">
+
             <article>
                 <h3>Single file</h3>
-                <form id="singleFileForm" enctype="multipart/form-data">
-                    <input type="file" id="singleFileInput" />
-                    <button type="button" class="button" onclick="uploadSingleFile()">Upload</button>
+                <form method="post" enctype="multipart/form-data" action="/uploads">
+                    <input type="file" name="example" />
+                    <input type="submit" class="button" value="Upload" />
                 </form>
             </article>
 
@@ -134,96 +95,7 @@
             </article>
         </div>
 
-        <!-- Tabela para listar os itens enviados -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Nome do Arquivo</th>
-                    <th>Tipo de Arquivo</th>
-                    <th>Tamanho do Arquivo</th>
-                </tr>
-            </thead>
-            <tbody id="fileList">
-
-            </tbody>
-        </table>
     </main>
-
-    <!-- Botão no canto da tela -->
-    <div class="floating-button" onclick="sendHttpRequest()">+</div>
-
-    <script>
-        function uploadSingleFile() {
-            var formData = new FormData();
-            var fileInput = document.getElementById('singleFileInput');
-            formData.append('example', fileInput.files[0]);
-
-            var xhr = new XMLHttpRequest();
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        var fileName = xhr.responseText;
-
-                        var tbody = document.getElementById('fileList');
-                        var row = document.createElement('tr');
-                        var nomeColuna = document.createElement('td');
-                        nomeColuna.textContent = fileName;
-                        var tipoColuna = document.createElement('td');
-                        tipoColuna.textContent = "Tipo de Arquivo";
-                        var tamanhoColuna = document.createElement('td');
-                        tamanhoColuna.textContent = "Tamanho do Arquivo";
-
-                        row.appendChild(nomeColuna);
-                        row.appendChild(tipoColuna);
-                        row.appendChild(tamanhoColuna);
-
-                        tbody.appendChild(row);
-                    } else {
-                        console.error('Erro na solicitação:', xhr.status);
-                    }
-                }
-            };
-
-            xhr.open('POST', '/backend', true);
-            xhr.send(formData);
-        }
-
-        function sendHttpRequest() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/action_pages/upload.html", true);
-            xhr.setRequestHeader("Content-Type", "application/json");
-
-            xhr.onreadystatechange = function () 
-            {
-                if (xhr.readyState === 4) 
-                {
-                    if (xhr.status === 200) 
-                    {
-                        var resposta = xhr.responseText;
-                        console.log(resposta);
-
-                        if (resposta === "atualizar") 
-                        {
-                            location.reload();
-                        }
-                        } 
-                        else 
-                        {
-                            console.error('Erro na solicitação:', xhr.status);
-                        }
-                    }
-            };
-
-            var dados = {
-                chave1: "valor1",
-                chave2: "valor2"
-            };
-            var dadosJSON = JSON.stringify(dados);
-
-            xhr.send(dadosJSON);
-        }
-    </script>
 </body>
 
 </html>

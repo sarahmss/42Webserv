@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 13:21:34 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:40:49 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ class Handler
 		Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address);
 		~Handler();
 
+		void				ParseRequest(void);
 		void				launch(void);
+
 		RequestParser		getRequestParser(void);
 
 		void				checkDirNSendBySocket( void );
@@ -47,6 +49,7 @@ class Handler
 		RequestParser		_requestParsed;
 		ServerConf			_conf;
 		Location			_location;
+		bool				_locationSet;
 		std::string			_serverName;
 		std::string			_uri;
 		std::string			_method;
@@ -56,6 +59,7 @@ class Handler
 
 		void				_checkRequest();
 		void				_selectLocation(void);
+		void				_loadErrorPage(std::string code, std::string message);
 
 		std::string			_setPrefix(Location location);
 
@@ -66,7 +70,7 @@ class Handler
 		void				_setBody(void);
 		std::string			_setPath(void);
 
-		void				_launchPost(std::string path);
+		void				_launchPost(void);
 		void				_launchGet(std::string path);
 		void				_launchDelete(std::string path);
 		void				_launchCGI(std::string path);

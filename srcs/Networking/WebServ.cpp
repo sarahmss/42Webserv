@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   WebServ.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 19:35:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/23 11:14:03 by jinacio-         ###   ########.fr       */
+/*   Updated: 2023/09/24 17:06:06 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void	WebServ::launch(void)
 void	WebServ::_initServers(void)
 {
 
-	sendMessageToLogFile("Initing Server...", true, 0);
+	sendMessageToLogFile("++ Initing Server...", true, 0);
+	clock_t start = clock();
+	clock_t end = clock();
 	std::cout << "++ Initing Servers" << std::endl;
 	for (size_t i = 0; i < _serversConfs.size(); i++)
 	{
@@ -71,8 +73,8 @@ void	WebServ::_initServers(void)
 		}
 		else
 			sendMessageToLogFile(concatenate_int("Starting listen() in port ", port), true, 0);
-		
-		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl; // debug level
+
+		std::cout << "++ Starting listen() in port " << intToString(port) << std::endl;
 		SimpleServer	*newServer = new SimpleServer(_serversConfs[i],
 														port,
 														_backLog);
@@ -164,10 +166,15 @@ void	WebServ::_coreLoop(void)
 
 				if (currentEvent.events & EPOLLIN)
 				{
-					_launchHandler(server, accepter);
-					_epoll.modify(accepter->getClientSocket(),
-									_epoll.ChannelToData(channel),
-									EPOLLOUT);
+					try {
+						_launchHandler(server, accepter);
+						_epoll.modify(accepter->getClientSocket(),
+									_epoll.ChannelToData(channel), EPOLLOUT);
+					} catch (const std::exception & e) {
+						std::cout << e.what() << std::endl;
+						sendMessageToLogFile(e.what(), false, 0);
+						_removeConnectionFromPoll(connection, channel);
+					}
 				}
 				if (currentEvent.events & EPOLLOUT)
 				{
@@ -191,10 +198,9 @@ void	WebServ::_launchAccepter(SimpleServer *server)
 
 
 	connectionSocket = accepter->startAccepting(serverSocket);
-	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl; // debug level
-	sendMessageToLogFile(concatenate_int("Connection opened in socket: ", connectionSocket), true, 0);
+	std::cout << "++ Connection opened in socket: " + intToString( connectionSocket) << std::endl;
+  sendMessageToLogFile(concatenate_int("++ Connection opened in socket: ", connectionSocket), true, 0);
 	_addConnectionsToPoll(accepter, server);
-
 }
 
 void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
@@ -202,29 +208,28 @@ void	WebServ::_launchHandler(SimpleServer *server, AcceptingSocket *accept)
 	int			clientSocket = accept->getClientSocket();
 	sockaddr_in	address = accept->getClientAddress();
 
+	sendMessageToLogFile("++ Request Received", true, 0);
 	_handler = Handler(clientSocket, server->getConf(), address);
 	sendMessageToLogFile("Request Received", true, 0);
 	std::cout << "++ Request Received " << std::endl;
 	start = clock();
 	_handler.launch();
+	logFile << "+++++++++++++++++++++++++++++\n" << _handler.getRequestParser();
 }
 
 void	WebServ::_launchResponder(SimpleServer *server, AcceptingSocket *accept)
 {
 	int	clientSocket = accept->getClientSocket();
 
-	sendMessageToLogFile("Launching responder", true, 0);
+	sendMessageToLogFile("++ Launching responder", true, 0);
 	_responder.launch(clientSocket,
 			server->getConf().ServerNameToString(),
 			_handler.response_code,
-			_handler.Response.first,
+			_handler.Response,
 			_handler.headerField);
-	try
-	{
+	try {
 		_responder.sendResponse();
-		end = clock();
-		sendMessageToLogFile("Response sent ", true, 
-					static_cast<double>(end - start) / CLOCKS_PER_SEC);
+		sendMessageToLogFile("Response sent ", true, 0);
 		std::cout << "++ Response sent " << std::endl;
 	}
 	catch (const std::exception & e)
