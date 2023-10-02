@@ -6,7 +6,7 @@
 /*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/01 23:55:36 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 15:26:40 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/10/02 18:34:37 by smodesto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	Body::_HandleChunkedBody(void)
 	for (size_t i = 0; i < chunkSize; i++)
 	{
 		bodyLine += getSockStreamLine(_socketFd);
+		bodyLine.erase(bodyLine.rfind(CRLF));
 		length += chunkSize;
 		getSockStreamLine(_socketFd);
 		chunkSize = _getChunkSize();
@@ -66,9 +67,10 @@ int	Body::_HandleChunkedBody(void)
 	_body = bodyLine;
 	_ContentLenght = length;
 	file.fileContet = _body;
+	if (getMapItem(_headers, "Filename:") != "")
+		_fileName = _headers["Filename:"];
 	file.fileName = _fileName;
 	_files.push_back(file);
-
 	return (CHUNKED);
 }
 
@@ -135,7 +137,7 @@ void	Body::_getBodyMessage(std::string &Body)
 			_body += splitted_content[i];
 		}
 	}
-	else 
+	else
 		_body = Body;
 }
 

@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/27 19:50:34 by smodesto         ###   ########.fr        #
+#    Updated: 2023/10/02 18:15:29 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,6 +123,9 @@ test_conf:
 	@sudo python3 ./tests/directives/index/index.py
 	@sudo python3 ./tests/directives/autoindex/autoindex.py
 	@sudo python3 ./tests/directives/redirection/redirection.py
+
+test_post:
+	
 
 test_all: test_conf
 	@echo Done!
