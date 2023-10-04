@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:32 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/24 16:40:49 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:34:08 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,9 @@ class Handler
 		void				launch(void);
 
 		RequestParser		getRequestParser(void);
-
-		void				checkDirNSendBySocket( void );
+		
 		std::string			response_code;
-		strPairType			headerField;
+		vecPairType			headerField;
 		strPairType			Response;
 
 	private:

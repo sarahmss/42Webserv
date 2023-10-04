@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Test page</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <h1 style="text-align: center">Is there something better?!</h1>
-        <h2 style="text-align: center"><a href="https://shattereddisk.github.io/rickroll/rickroll.mp4">Hm? What is this?</a></h2>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nginx-Style Page</title>
+    <style>
+        body 
+        {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 
+        {
+            color: #008080; /* Uma tonalidade de azul esverdeado associada ao Nginx */
+            margin-top: 20px;
+        }
+        p 
+        {
+            margin-bottom: 5px; /* ou qualquer valor desejado */
+        }
+
+        button {
+            background-color: #8a2be2; /* Roxo escuro */
+            color: #fff; /* Texto branco */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #6a1c9a; /* Roxo mais claro no hover */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Just Parsing (WebServ)</h1>
+    <p>If you see this page, the Just Parsing (webserv) is</p>
+    <p>successfully installed and working. Further configuration is required.</p>
+    <p>For online documentation and support please refer to <a href="https://github.com/sarahmss/42Webserv">Just Parsing.</a></p>
+
+    <p><a href="http://localhost:8080/eval.html"><button>Evaluation</button></a></p>
+
+</body>
 </html>

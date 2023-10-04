@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Responder.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:56:00 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/25 22:18:38 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:40:16 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ class Responder
 		Responder(void);
 		~Responder();
 
-		void	launch(int clientSocket, std::string serverName, std::string sttsCode, strPairType Response, strPairType headerField);
+		void	launch(int clientSocket, std::string serverName, std::string sttsCode, strPairType Response, vecPairType headerField);
 
 		void	sendResponse(void);
 

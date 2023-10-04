@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:41:57 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/25 21:34:02 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:33:54 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef t_files	FileType;
 typedef std::vector<t_files>	FilesType;
 
 typedef std::pair<std::string, std::string> strPairType;
+typedef std::vector<strPairType> vecPairType;
 typedef std::pair<std::string, std::string>	RequestPairType;
 
 typedef std::map<std::string, std::string>	HeadersType;

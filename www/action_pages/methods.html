@@ -1,15 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Methods Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Nova cor de background */
+            color: #000; /* Nova cor de texto */
             margin: 0;
             padding: 0;
-            background-color: #1f1f1f;
-            color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #000; /* Nova cor de texto */
+            margin-top: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #f4f4f4; /* Nova cor de background */
+            padding: 10px;
         }
 
         .container {
@@ -25,13 +43,14 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 20px;
+            justify-content: center; /* Adicionado para centralizar os botões horizontalmente */
         }
 
         .button {
-            background-color: #000;
+            background-color: #4caf50; /* Nova cor do botão */
             border: none;
             border-radius: 4px;
             color: #fff;
@@ -42,31 +61,35 @@
             text-transform: uppercase;
         }
 
+        .button:hover {
+            background-color: #45a049; /* Nova cor do botão ao passar o mouse */
+        }
+
         article {
             margin-top: 20px;
             text-align: center;
         }
+
     </style>
 </head>
 
 <body>
-    <main class="container">
-        <nav>
-            <ul>
-                <h2>
-                    <p> HTTP Methods </p>
-                </h2>
-            </ul>
-        </nav>
+
+    <h1>Methods Example</h1>
+
+    <div class="container">
 
         <div class="grid">
             <button class="button" onclick="send('GET')">GET</button>
             <button class="button" onclick="send('POST')">POST</button>
             <button class="button" onclick="send('DELETE')">DELETE</button>
+            <button class="button" onclick="send('HEAD')">HEAD</button>
             <button class="button" onclick="send('PATCH')">PATCH</button>
+            <button class="button" onclick="send('PUT')">PUT</button>
         </div>
+
         <article></article>
-    </main>
+    </div>
 
     <script>
         function send(method) {
@@ -80,16 +103,11 @@
 
                     var hgroup = document.createElement('hgroup');
                     var h3Status = document.createElement('h3');
-                    h3Status.textContent = response.status;
-
+                    
                     if (response.ok) {
-                        hgroup.innerHTML = `
-                            <h3>👍</h3>
-                        `;
+                        h3Status.textContent = response.status + "👍";
                     } else {
-                        hgroup.innerHTML = `
-                            <h3>👎</h3>
-                        `;
+                        h3Status.textContent = response.statu + "👎";
                     }
 
                     hgroup.appendChild(h3Status);

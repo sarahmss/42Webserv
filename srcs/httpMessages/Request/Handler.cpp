@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Handler.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 23:09:25 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/27 19:38:53 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/10/03 23:20:09 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ Handler::Handler(void) { return ; }
 Handler::Handler(int clientSocket, ServerConf conf, struct sockaddr_in &address)
 {
 	response_code = "200";
-	headerField = std::make_pair("", "");
 	Response = std::make_pair("", ""); // body -> path
 	_clientSocket = clientSocket;
 	_conf = conf;
@@ -62,7 +61,7 @@ bool	Handler::_checkRedirection(void)
 	redirection = _location.getRedirection();
 	if (redirection == "")
 		return (false);
-	headerField = std::make_pair("Location", redirection);
+	headerField.push_back(std::make_pair("Location", redirection));
 	response_code = "301";
 	return (true);
 }
@@ -218,7 +217,10 @@ void	Handler::_launchPost(void)
 				fileLocation = getFileLocation(fileName, (_conf.getRoot() + _uri));
 				CreateDirectory(fileName, filePath);
 				response_code = CreateFile(filePath, files[i].fileContet);
-				headerField = std::make_pair("Location", fileLocation);
+				headerField.push_back(std::make_pair("Location", fileLocation));
+				headerField.push_back(std::make_pair("Filename", _requestParsed.getHeader("Filename")));
+				//std::cout << _requestParsed.getHeader("Filename") << std::endl;
+				
 			}
 //		Response = std::make_pair(_requestParsed.getBody(), path);
 	}
@@ -279,8 +281,8 @@ void	Handler::_launchDelete(std::string path)
 	if (!isFile(path))
 		throw std::runtime_error("Delete: path not found: " + path);
 	std::remove(path.c_str());
-	Response = std::make_pair(DELETE_HTML, path);
-	response_code = "202";
+	//Response = std::make_pair(DELETE_HTML, path);
+	response_code = "204";
 	return ;
 }
 

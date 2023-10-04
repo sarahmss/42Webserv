@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Responder.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jinacio- <jinacio-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 00:55:55 by smodesto          #+#    #+#             */
-/*   Updated: 2023/09/25 22:18:15 by smodesto         ###   ########.fr       */
+/*   Updated: 2023/10/03 21:41:30 by jinacio-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,18 @@ void Responder::_setLastModified(std::string path)
 	_header["Last-Modified"] = timeBuffer;
 }
 
-void	Responder::launch(int clientSocket, std::string serverName, std::string sttsCode, strPairType Response, strPairType headerField)
+void	Responder::launch(int clientSocket, std::string serverName, std::string sttsCode, strPairType Response, vecPairType headerField)
 {
 	_clientSocket = clientSocket;
 	_body = Response.first;
 	_sttsCode = sttsCode;
 	_setBodyType(Response.second);
 	_setLastModified(Response.second);
-	if (headerField.first != "" && headerField.second != "")
-		_header[headerField.first] = headerField.second;
+	for (size_t i = 0; i < headerField.size(); i++)
+	{
+		if (headerField[i].first != "" && headerField[i].second != "")
+			_header[headerField[i].first] = headerField[i].second;	
+	}
 	_header["Server"] = serverName;
 }
 /*
