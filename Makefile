@@ -6,7 +6,7 @@
 #    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/11 17:02:33 by smodesto          #+#    #+#              #
-#    Updated: 2023/10/02 18:37:37 by smodesto         ###   ########.fr        #
+#    Updated: 2023/10/04 13:27:39 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,14 +115,14 @@ fclean:		clean
 re: fclean all
 
 test_conf:
-	@sudo python3 ./tests/misconfig/misconfig.py
-	@sudo python3 ./tests/directives/listen/listen.py
-	@sudo python3 ./tests/directives/server_name/server_name.py
-	@sudo python3 ./tests/directives/client_body_size/client_body_size.py
-	@sudo python3 ./tests/directives/allowed_methods/allowed_methods.py
-	@sudo python3 ./tests/directives/index/index.py
-	@sudo python3 ./tests/directives/autoindex/autoindex.py
-	@sudo python3 ./tests/directives/redirection/redirection.py
+	@python3 ./tests/misconfig/misconfig.py
+	@python3 ./tests/directives/listen/listen.py
+	@python3 ./tests/directives/server_name/server_name.py
+	@python3 ./tests/directives/client_body_size/client_body_size.py
+	@python3 ./tests/directives/allowed_methods/allowed_methods.py
+	@python3 ./tests/directives/index/index.py
+	@python3 ./tests/directives/autoindex/autoindex.py
+	@python3 ./tests/directives/redirection/redirection.py
 
 test_all: test_conf
 	@echo Done!

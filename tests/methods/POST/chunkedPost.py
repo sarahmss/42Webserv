@@ -27,7 +27,7 @@ def set_headers(connection: http.client.HTTPConnection):
 def send_chunked_request():
 	body_chunk = "Chunked body\n"
 	body = body_chunk * 42
-	host = "localhost:8080"
+	host = "localhost:9000"
 
 	print ("Sending Chunked Body...")
 	connection = http.client.HTTPConnection(host)

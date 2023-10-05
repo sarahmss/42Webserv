@@ -3,20 +3,20 @@ sys.path.append('./tests')
 import methods
 
 def test_autoindex_on():
-	URL = "http://localhost:8080"
+	URL = "http://localhost:9000"
 	response = methods.get(URL)
 	methods.check_html(response.text, "subfolder")
 	methods.check_html(response.text, "file1")
 	methods.check_html(response.text, "file2")
 
 def test_autoindex_off():
-	URL = "http://localhost:8080"
+	URL = "http://localhost:9000"
 	response = methods.get(URL)
 	methods.check_stts_code(response, 404)
 
 def test_autoindex_on_subfolder():
-	URL1 = "http://localhost:8080"
-	URL2 = "http://localhost:8080/subfolder"
+	URL1 = "http://localhost:9000"
+	URL2 = "http://localhost:9000/subfolder"
 
 	response = methods.get(URL1)
 	methods.check_stts_code(response, 404)
@@ -26,7 +26,7 @@ def test_autoindex_on_subfolder():
 
 
 if __name__ == "__main__":
-	print ("=" * 80)
+	print ("=" * 40, "Autoindex", "=" * 40)
 	methods.test ("AutoIndex on",
 			"./tests/directives/autoindex/00_autoindex_on.conf",
 			test_autoindex_on)

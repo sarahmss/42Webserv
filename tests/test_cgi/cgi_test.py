@@ -22,25 +22,25 @@ def check_status_code(status, expected: int):
 if __name__ == "__main__":
     # Post section
     print("POST")
-    check_status_code(send_post("http://127.0.0.1:9000/pypost/query.py",
+    check_status_code(send_post("http://127.0.0.1:9001/pypost/query.py",
                                 {'query': 'index.html'}), 200)
 
-    check_status_code(send_post("http://127.0.0.1:9000/pypost/something.py",
+    check_status_code(send_post("http://127.0.0.1:9001/pypost/something.py",
                                 {'query': 'index.html'}), 404)
 
-    check_status_code(send_post("http://127.0.0.1:9000/pypost/error.py",
+    check_status_code(send_post("http://127.0.0.1:9001/pypost/error.py",
                                 {'query': 'index.html'}), 500)
 
     print("GET:")
     # Get section
-    check_status_code(send_get("http://127.0.0.1:9000/py/hello.py"), 200)
+    check_status_code(send_get("http://127.0.0.1:9001/py/hello.py"), 200)
 
-    check_status_code(send_get("http://127.0.0.1:9000/py/query.py?query=index.html"), 200)
+    check_status_code(send_get("http://127.0.0.1:9001/py/query.py?query=index.html"), 200)
 
-    check_status_code(send_get("http://127.0.0.1:9000/py/query.py?query=index.html&query2=something.html"), 200)
+    check_status_code(send_get("http://127.0.0.1:9001/py/query.py?query=index.html&query2=something.html"), 200)
 
-    check_status_code(send_get("http://127.0.0.1:9000/py/random_phrase.py"), 200)
+    check_status_code(send_get("http://127.0.0.1:9001/py/random_phrase.py"), 200)
 
-    check_status_code(send_get("http://127.0.0.1:8080/py/not_found"), 404)
+    check_status_code(send_get("http://127.0.0.1:9000/py/not_found"), 404)
 
-    check_status_code(send_get("http://127.0.0.1:8080/py/error.py"), 500)
+    check_status_code(send_get("http://127.0.0.1:9000/py/error.py"), 500)
