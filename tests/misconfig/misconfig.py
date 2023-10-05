@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    misconfig.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smodesto <smodesto@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: smodesto <smodesto@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/20 16:36:46 by smodesto          #+#    #+#              #
-#    Updated: 2023/09/25 23:29:25 by smodesto         ###   ########.fr        #
+#    Updated: 2023/10/04 13:40:25 by smodesto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ def test(test_name, infile, expected_error):
 
 
 def test_server_blocks():
-	print ("=" * 80)
+	print ("=" * 40, "Misconfig", "=" * 40)
 	test(	"void_server_block",
 			"./tests/misconfig/void_server_block.conf",
 			"Error: Failed setting server [directives]\n")
@@ -49,7 +49,7 @@ def test_server_blocks():
 			"Error: Failed setting server block\n")
 
 def test_empty_blocks():
-	print ("=" * 80)
+	print ("=" * 40, "Misconfig", "=" * 40)
 	test(	"empty0",
 			"./tests/misconfig/empty0.conf",
 			"Error: Empty file\n")
@@ -67,7 +67,7 @@ def test_empty_blocks():
 			"Error: Failed setting server block\n")
 
 def test_bad_directives():
-	print ("=" * 80)
+	print ("=" * 40, "Misconfig", "=" * 40)
 	test(	"bad_directive0",
 			"./tests/misconfig/bad_directive0.conf",
 			"Error: Failed setting server [directives]\n")

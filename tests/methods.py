@@ -14,7 +14,8 @@ def start_webserv(infile):
 	try:
 		os.makedirs(os.path.dirname(log_file_path), exist_ok=True)
 		with open(log_file_path, 'w') as log_file:
-			web_server_process = subprocess.Popen(["sudo", "./webserv", infile],
+		#web_server_process = subprocess.Popen(["sudo", "./webserv", infile],
+			web_server_process = subprocess.Popen(["./webserv", infile],
 													stdout=log_file,
 													stderr=log_file)
 	except OSError as e:

@@ -36,7 +36,7 @@ function uploadSingleFile() {
                 var tamanhoColuna = document.createElement('td');
                 var fileSize = fileInput.files[0].size;
                 tamanhoColuna.textContent = fileSize + " Bytes";
-                var urls = "http://localhost:8080/uploads/"
+                var urls = "http://localhost:9000/uploads/"
                 var remove_file = urls + fileName;
                 var butao = document.createElement('button');
                 butao.textContent = "Delete";
@@ -107,7 +107,7 @@ function multipleFile()
                     var tamanhoColuna = document.createElement('td');
                     var fileSize = fileInput.files[j].size;
                     tamanhoColuna.textContent = fileSize + " Bytes";
-                    var urls = "http://localhost:8080/uploads/"
+                    var urls = "http://localhost:9000/uploads/"
                     var remove_file = urls + fileInput.files[j].name;
                     var butao = document.createElement('button');
                     butao.textContent = "Delete";
