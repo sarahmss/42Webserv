@@ -85,6 +85,11 @@ std::string FT::Cgi_handler::_parent_side(
 				responseCode = "413";
 				return "";
 			}
+			if (read_quant_bytes < 0) {
+				close(_socketpair_fd[0]);
+				responseCode = "500";
+				return "";
+			}
 			buff[read_quant_bytes] = 0;
 			break ;
 		}
